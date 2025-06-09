@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Teko:wght@300..700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link rel="stylesheet" href="lib/animate/animate.min.css"/>
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Membresía - Gimnasio PowerFit</title>
+    <!-- Tu CSS personalizado -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+        <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+    <!-- Navbar -->
+        <div class="container-fluid header-top">
+            <div class="nav-shaps-2"></div>
+            <div class="container d-flex align-items-center">
+                <div class="d-flex align-items-center h-100">
+                    <a href="#" class="navbar-brand" style="height: 125px;">
+                        <h1 class="text-primary mb-0"><i class="fas fa-hand-rock me-2"></i> Fitness</h1>
+                        <!-- <img src="img/logo.png" alt="Logo"> -->
+                    </a>
+                </div>
+                <div class="w-100 h-100">
+                    <div class="topbar px-0 py-2 d-none d-lg-block" style="height: 45px;">
+                        <div class="row gx-0 align-items-center">
+                            <div class="col-lg-8 text-center text-lg-center mb-lg-0">
+                                <div class="d-flex flex-wrap">
+                                    <div class="pe-4">
+                                        <a href="mailto:example@gmail.com" class="text-muted small"><i class="fas fa-envelope text-primary me-2"></i>example@gmail.com</a>
+                                    </div>
+                                    <div class="pe-0">
+                                        <a href="mailto:example@gmail.com" class="text-muted small"><i class="fa fa-clock text-primary me-2"></i>Mon - Sat: 8.00 am-7.00 pm</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 text-center text-lg-end">
+                                <div class="d-flex justify-content-end">
+                                    <div class="d-flex align-items-center small">
+                                        <a href="#" class="login-btn text-body me-3 pe-3"> <span>Login</span></a>
+                                        <a href="#" class="text-body me-3"> Register</a>
+                                    </div>
+                                    <div class="d-flex pe-3">
+                                        <a class="btn p-0 text-primary me-3" href="#"><i class="fab fa-facebook-f"></i></a>
+                                        <a class="btn p-0 text-primary me-3" href="#"><i class="fab fa-twitter"></i></a>
+                                        <a class="btn p-0 text-primary me-3" href="#"><i class="fab fa-instagram"></i></a>
+                                        <a class="btn p-0 text-primary me-0" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nav-bar px-0 py-lg-0" style="height: 80px;">
+                        <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-lg-end">
+                            <a href="#" class="navbar-brand-2">
+                                <h1 class="text-primary mb-0"><i class="fas fa-hand-rock me-2"></i> Fitness</h1>
+                                <!-- <img src="img/logo.png" alt="Logo"> -->
+                            </a> 
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                                <span class="fa fa-bars"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarCollapse">
+                                <div class="navbar-nav mx-0 mx-lg-auto">
+                                    <a href="index.html" class="nav-item nav-link active">Home</a>
+                                    <a href="about.html" class="nav-item nav-link">About</a>
+                                    <a href="course.html" class="nav-item nav-link">Courses</a>
+                                    <a href="blog.html" class="nav-item nav-link">Blogs</a>
+                                    <a href="casillero.html" class="nav-item nav-link">Casilleros</a>
+                                    <a href="membresia.html" class="nav-item nav-link">Membresía</a>
+                                    <div class="nav-item dropdown">
+                                        <a href="#" class="nav-link" data-bs-toggle="dropdown">
+                                            <span class="dropdown-toggle">Pages</span>
+                                        </a>
+                                        <div class="dropdown-menu">
+                                            <a href="feature.html" class="dropdown-item">Our Features</a>
+                                            <a href="team.html" class="dropdown-item">Our team</a>
+                                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                            <a href="404.html" class="dropdown-item">404 Page</a>
+                                        </div>
+                                    </div>
+                                    <a href="contact.html" class="nav-item nav-link">Contact</a>
+                                    <div class="nav-btn ps-3">
+                                        <button class="btn-search btn btn-primary btn-md-square mt-2 mt-lg-0 mb-4 mb-lg-0 flex-shrink-0" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search"></i></button>
+                                        <a href="#" class="btn btn-primary py-2 px-4 ms-0 ms-lg-3"> <span>Get Quote</span></a>
+                                    </div>
+                                    <div class="nav-shaps-1"></div>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- Header -->
+    <div class="membership-header">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-4">Mi Membresía</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Mi Membresía</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="container mb-5">
+        <div class="row">
+            <!-- Columna izquierda -->
+            <div class="col-lg-8">
+                <!-- Resumen de membresía -->
+                <div class="membership-card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0">Resumen de tu Membresía</h3>
+                        <span class="status-badge status-active text-success">Activa</span>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <h5 class="text-muted mb-3">Tipo de Membresía</h5>
+                                    <h3 class="text-primary">Premium Plus</h3>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <h5 class="text-muted mb-3">Próximo Pago</h5>
+                                    <div class="d-flex align-items-center">
+                                        <h3 class="mb-0">$89.99</h3>
+                                        <small class="ms-2 text-muted">/mes</small>
+                                    </div>
+                                    <p class="mb-0 text-muted">Próxima fecha: 15/07/2025</p>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="mb-4">
+                                    <h5 class="text-muted mb-3">Vigencia</h5>
+                                    <div class="progress-container">
+                                        <div class="progress-bar-custom progress-bar" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <small>Inicio: 15/05/2025</small>
+                                        <small>Vence: 15/08/2025</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <h5 class="text-muted mb-3">Método de Pago</h5>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fab fa-cc-visa fa-2x me-3"></i>
+                                        <div>
+                                            <p class="mb-0">Visa terminada en 4242</p>
+                                            <small class="text-muted">Actualizado: 15/06/2025</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex flex-wrap gap-2 mt-3">
+                            <button class="btn btn-primary action-btn me-2">
+                                <span><i class="fas fa-credit-card me-2"></i>Cambiar Método de Pago</span>
+                            </button>
+                            <button class="btn btn-outline-dark action-btn me-2">
+                                <span><i class="fas fa-pause me-2"></i>Congelar Membresía</span>
+                            </button>
+                            <button class="btn btn-outline-primary action-btn">
+                                <span><i class="fas fa-sync-alt me-2"></i>Cambiar Plan</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Beneficios -->
+                <div class="membership-card mb-4">
+                    <div class="card-header">
+                        <h3 class="mb-0">Beneficios Incluidos</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="benefit-item">
+                                    <div class="benefit-icon">
+                                        <i class="fas fa-dumbbell"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-0">Acceso ilimitado</h5>
+                                        <p class="mb-0 text-muted">A todas las áreas del gimnasio</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="benefit-item">
+                                    <div class="benefit-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-0">Clases grupales</h5>
+                                        <p class="mb-0 text-muted">10 clases incluidas por mes</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="benefit-item">
+                                    <div class="benefit-icon">
+                                        <i class="fas fa-user-friends"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-0">Invitados</h5>
+                                        <p class="mb-0 text-muted">2 invitados gratis por mes</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="benefit-item">
+                                    <div class="benefit-icon">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-0">Casillero</h5>
+                                        <p class="mb-0 text-muted">Reserva de casillero incluida</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="benefit-item">
+                                    <div class="benefit-icon">
+                                        <i class="fas fa-store"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-0">Descuentos</h5>
+                                        <p class="mb-0 text-muted">15% en tienda y suplementos</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="benefit-item">
+                                    <div class="benefit-icon">
+                                        <i class="fas fa-trophy"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-0">Entrenador</h5>
+                                        <p class="mb-0 text-muted">1 sesión mensual incluida</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Historial de pagos -->
+                <div class="membership-card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Historial de Pagos</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="table-responsive payment-history">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Monto</th>
+                                        <th>Método</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>15/06/2023</td>
+                                        <td>$89.99</td>
+                                        <td>Visa ****4242</td>
+                                        <td><span class="badge bg-success">Completado</span></td>
+                                        <td><a href="#" class="text-primary">Recibo</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>15/05/2023</td>
+                                        <td>$89.99</td>
+                                        <td>Visa ****4242</td>
+                                        <td><span class="badge bg-success">Completado</span></td>
+                                        <td><a href="#" class="text-primary">Recibo</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>15/04/2023</td>
+                                        <td>$79.99</td>
+                                        <td>Visa ****4242</td>
+                                        <td><span class="badge bg-success">Completado</span></td>
+                                        <td><a href="#" class="text-primary">Recibo</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>15/03/2023</td>
+                                        <td>$79.99</td>
+                                        <td>PayPal</td>
+                                        <td><span class="badge bg-success">Completado</span></td>
+                                        <td><a href="#" class="text-primary">Recibo</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>15/02/2023</td>
+                                        <td>$79.99</td>
+                                        <td>PayPal</td>
+                                        <td><span class="badge bg-success">Completado</span></td>
+                                        <td><a href="#" class="text-primary">Recibo</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="btn btn-outline-primary mt-3 action-btn">
+                            <span><i class="fas fa-download me-2"></i>Descargar historial completo</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Columna derecha -->
+            <div class="col-lg-4">
+                <!-- Acciones rápidas -->
+                <div class="membership-card mb-4">
+                    <div class="card-header">
+                        <h3 class="mb-0">Acciones Rápidas</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary action-btn mb-2">
+                                <span><i class="fas fa-calendar-alt me-2"></i>Reservar Clase</span>
+                            </button>
+                            <button class="btn btn-dark action-btn mb-2" >
+                                <a href="casillero.html"><span><i class="fas fa-lock me-2"></i>Reservar Casillero</span></a>
+                            </button>
+                            <button class="btn btn-outline-primary action-btn mb-2">
+                                <span><i class="fas fa-user me-2"></i>Ver Perfil</span>
+                            </button>
+                            <button class="btn btn-outline-dark action-btn">
+                                <span><i class="fas fa-question-circle me-2"></i>Soporte</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas -->
+                <div class="membership-card mb-4">
+                    <div class="card-header">
+                        <h3 class="mb-0">Tu Actividad</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="skew-box">
+                            <div class="skew-box-content">
+                                <div class="text-center mb-4">
+                                    <h4 class="text-black">Este Mes</h4>
+                                    <p class="text-black-50">Resumen de tu actividad</p>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div>
+                                        <h5 class="text-black mb-0">12</h5>
+                                        <small class="text-black-50">Visitas</small>
+                                    </div>
+                                    <div>
+                                        <h5 class="text-black mb-0">4</h5>
+                                        <small class="text-black-50">Clases</small>
+                                    </div>
+                                    <div>
+                                        <h5 class="text-black mb-0">8.5</h5>
+                                        <small class="text-black-50">Horas</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="progress-container">
+                                    <div class="progress-bar-custom progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <small class="text-black-50">Progreso mensual: 75%</small>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-3">
+                            <button class="btn btn-outline-primary action-btn">
+                                <span><i class="fas fa-chart-line me-2"></i>Ver estadísticas completas</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Notificaciones -->
+                <div class="membership-card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Notificaciones</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-primary alert-dismissible fade show mb-3" role="alert">
+                            <strong>¡Nuevas clases!</strong> Ya puedes reservar para la próxima semana.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        
+                        <div class="alert alert-warning alert-dismissible fade show mb-3" role="alert">
+                            <strong>Recordatorio:</strong> Tu próximo pago será el 15/07/2023.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Promoción especial:</strong> Renueva por 6 meses y obtén 1 mes gratis.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <!-- <img src="/img/logoGestiFit.jpg" alt="GestiFit" height="40" class="mb-3"> -->
+                    <p>Transformando vidas a través del fitness. Únete a nuestra comunidad y alcanza tus metas.</p>
+                    <div class="d-flex mt-4">
+                        <a href="#" class="btn btn-primary btn-square me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="btn btn-primary btn-square me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="btn btn-primary btn-square me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="btn btn-primary btn-square"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5 class="mb-4">Enlaces</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white">Inicio</a></li>
+                        <li class="mb-2"><a href="#" class="text-white">Clases</a></li>
+                        <li class="mb-2"><a href="#" class="text-white">Entrenadores</a></li>
+                        <li class="mb-2"><a href="#" class="text-white">Membresías</a></li>
+                        <li class="mb-2"><a href="#" class="text-white">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5 class="mb-4">Horario</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">Lunes - Viernes: 5:30 AM - 10:00 PM</li>
+                        <li class="mb-2">Sábado: 7:00 AM - 8:00 PM</li>
+                        <li class="mb-2">Domingo: 8:00 AM - 6:00 PM</li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="mb-4">Contacto</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> </li>
+                        <li class="mb-2"><i class="fas fa-phone me-2"></i> 55 5555-5555</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i> info@gestifit.com</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Copyright -->
+    <div class="copyright py-3 text-center text-white">
+        <div class="container">
+            <small>&copy; 2025 GestiFit. Todos los derechos reservados.</small>
+        </div>
+    </div>
+        <!-- Copyright -->
+    <!-- <div class="copyright py-3 text-center text-white">
+        <div class="container">
+            <small>&copy; 2023 PowerFit Gym. Todos los derechos reservados.</small>
+        </div>
+    </div> -->
+
+
+    <!-- Back to Top -->
+    <div class="back-to-top">
+        <a href="#"><i class="fa fa-angle-up"></i></a>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Mostrar spinner al cargar
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.getElementById("spinner").classList.remove("show");
+            }, 500);
+        });
+        
+        // Back to top button
+        window.addEventListener("scroll", function() {
+            var backToTop = document.querySelector(".back-to-top");
+            if (window.pageYOffset > 300) {
+                backToTop.style.opacity = "1";
+                backToTop.style.visibility = "visible";
+            } else {
+                backToTop.style.opacity = "0";
+                backToTop.style.visibility = "hidden";
+            }
+        });
+    </script>
+</body>
+</html>
