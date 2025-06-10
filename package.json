@@ -1,0 +1,23 @@
+{
+  "name": "gestifit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/o0AlanisReyes0o/GestiFit.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/o0AlanisReyes0o/GestiFit/issues"
+  },
+  "homepage": "https://github.com/o0AlanisReyes0o/GestiFit#readme"
+}
