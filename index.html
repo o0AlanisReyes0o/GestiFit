@@ -104,7 +104,8 @@
                                     </div>
                                     
                                     <div class="nav-btn ps-3">
-                                        <a href="#" class="btn btn-primary py-2 px-4 ms-0 ms-lg-3"> <span>Inicia Sesion</span></a>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Inicia Sesion</button>
+
                                     </div>
                                     <div class="nav-shaps-1"></div>
                                 </div>
@@ -115,6 +116,33 @@
             </div>
         </div>
         <!-- Navbar & Hero End -->
+
+        <!-- Modal inicio sesion -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Iniciar Sesion</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Correo electronico</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="exampleInputPassword1">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Ingresar</button>
+            </form>
+                </div>
+                
+                </div>
+            </div>
+            </div>
 
         <!-- Modal Search Start -->
         <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -134,7 +162,7 @@
             </div>
         </div>
         <!-- Modal Search End -->
-
+         
 
         <!-- Carousel Start 
         <div class="header-carousel owl-carousel overflow-hidden bg-dark">
