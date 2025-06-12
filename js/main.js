@@ -145,3 +145,83 @@
 
 })(jQuery);
 
+document.addEventListener('DOMContentLoaded', function() {
+    // Mostrar spinner al cargar
+    const spinner = document.getElementById('spinner');
+    spinner.classList.remove('d-none');
+    
+    // Simular carga
+    setTimeout(() => {
+        spinner.classList.add('d-none');
+    }, 1000);
+    
+    // Manejar login
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username && password) {
+                // Mostrar spinner
+                spinner.classList.remove('d-none');
+                
+                // Simular validación
+                setTimeout(() => {
+                    spinner.classList.add('d-none');
+                    
+                    // Ocultar login y mostrar contenido principal
+                    document.getElementById('login-section').classList.add('d-none');
+                    document.getElementById('main-content').classList.remove('d-none');
+                    
+                    // Mostrar nombre de usuario
+                    document.getElementById('display-username').textContent = username;
+                    
+                    // Actualizar última conexión
+                    const now = new Date();
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                    document.getElementById('last-access').textContent = now.toLocaleDateString('es-ES', options);
+                }, 1500);
+            } else {
+                alert('Por favor ingresa usuario y contraseña.');
+            }
+        });
+    }
+    
+    // Manejar logout
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Mostrar spinner
+            spinner.classList.remove('d-none');
+            
+            // Simular logout
+            setTimeout(() => {
+                spinner.classList.add('d-none');
+                
+                // Ocultar contenido principal y mostrar login
+                document.getElementById('main-content').classList.add('d-none');
+                document.getElementById('login-section').classList.remove('d-none');
+                
+                // Limpiar formulario
+                document.getElementById('login-form').reset();
+            }, 1000);
+        });
+    }
+    
+    // Efecto hover en tarjetas
+    const cards = document.querySelectorAll('.card, .routine-card, .class-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = '';
+        });
+    });
+});
