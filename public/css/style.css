@@ -1,4 +1,106 @@
+.wow.fadeInUp {
+    backface-visibility: visible !important;
+    transform: none !important;
+}
+/* Estilos para la sección de membresías - usando clases existentes */
+.membership-section {
+    padding: 80px 0;
+    background: var(--bs-light);
+}
 
+.membership-card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: .5s;
+    margin-bottom: 30px;
+    box-shadow: 0 0 45px rgba(12, 24, 68, 0.1);
+    height: 100%;
+}
+
+.membership-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 45px rgba(12, 24, 68, 0.3);
+}
+
+.membership-card .card-header {
+    background: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-dark) 100%);
+    color: var(--bs-white);
+    padding: 20px;
+    text-align: center;
+}
+
+.membership-card .card-body {
+    padding: 30px;
+    background: var(--bs-white);
+}
+
+.membership-card .price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--bs-primary);
+    margin: 20px 0;
+}
+
+.membership-card .list-unstyled li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.membership-card .list-unstyled li:last-child {
+    border-bottom: none;
+}
+
+.membership-card .list-unstyled i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+/* Estilos para la sección de Instagram - usando estilos existentes */
+.instagram-container {
+    padding: 80px 0;
+    background: var(--bs-white);
+}
+
+.instagram-embed {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 45px rgba(12, 24, 68, 0.1);
+    margin: 0 auto;
+}
+
+/* Ajustes responsivos usando breakpoints existentes */
+@media (max-width: 991px) {
+    .membership-section,
+    .instagram-container {
+        padding: 60px 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .membership-card {
+        margin-bottom: 20px;
+    }
+    
+    .membership-card .price {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .instagram-embed {
+        margin: 0 -15px;
+        border-radius: 0;
+    }
+}
+
+.img-logo {
+    max-height: 70px;
+    width: auto;
+}
 /*** Spinner Start ***/
 #spinner {
     opacity: 0;
