@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - GestiFit</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Teko:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Icon Fonts -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/public/img/logo_gestifit_cuadrado-nofondo.png">
+
+    <!-- CSS -->
+    <link href="/public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/public/css/style.css" rel="stylesheet">
+    <link href="/public/css/admin.css" rel="stylesheet">
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+</head>
+
+<body>
+    <!-- Menú Superior -->
+<nav class="container-fluid header-top bg-light border-bottom fixed-top">
+        <div class="container d-flex align-items-center justify-content-between py-2">
+            <div class="d-flex align-items-center">
+                <a href="#" class="navbar-brand d-flex align-items-center me-4">
+                    <img src="/public/img/logo_gestifit_cuadrado-nofondo.png" width="50" height="50" class="me-2">
+                    <h2 class="mb-0 text-primary">GestiFit</h2>
+                </a>
+                <div class="d-flex align-items-center gap-3">
+                    <a href="/public/admin/admin-clientes.html" class="nav-icon-link active">
+                        <i class="bi bi-people fs-4 text-primary"></i>
+                        <span class="d-none d-md-inline ms-1">Clientes</span>
+                    </a>
+                    <a href="#" class="nav-icon-link">
+                        <i class="bi bi-person-badge fs-4 text-danger"></i>
+                        <span class="d-none d-md-inline ms-1">Instructores</span>
+                    </a>
+                    <a href="#" class="nav-icon-link">
+                        <i class="bi bi-bicycle fs-4 text-primary"></i>
+                        <span class="d-none d-md-inline ms-1">Clases</span>
+                    </a>
+                    <a href="#" class="nav-icon-link">
+                        <i class="bi bi-card-checklist fs-4 text-danger"></i>
+                        <span class="d-none d-md-inline ms-1">Membresías</span>
+                    </a>
+                </div>
+            </div>
+            <div class="d-none d-lg-flex align-items-center">
+                <a href="mailto:info@manicomiogym.com" class="text-muted me-4">
+                    <i class="fa fa-clock text-primary me-2"></i>Lunes - Sábado: 8:00am - 7:00pm
+                </a>
+                <a class="btn btn-sm btn-outline-primary" href="logout.php">Cerrar sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Barra lateral
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header d-flex justify-content-between align-items-center px-3">
+            <span class="fw-bold text-white">Admin</span>
+            <button id="sidebar-toggle" class="btn-toggle"><i class="bi bi-list"></i></button>
+        </div>
+        <a href="#" class="active" onclick="showChart('clientes')"><i class="bi bi-people"></i><span class="link-text">Clientes</span></a>
+        <a href="#" onclick="showChart('instructores')"><i class="bi bi-person-badge"></i><span class="link-text">Instructores</span></a>
+        <a href="#" onclick="showChart('clases')"><i class="bi bi-bicycle"></i><span class="link-text">Clases</span></a>
+        <a href="#" onclick="showChart('membresias')"><i class="bi bi-card-checklist"></i><span class="link-text">Membresías</span></a>
+    </div>
+ -->
+    <!-- Contenido -->
+    <div class="content">
+        <h2 class="mb-4">Bienvenido, Administrador</h2>
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="card position-relative d-flex text-center" style="transform: skew(18deg);" onclick="showChart('clientes')" id="card-clientes">
+                    <button type="button" class="btn btn-danger py-2 px-4 ms-3"> <span>Clientes</span></button>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card position-relative d-flex text-center" style="transform: skew(18deg);" onclick="showChart('instructores')" id="card-instructores">
+                    <button type="button" class="btn btn-secondary py-2 px-4 ms-3"> <span>Instructores</span></button>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card position-relative d-flex text-center" style="transform: skew(18deg);" onclick="showChart('clases')" id="card-clases">
+                     <button type="button" class="btn btn-success py-2 px-4 ms-3"> <span>Clases</span></button>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card position-relative d-flex text-center" style="transform: skew(18deg);" onclick="showChart('membresias')" id="card-membresias">
+                     <button type="button" class="btn btn-primary py-2 px-4 ms-3"> <span>Membresías</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <div id="clientes" class="chart-container active">
+                <canvas id="clientesChart"></canvas>
+            </div>
+            <div id="instructores" class="chart-container">
+                <canvas id="instructoresChart"></canvas>
+            </div>
+            <div id="clases" class="chart-container">
+                <canvas id="clasesChart"></canvas>
+            </div>
+            <div id="membresias" class="chart-container">
+                <canvas id="membresiasChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/public/js/main.js"></script>
+    <script src="/public/js/admin.js"></script>
+    
+</body>
+</html>
