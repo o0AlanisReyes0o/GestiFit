@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="es">
+<head> 
+    <meta charset="utf-8">
+    <title>Reserva de Casillero - GestiFit</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Teko:wght@300..700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/public/img/logo.jpg">
+
+    <!-- Libraries Stylesheet -->
+    <link rel="stylesheet" href="/lib/animate/animate.min.css"/>
+    <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/public/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="/public/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Navbar & Hero Start -->
+        <div class="container-fluid header-top">
+            <div class="nav-shaps-2"></div>
+            <div class="container d-flex align-items-center">
+                <div class="d-flex align-items-center h-100">
+                    <a href="#" class="navbar-brand" style="height: 125px;">
+                        <h1 class="text-primary mb-0"><i class="fas fa-hand-rock me-2"></i>GestiFit</h1>
+                        <!-- <img src="/public/img/logo.png" alt="Logo"> -->
+                    </a>
+                </div>
+                <div class="w-100 h-100">
+                    <div class="topbar px-0 py-2 d-none d-lg-block" style="height: 45px;">
+                        <div class="row gx-0 align-items-center">
+                            <div class="col-lg-8 text-center text-lg-center mb-lg-0">
+                                <div class="d-flex flex-wrap">
+                                    <div class="pe-4">
+                                    </div>
+                                    <div class="pe-0">
+                                        
+                                        <a href="mailto:example@gmail.com" class="text-muted small"><i class="fa fa-clock text-primary me-2"></i>Mon - Sat: 8.00 am-7.00 pm</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 text-center text-lg-end">
+                                <div class="d-flex justify-content-end">
+                                    <div class="d-flex align-items-center small">
+                                        <a href="#" class="login-btn text-body me-3 pe-3"> <span>Login</span></a>
+                                        <a href="Registro.html" class="text-body me-3"> Register</a>
+                                    </div>
+                                    <div class="d-flex pe-3">
+                                    <a class="btn p-0 text-primary me-3" href="https://www.instagram.com/elmanicomiogym?igsh=MXB3eHBkdjFjYXJleQ=="><i class="fab fa-instagram"></i></a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nav-bar px-0 py-lg-0" style="height: 80px;">
+                        <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-lg-end">
+                            <a href="#" class="navbar-brand-2">
+                                <h1 class="text-primary mb-0"><i class="fas fa-hand-rock me-2"></i> Fitness</h1>
+                                <!-- <img src="/public/img/logo.png" alt="Logo"> -->
+                            </a> 
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                                <span class="fa fa-bars"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarCollapse">
+                                <div class="navbar-nav mx-0 mx-lg-auto">
+                                    <a href="index_usuario.html" class="nav-item nav-link active">Home</a>
+                                    <a href="/public/public/about.html" class="nav-item nav-link">About</a>
+                                    <a href="/public/public/Clases.html" class="nav-item nav-link">Clases</a>
+                                    <a href="#" class="nav-item nav-link">Blogs</a>
+                                    <a href="casillero.html" class="nav-item nav-link">Casilleros</a>
+                                    <a href="membresia.html" class="nav-item nav-link">Membresía</a>
+                                    <div class="nav-item dropdown">
+                                        <a href="#" class="nav-link" data-bs-toggle="dropdown">
+                                            <span class="dropdown-toggle">Paginas</span>
+                                        </a>
+                                        <div class="dropdown-menu">
+                                            <a href="/public/public/feature.html" class="dropdown-item">Our Features</a>
+                                            <a href="/public/public/Instructores.html" class="dropdown-item">Our team</a>
+                                            <a href="/public/public/testimonial.html" class="dropdown-item">Testimonial</a>
+                                            <a href="/public/public/404.html" class="dropdown-item">404 Page</a>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="nav-btn ps-3">
+                                        <button class="btn-search btn btn-primary btn-md-square mt-2 mt-lg-0 mb-4 mb-lg-0 flex-shrink-0" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search"></i></button>
+                                        <a href="#" class="btn btn-primary py-2 px-4 ms-0 ms-lg-3"> <span>Planes</span></a>
+                                    </div>
+                                    <div class="nav-shaps-1"></div>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Navbar & Hero End -->
+
+    <!-- Hero Header Start -->
+    <div class="bg-breadcrumb">
+        <div class="container text-center">
+            <h1 class="display-4 text-white mb-4">Reserva de Casilleros</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item"><a href="index_usuario.html">Inicio</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Casilleros</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- Hero Header End -->
+
+    <!-- Reserva de Casilleros Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row g-5">
+                <!-- Información de Casilleros -->
+                <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.2s">
+                    <div class="mb-5">
+                        <h4 class="text-primary mb-3">Información importante</h4>
+                        <h1 class="display-6 mb-4">Políticas de uso de casilleros</h1>
+                        <div class="d-flex mb-4">
+                            <div class="me-4">
+                                <div class="bg-primary d-inline p-3" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-lock fa-2x text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h4>Uso exclusivo para miembros</h4>
+                                <p class="mb-0">Los casilleros están disponibles solo para miembros activos del gimnasio.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-4">
+                            <div class="me-4">
+                                <div class="bg-primary d-inline p-3" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-clock fa-2x text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h4>Horario de uso</h4>
+                                <p class="mb-0">Los casilleros deben desocuparse al finalizar tu sesión de entrenamiento.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="me-4">
+                                <div class="bg-primary d-inline p-3" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-exclamation-triangle fa-2x text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h4>Artículos prohibidos</h4>
+                                <p class="mb-0">No dejes objetos de valor. El gimnasio no se hace responsable por pérdidas o daños.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulario de Reserva -->
+                <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.2s">
+                    <div class="bg-light p-5">
+                        <h4 class="text-primary mb-4">Reservar casillero</h4>
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label for="fecha" class="form-label">Fecha de reserva</label>
+                                    <input type="date" class="form-control" id="fecha" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="hora" class="form-label">Hora de llegada</label>
+                                    <select class="form-select" id="hora" required>
+                                        <option value="" selected disabled>Selecciona una hora</option>
+                                        <option value="06:00">6:00 AM</option>
+                                        <option value="07:00">7:00 AM</option>
+                                        <option value="08:00">8:00 AM</option>
+                                        <option value="09:00">9:00 AM</option>
+                                        <option value="10:00">10:00 AM</option>
+                                        <option value="16:00">4:00 PM</option>
+                                        <option value="17:00">5:00 PM</option>
+                                        <option value="18:00">6:00 PM</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label for="duracion" class="form-label">Duración estimada</label>
+                                    <select class="form-select" id="duracion" required>
+                                        <option value="1">1 hora</option>
+                                        <option value="1.5">1.5 horas</option>
+                                        <option value="2" selected>2 horas</option>
+                                        <option value="2.5">2.5 horas</option>
+                                        <option value="3">3 horas</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="terminos" required>
+                                        <label class="form-check-label" for="terminos">
+                                            Acepto las políticas de uso de casilleros
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-primary w-100 py-3" type="submit">
+                                        <span>Reservar Casillero</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Reserva de Casilleros End -->
+
+    <!-- Mapa de Casilleros Start -->
+    <div class="container-fluid bg-light py-5">
+        <div class="container py-5">
+            <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                <h4 class="text-primary">Ubicación de casilleros</h4>
+                <h1 class="display-6 mb-4">Selecciona tu casillero preferido</h1>
+                <p class="mb-0">Puedes elegir un casillero disponible en el mapa interactivo a continuación. Los casilleros en verde están disponibles para reserva.</p>
+            </div>
+            
+            <div class="row justify-content-center wow fadeInUp" data-wow-delay="0.4s">
+                <div class="col-lg-10">
+                    <div class="bg-white p-4 p-lg-5 text-center">
+                        <!-- Mapa de casilleros (simulado) -->
+                        <div class="locker-map mb-4">
+                            <div class="row g-3">
+                                <!-- Fila 1 -->
+                                <div class="col-2">
+                                    <div class="locker available" data-locker="A1">
+                                        <span>A1</span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="locker available" data-locker="A2">
+                                        <span>A2</span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="locker reserved" data-locker="A3">
+                                        <span>A3</span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="locker available" data-locker="A4">
+                                        <span>A4</span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="locker available" data-locker="A5">
+                                        <span>A5</span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="locker reserved" data-locker="A6">
+                                        <span>A6</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Fila 2 -->
+                                <div class="col-2">
+                                    <div class="locker available" data-locker="B1">
+                                        <span>B1</span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="locker reserved" data-locker="B2">
+                                        <span>B2</span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="locker available" data-locker="B3">
+                                        <span>B3</span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="locker available" data-locker="B4">
+                                        <span>B4</span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="locker reserved" data-locker="B5">
+                                        <span>B5</span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="locker available" data-locker="B6">
+                                        <span>B6</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Fila 3 -->
+                                <div class="col-2">
+                                    <div class="locker available" data-locker="C1">
+                                        <span>C1</span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="locker available" data-locker="C2">
+                                        <span>C2</span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="locker available" data-locker="C3">
+                                        <span>C3</span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="locker reserved" data-locker="C4">
+                                        <span>C4</span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="locker available" data-locker="C5">
+                                        <span>C5</span>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="locker available" data-locker="C6">
+                                        <span>C6</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="locker-legend d-flex justify-content-center mb-4">
+                            <div class="d-flex align-items-center me-4">
+                                <div class="legend-color available me-2"></div>
+                                <span>Disponible</span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="legend-color reserved me-2"></div>
+                                <span>Reservado</span>
+                            </div>
+                        </div>
+                        
+                        <p class="mb-4">Selecciona un casillero disponible en el mapa para completar tu reserva.</p>
+                        <a href="#" class="btn btn-primary py-3 px-5">
+                            <span>Ver más casilleros</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Mapa de Casilleros End -->
+
+    <!-- Preguntas Frecuentes Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+                <h4 class="text-primary">Preguntas frecuentes</h4>
+                <h1 class="display-6 mb-4">Todo lo que necesitas saber sobre casilleros</h1>
+            </div>
+            
+            <div class="row g-5 justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion" id="faqAccordion">
+                        <!-- Pregunta 1 -->
+                        <div class="accordion-item wow fadeInUp" data-wow-delay="0.2s">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    ¿Cómo puedo reservar un casillero?
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Puedes reservar un casillero a través de esta página web seleccionando la fecha, hora y casillero disponible. También puedes reservar en recepción al llegar al gimnasio.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Pregunta 2 -->
+                        <div class="accordion-item wow fadeInUp" data-wow-delay="0.3s">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    ¿Hay algún costo adicional por usar los casilleros?
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    El uso de casilleros está incluido en tu membresía sin costo adicional. Para usuarios sin membresía, hay una tarifa diaria de $50 MXN.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Pregunta 3 -->
+                        <div class="accordion-item wow fadeInUp" data-wow-delay="0.4s">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    ¿Qué pasa si olvido desocupar mi casillero?
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Todos los casilleros se vacían al final del día. Los artículos olvidados se guardan en recepción por 7 días. Después de este período, se donan o desechan.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Pregunta 4 -->
+                        <div class="accordion-item wow fadeInUp" data-wow-delay="0.5s">
+                            <h2 class="accordion-header" id="headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    ¿Puedo reservar el mismo casillero todos los días?
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Sí, ofrecemos la opción de reserva recurrente para miembros frecuentes. Pregunta en recepción por nuestros paquetes de reserva semanal o mensual.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Preguntas Frecuentes End -->
+
+    <!-- Footer Start -->
+    <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="footer-item">
+                        <p class="mb-0">Transformando vidas a través del fitness. Únete a nuestra comunidad y alcanza tus metas.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="footer-item">
+                        <h4 class="text-white mb-4">Enlaces rápidos</h4>
+                        <a href="index.html">Inicio</a>
+                        <a href="about.html">Nosotros</a>
+                        <a href="course.html">Clases</a>
+                        <a href="membresia.html">Membresía</a>
+                        <a href="casillero.html">Casilleros</a>
+                        <a href="contact.html">Contacto</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="footer-item">
+                        <h4 class="text-white mb-4">Horario</h4>
+                        <p class="mb-2">Lunes - Viernes: 5:30 AM - 10:00 PM</p>
+                        <p class="mb-2">Sábado: 7:00 AM - 8:00 PM</p>
+                        <p class="mb-0">Domingo: 8:00 AM - 6:00 PM</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-3">
+                    <div class="footer-item">
+                        <h4 class="text-white mb-4">Contacto</h4>
+                        <p><i class="fas fa-map-marker-alt text-primary me-2"></i></p>
+                        <p><i class="fas fa-phone-alt text-primary me-2"></i> +52 55 1234 5678</p>
+                        <p><i class="fas fa-envelope text-primary me-2"></i> info@gestifit.com</p>
+                        <div class="d-flex pt-3">
+                            <a class="btn btn-primary btn-md-square me-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-primary btn-md-square me-2" href="#"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-primary btn-md-square me-2" href="#"><i class="fab fa-instagram"></i></a>
+                            <a class="btn btn-primary btn-md-square me-0" href="#"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+        <!-- Copyright -->
+    <div class="copyright py-3 text-center text-white">
+        <div class="container">
+            <small>&copy; 2025 GestiFit. Todos los derechos reservados.</small>
+        </div>
+    </div>
+
+
+    <!-- Back to Top -->
+    <div class="back-to-top">
+        <a href="#"><i class="fa fa-angle-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/lib/wow/wow.min.js"></script>
+    <script src="/lib/easing/easing.min.js"></script>
+    <script src="/lib/waypoints/waypoints.min.js"></script>
+    <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/public/js/main.js"></script>
+
+    <script>
+        // Script para selección de casilleros
+        $(document).ready(function() {
+            $('.locker.available').click(function() {
+                // Deseleccionar cualquier casillero previamente seleccionado
+                $('.locker').removeClass('selected');
+                
+                // Seleccionar el casillero clickeado
+                $(this).addClass('selected');
+                
+                // Actualizar el formulario con el casillero seleccionado
+                $('#casillero').val($(this).data('locker'));
+            });
+        });
+    </script>
+</body>
+</html>
