@@ -50,20 +50,37 @@
     </div>
     <!-- Header End -->
 
-    <!-- Formulario Mejorado -->
-    <div class="container-fluid blog py-2">
+    <!-- Formulario  -->
+    <div class="container-fluid blog py-2" action=" " method="POST">
         <div class="container py-3">
             <div class="row justify-content-center">
-                <div class="col-lg-8 col-xl-6">
+                <div class="col-lg-14 col-xl-12">
                     <div class="card border-0 shadow-lg wow fadeInUp" data-wow-delay="0.3s">
                         <div class="card-body p-5">
                             <h3 class="text-center text-primary mb-4">Crea tu cuenta en GestiFit</h3>
                             <form class="row g-4">
-                                <div class="col-12">
+
+                                <div class="col-md-6">
                                     <label for="username" class="form-label">Usuario</label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-primary text-white"><i class="fas fa-user"></i></span>
-                                        <input type="text" class="form-control" id="username" placeholder="Nombre de usuario">
+                                        <input type="text" class="form-control" id="username" name="username" placeholder="Nombre de usuario">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="username" class="form-label">Nombre</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-primary text-white"><i class="bi bi-person-lines-fill"></i></span>
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="Nombre completo">
+                                    </div>
+                                </div>
+
+                                 <div class="col-md-6">
+                                    <label for="username" class="form-label">Apellidos</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-primary text-white"><i class="bi bi-person-lines-fill"></i></span>
+                                        <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Apellidos completos">
                                     </div>
                                 </div>
 
@@ -71,7 +88,7 @@
                                     <label for="email" class="form-label">Email</label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-primary text-white"><i class="fas fa-envelope"></i></span>
-                                        <input type="email" class="form-control" id="email" placeholder="tucorreo@ejemplo.com">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="tucorreo@ejemplo.com">
                                     </div>
                                 </div>
 
@@ -79,7 +96,7 @@
                                     <label for="password" class="form-label">Contraseña</label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-primary text-white"><i class="fas fa-lock"></i></span>
-                                        <input type="password" class="form-control" id="password" placeholder="Mínimo 8 caracteres">
+                                        <input type="password" class="form-control" id="password" name="password" placeholder="Mínimo 8 caracteres">
                                     </div>
                                 </div>
 
@@ -87,7 +104,15 @@
                                     <label for="address" class="form-label">Dirección</label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-primary text-white"><i class="fas fa-map-marker-alt"></i></span>
-                                        <input type="text" class="form-control" id="address" placeholder="Tu dirección">
+                                        <input type="text" class="form-control" id="address" name="address" placeholder="Tu dirección">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="birthday" class="form-label">Fecha de nacimiento</label>
+                                    <div class="input-group">
+                                       <span class="input-group-text bg-primary text-white"><i class="fas fa-calendar-alt"></i></span>
+                                       <input type="date" class="form-control" id="birthday" name="birthday" >
                                     </div>
                                 </div>
                                 
@@ -95,12 +120,12 @@
                                     <label for="phone" class="form-label">Teléfono</label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-primary text-white"><i class="fas fa-phone"></i></span>
-                                        <input type="tel" class="form-control" id="phone" placeholder="+52 55 1234 5678">
+                                        <input type="tel" class="form-control" id="phone" name="phone"  placeholder="+52 55 1234 5678">
                                     </div>
                                 </div>
                                 
                                 <div class="col-12 mt-4">
-                                    <button type="submit" class="btn btn-primary btn-lg w-100 py-3">
+                                    <button type="submit" class="btn btn-primary btn-lg w-100 py-3" onclick="">
                                         <i class="fas fa-user-plus me-2"></i>Registrarse
                                     </button>
                                 </div>
