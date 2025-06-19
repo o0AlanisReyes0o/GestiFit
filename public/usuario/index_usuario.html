@@ -17,23 +17,67 @@
         <!-- Icon Font Stylesheet -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-        <link rel="icon" type="image/png" href="/public/img/logo.jpg">
+        <link rel="icon" type="image/png" href="/GestiFit/public/img/logo_gestifit_cuadrado-nofondo.png">
 
         <!-- Libraries Stylesheet -->
-        <link rel="stylesheet" href="/lib/animate/animate.min.css"/>
-        <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/GestiFit/lib/animate/animate.min.css"/>
+        <link href="/GestiFit/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
 
         <!-- Customized Bootstrap Stylesheet -->
-        <link href="/public/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/GestiFit/public/css/bootstrap.min.css" rel="stylesheet">
 
         <!-- Template Stylesheet -->
-        <link href="/public/css/style.css" rel="stylesheet">
+        <link href="/GestiFit/public/css/style.css" rel="stylesheet">
+        <link href="/GestiFit/public/css/stylesUsuario.css" rel="stylesheet">
+    
+            <!-- Agregar estilos personalizados -->
+    <style>
+        .announcement-item {
+            position: relative;
+            height: 100%;
+            transition: transform 0.3s;
+        }
+        .announcement-item:hover {
+            transform: translateY(-5px);
+        }
+        .announcement-badge {
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .quick-access-card {
+            transition: all 0.3s;
+            color: inherit;
+            text-decoration: none;
+        }
+        .quick-access-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .recommendation-card {
+            transition: all 0.3s;
+        }
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+    </style>
         
-        
-    </head>
+</head>
 
-    <body>
+<body>
 
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -43,580 +87,340 @@
         </div>
         <!-- Spinner End -->
 
-        <!-- Navbar & Hero Start -->
-        <div class="container-fluid header-top">
-            <div class="nav-shaps-2"></div>
-            <div class="container d-flex align-items-center">
-                <div class="d-flex align-items-center h-100">
-                    <a href="#" class="navbar-brand" style="height: 125px;">
-                        <h1 class="text-primary mb-0">
-                            <i class="fas fa-hand-rock me-2"></i> GestiFit </h1>
-                         
+    <!-- Navbar modificado para usuario logueado -->
+    <div class="container-fluid header-top">
+        <div class="nav-shaps-2"></div>
+        <div class="container d-flex align-items-center">
+            <div class="d-flex align-items-center h-100">
+                <a href="#" class="navbar-brand" style="height: 125px;">
+                    <h1 class="text-primary mb-0">
+                        <img src="/GestiFit/public/img/logo_gestifit_cuadrado-nofondo.png" class="img-fluid" width="70" height="70"> GestiFit </h1>
+                </a>
+            </div>
+            <div class="w-100 h-100">
+                <div class="topbar px-0 py-2 d-none d-lg-block" style="height: 45px;">
+                    <div class="row gx-0 align-items-center">
+                        <div class="col-lg-8 text-center text-lg-center mb-lg-0">
+                            <div class="d-flex flex-wrap">
+                                <div class="pe-4">
+                                    <span class="text-white"><i class="fa fa-user text-primary me-2"></i> Bienvenido, <strong>NombreUsuario</strong></span>
+                                </div>
+                                <div class="pe-0">
+                                    <span class="text-muted small"><i class="fa fa-clock text-primary me-2"></i>Último acceso: 10/06/2025</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 text-center text-lg-end">
+                            <div class="d-flex justify-content-end">
+                                <div class="d-flex align-items-center small">
+                                    <a href="#" class="text-body me-3 pe-3" data-bs-toggle="modal" data-bs-target="#profileModal"><i class="fas fa-cog me-2"></i>Mi cuenta</a>
+                                    <a href="logout.html" class="text-body me-3"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a>
+                                </div>
+                                <div class="d-flex pe-3">
+                                    <a class="btn p-0 text-primary me-3" href="https://www.instagram.com/elmanicomiogym?igsh=MXB3eHBkdjFjYXJleQ=="><i class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-bar px-0 py-lg-0" style="height: 80px;">
+                    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-lg-end">
+                        <a href="#" class="navbar-brand-2">
+                            <h1 class="text-primary mb-0"><i class="fas fa-hand-rock me-2"></i> Fitness</h1>
+                        </a> 
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                            <span class="fa fa-bars"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav mx-0 mx-lg-auto">
+                                <a href="index_usuario.html" class="nav-item nav-link active">Inicio</a>
+                                <a href="membresia.html" class="nav-item nav-link">Mi Membresía</a>
+                                <a href="clases.html" class="nav-item nav-link">Clases</a>
+                                <a href="entrenadores.html" class="nav-item nav-link">Entrenadores</a>
+                                <a href="casillero.html" class="nav-item nav-link">Casilleros</a>
+                                <a href="progreso.html" class="nav-item nav-link">Mi Progreso</a>
+                                
+                                <div class="nav-btn ps-3">
+                                    <button class="btn-search btn btn-primary btn-md-square mt-2 mt-lg-0 mb-4 mb-lg-0 flex-shrink-0" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search"></i></button>
+                                    <a href="reservas.html" class="btn btn-primary py-2 px-4 ms-0 ms-lg-3"> <span>Reservar Clase</span></a>
+                                </div>
+                                <div class="nav-shaps-1"></div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carrusel de Avisos Mejorado -->
+    <div class="container-fluid py-5 bg-light position-relative">
+        <div class="container py-3 position-relative">
+
+        </div>
+    </div>
+
+    <!-- Resumen del Usuario -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row g-4">
+                <!-- Tarjeta de Membresía -->
+                <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="mb-0"><i class="fas fa-id-card me-2"></i> Mi Membresía</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-primary p-3 rounded me-3">
+                                    <i class="fas fa-crown fa-2x text-white"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-0">Premium Plus</h5>
+                                    <small class="text-muted">Válida hasta: 15/08/2025</small>
+                                </div>
+                            </div>
+                            <div class="progress mb-3" style="height: 10px;">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p class="mb-3">Días restantes: 45</p>
+                            <a href="membresia.html" class="btn btn-outline-primary w-100">Renovar</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Próximas Clases -->
+                <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="mb-0"><i class="fas fa-calendar-alt me-2"></i> Mis Próximas Clases</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="mb-0">Yoga Avanzado</h6>
+                                    <span class="badge bg-primary">Hoy</span>
+                                </div>
+                                <p class="mb-1"><small><i class="far fa-clock me-2"></i>18:00 - 19:00</small></p>
+                                <p class="mb-2"><small><i class="fas fa-user-tie me-2"></i>Instr. Laura Méndez</small></p>
+                                <button class="btn btn-sm btn-outline-danger">Cancelar</button>
+                            </div>
+                            <hr>
+                            <div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h6 class="mb-0">Spinning Intenso</h6>
+                                    <span class="badge bg-secondary">Mañana</span>
+                                </div>
+                                <p class="mb-1"><small><i class="far fa-clock me-2"></i>07:00 - 08:00</small></p>
+                                <p class="mb-0"><small><i class="fas fa-user-tie me-2"></i>Instr. Carlos Ruiz</small></p>
+                            </div>
+                            <a href="clases.html" class="btn btn-primary w-100 mt-3">Ver Todas</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Estadísticas -->
+                <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="mb-0"><i class="fas fa-chart-line me-2"></i> Mi Actividad</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row text-center mb-3">
+                                <div class="col-4">
+                                    <h3 class="text-primary">12</h3>
+                                    <small>Visitas este mes</small>
+                                </div>
+                                <div class="col-4">
+                                    <h3 class="text-primary">8</h3>
+                                    <small>Clases tomadas</small>
+                                </div>
+                                <div class="col-4">
+                                    <h3 class="text-primary">85%</h3>
+                                    <small>Asistencia</small>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <h6>Objetivo semanal: 3/5 días</h6>
+                                <div class="progress" style="height: 10px;">
+                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <h6>Calorías quemadas: 2,450 kcal</h6>
+                                <div class="progress" style="height: 10px;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 45%;" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <a href="progreso.html" class="btn btn-outline-primary w-100">Ver Detalles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accesos Rápidos -->
+    <div class="container-fluid bg-light py-5">
+        <div class="container py-5">
+            <h2 class="text-center mb-5"><i class="fas fa-bolt text-primary me-2"></i> Accesos Rápidos</h2>
+            <div class="row g-4">
+                <div class="col-6 col-md-3">
+                    <a href="reservas.html" class="quick-access-card text-center p-4 bg-white rounded shadow d-block">
+                        <div class="icon-circle bg-primary text-white mx-auto mb-3">
+                            <i class="fas fa-calendar-check fa-2x"></i>
+                        </div>
+                        <h5>Reservar Clase</h5>
                     </a>
                 </div>
-                <div class="w-100 h-100">
-                    <div class="topbar px-0 py-2 d-none d-lg-block" style="height: 45px;">
-                        <div class="row gx-0 align-items-center">
-                            <div class="col-lg-8 text-center text-lg-center mb-lg-0">
-                                <div class="d-flex flex-wrap">
-                                    <div class="pe-4">
-                                    </div>
-                                    <div class="pe-0">
-                                        
-                                        <a href="mailto:example@gmail.com" class="text-muted small"><i class="fa fa-clock text-primary me-2"></i>Mon - Sat: 8.00 am-7.00 pm</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 text-center text-lg-end">
-                                <div class="d-flex justify-content-end">
-                                    <div class="d-flex align-items-center small">
-                                        <a href="#" class="login-btn text-body me-3 pe-3"> <span>Login</span></a>
-                                        <a href="Registro.html" class="text-body me-3"> Register</a>
-                                    </div>
-                                    <div class="d-flex pe-3">
-                                    <a class="btn p-0 text-primary me-3" href="https://www.instagram.com/elmanicomiogym?igsh=MXB3eHBkdjFjYXJleQ=="><i class="fab fa-instagram"></i></a>
-
-                                    </div>
-                                </div>
-                            </div>
+                <div class="col-6 col-md-3">
+                    <a href="entrenadores.html" class="quick-access-card text-center p-4 bg-white rounded shadow d-block">
+                        <div class="icon-circle bg-primary text-white mx-auto mb-3">
+                            <i class="fas fa-user-tie fa-2x"></i>
                         </div>
-                    </div>
-                    <div class="nav-bar px-0 py-lg-0" style="height: 80px;">
-                        <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-lg-end">
-                            <a href="#" class="navbar-brand-2">
-                                <h1 class="text-primary mb-0"><i class="fas fa-hand-rock me-2"></i> Fitness</h1>
-                               
-                            </a> 
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                                <span class="fa fa-bars"></span>
-                            </button>
-                            <div class="collapse navbar-collapse" id="navbarCollapse">
-                                <div class="navbar-nav mx-0 mx-lg-auto">
-                                    <a href="index_usuario.html" class="nav-item nav-link active">Principal</a>
-                                    <a href="membresia.html" class="nav-item nav-link">Membresia</a>
-                                    <a href="#" class="nav-item nav-link">Clases</a>
-                                    <a href="/public/public/Instructores.html" class="nav-item nav-link">Instructores</a>
-                                    <a href="casillero.html" class="nav-item nav-link">Casilleros</a>
+                        <h5>Entrenadores</h5>
+                    </a>
+                </div>
+                <div class="col-6 col-md-3">
+                    <a href="pagos.html" class="quick-access-card text-center p-4 bg-white rounded shadow d-block">
+                        <div class="icon-circle bg-primary text-white mx-auto mb-3">
+                            <i class="fas fa-credit-card fa-2x"></i>
+                        </div>
+                        <h5>Pagos</h5>
+                    </a>
+                </div>
+                <div class="col-6 col-md-3">
+                    <a href="casillero.html" class="quick-access-card text-center p-4 bg-white rounded shadow d-block">
+                        <div class="icon-circle bg-primary text-white mx-auto mb-3">
+                            <i class="fas fa-lock fa-2x"></i>
+                        </div>
+                        <h5>Casilleros</h5>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                                    <div class="nav-item dropdown">
-                                        <a href="#" class="nav-link" data-bs-toggle="dropdown">
-                                            <span class="dropdown-toggle">Pages</span>
-                                        </a>
-                                        <div class="dropdown-menu">
-                                            <a href="feature.html" class="dropdown-item">Our Features</a>
-                                            <a href="team.html" class="dropdown-item">Our team</a>
-                                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                            <a href="404.html" class="dropdown-item">404 Page</a>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="nav-btn ps-3">
-                                        <button class="btn-search btn btn-primary btn-md-square mt-2 mt-lg-0 mb-4 mb-lg-0 flex-shrink-0" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search"></i></button>
-                                        <a href="#" class="btn btn-primary py-2 px-4 ms-0 ms-lg-3"> <span>Planes</span></a>
-                                    </div>
-                                    <div class="nav-shaps-1"></div>
-                                </div>
+    <!-- Recomendaciones Personalizadas -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <h2 class="text-center mb-5"><i class="fas fa-magic text-primary me-2"></i> Recomendaciones para ti</h2>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="recommendation-card p-4 bg-white rounded shadow h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary p-2 rounded me-3">
+                                <i class="fas fa-dumbbell text-white"></i>
                             </div>
-                        </nav>
+                            <h5 class="mb-0">Rutina de Fuerza</h5>
+                        </div>
+                        <p class="mb-3">Basado en tus últimos entrenamientos, te recomendamos esta rutina para mejorar tu fuerza.</p>
+                        <a href="#" class="btn btn-sm btn-primary">Ver Rutina</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="recommendation-card p-4 bg-white rounded shadow h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary p-2 rounded me-3">
+                                <i class="fas fa-utensils text-white"></i>
+                            </div>
+                            <h5 class="mb-0">Plan Nutricional</h5>
+                        </div>
+                        <p class="mb-3">Consulta con nuestros nutriólogos para un plan personalizado según tus objetivos.</p>
+                        <a href="#" class="btn btn-sm btn-primary">Agendar Cita</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="recommendation-card p-4 bg-white rounded shadow h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary p-2 rounded me-3">
+                                <i class="fas fa-users text-white"></i>
+                            </div>
+                            <h5 class="mb-0">Clase Grupal</h5>
+                        </div>
+                        <p class="mb-3">Te recomendamos probar nuestra nueva clase de HIIT los martes y jueves.</p>
+                        <a href="#" class="btn btn-sm btn-primary">Reservar</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="recommendation-card p-4 bg-white rounded shadow h-100">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary p-2 rounded me-3">
+                                <i class="fas fa-spa text-white"></i>
+                            </div>
+                            <h5 class="mb-0">Spa y Relajación</h5>
+                        </div>
+                        <p class="mb-3">Tu membresía incluye 1 sesión mensual de spa. ¡Programa la tuya!</p>
+                        <a href="#" class="btn btn-sm btn-primary">Reservar Spa</a>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Navbar & Hero End -->
+    </div>
 
-        <!-- Modal Search Start -->
-        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen">
-                <div class="modal-content rounded-0">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Search by keyword</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body d-flex align-items-center bg-primary">
-                        <div class="input-group w-75 mx-auto d-flex">
-                            <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-                            <span id="search-icon-1" class="btn bg-light border nput-group-text p-3"><i class="fa fa-search"></i></span>
-                        </div>
-                    </div>
+    <!-- Modal de Perfil -->
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="profileModalLabel"><i class="fas fa-user-cog me-2"></i> Mi Perfil</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div>
-        </div>
-        <!-- Modal Search End -->
-
-
-        <!-- Carousel Start  -->
-        <div class="header-carousel owl-carousel overflow-hidden bg-dark">
-            <div class="header-carousel-item hero-section">
-                <div class="hero-bg-half-1"></div>
-                <div class="carousel-caption">
-                    <div class="container">
-                        <div class="row g-4 align-items-center">
-                            <div class="col-lg-7 animated fadeInLeft">
-                                <div class="text-sm-center text-md-start">
-                                    <h4 class="text-primary text-uppercase fw-bold mb-4">Wellcome to our fitness Center</h4>
-                                    <h1 class="display-1 text-white mb-4">The best gym center is now in your city</h1>
-                                    <p class="mb-5 fs-5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy... 
-                                    </p>
-                                    <div class="d-flex justify-content-center justify-content-md-start flex-shrink-0 mb-4">
-                                        <a class="btn btn-dark py-3 px-4 px-md-5 me-2" href="#"><i class="fas fa-play-circle me-2"></i> <span>Watch Video</span></a>
-                                        <a class="btn btn-primary py-3 px-4 px-md-5 ms-2" href="#"><span>Learn More</span></a>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <img src="/GestiFit/public/img/user-avatar.jpg" class="img-fluid rounded-circle mb-3" width="150" alt="Avatar">
+                            <button class="btn btn-sm btn-outline-primary mb-4">Cambiar Foto</button>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-outline-danger">Cambiar Contraseña</button>
+                                <button class="btn btn-outline-secondary">Preferencias</button>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <form>
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre Completo</label>
+                                    <input type="text" class="form-control" value="Juan Pérez">
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" value="juan.perez@example.com">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Teléfono</label>
+                                        <input type="tel" class="form-control" value="+52 55 1234 5678">
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="header-carousel-item hero-section">
-                <div class="hero-bg-half-2"></div>
-                <div class="carousel-caption">
-                    <div class="container">
-                        <div class="row g-4 align-items-center">
-                            <div class="col-lg-7 animated fadeInLeft">
-                                <div class="text-sm-center text-md-start">
-                                    <h4 class="text-primary text-uppercase fw-bold mb-4">Wellcome to our fitness Center</h4>
-                                    <h1 class="display-2 text-white mb-4">Stay healthy by exercising at the best gym center</h1>
-                                    <p class="mb-5 fs-5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy... 
-                                    </p>
-                                    <div class="d-flex justify-content-center justify-content-md-start flex-shrink-0 mb-4">
-                                        <a class="btn btn-dark py-3 px-4 px-md-5 me-2" href="#"><i class="fas fa-play-circle me-2"></i> <span>Watch Video</span></a>
-                                        <a class="btn btn-primary py-3 px-4 px-md-5 ms-2" href="#"><span>Learn More</span></a>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Fecha de Nacimiento</label>
+                                        <input type="date" class="form-control" value="1985-05-15">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Género</label>
+                                        <select class="form-select">
+                                            <option>Masculino</option>
+                                            <option>Femenino</option>
+                                            <option>Otro</option>
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Carousel End -->
-
-        <!-- About Start -->
-        <div class="container-fluid about pt-5">
-            <div class="container pt-5">
-                <div class="row g-5">
-                    <div class="col-xl-6 wow fadeInLeft" data-wow-delay="0.2s">
-                        <div class="about-content h-100">
-                            <h1 class="display-4 text-white mb-4">Manicomio Gym: un estilo de vida que motiva! El único gym de la zona con Spa y los mejores Nutriólogos </h1>
-                            <div class="tab-class pb-4">
-                                <ul class="nav d-flex mb-2">
-                                  
-                                </ul>
-                            
-                            </div>
-                            <div class="row g-4 align-items-center">
-                                <div class="col-sm-6">
-                                    <a href="Registro.html" class="btn btn-primary py-3 px-5"> <span>Registrate ahora </span></a>
+                                <div class="mb-3">
+                                    <label class="form-label">Objetivos Fitness</label>
+                                    <textarea class="form-control" rows="3">Aumentar masa muscular y mejorar resistencia cardiovascular</textarea>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="d-flex flex-shrink-0 ps-4">
-                                        <a href="#" class="btn btn-light btn-lg-square position-relative wow tada" data-wow-delay=".9s">
-                                            <i class="fa fa-phone-alt fa-2x"></i>
-                                            <div class="position-absolute" style="top: 5px; right: 5px;">
-                                                <span><i class="fa fa-comment-dots text-dark"></i></span>
-                                            </div>
-                                        </a>
-                                        <div class="d-flex flex-column ms-3">
-                                            <span>LLama para mas información </span>
-                                            <a href="tel:+ 0123 456 7890"><span class="text-white"> +52 5549164529</span></a>
-                                        </div>
-                                    </div>
+                                <div class="text-end">
+                                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary">Guardar Cambios</button>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 wow fadeInUp" data-wow-delay="0.2s">
-                        <div class="about-img h-100">
-                            <div class="about-img-inner d-flex h-100">
-                                <img src="/public/img/about-2.png" class="img-fluid w-100" style="object-fit: cover;" alt="">
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- About End -->
-
-        <!-- Fitness Goal start -->
-        <div class="container-fluid goal pt-5">
-            <div class="container pt-5">
-                <div class="row g-5">
-                    <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.2s">
-                        <div class="goal-content">
-                            <h4 class="text-primary">Fitness Goal</h4>
-                            <h1 class="display-4 mb-4">Complete your possibilities, Achieve Your Fitness Goals.</h1>
-                            <div class="goal-item d-flex p-4">
-                                <div class="d-flex me-4">
-                                    <div class="bg-primary d-inline p-3" style="width: 80px; height: 80px;">
-                                        <img src="/public/img/icon-1.png" class="img-fluid" alt="">
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4>Free Fitness Training</h4>
-                                    <p class="text-white mb-0">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore est harum</p>
-                                </div>
-                            </div>
-                            <div class="goal-item d-flex p-4 mb-4">
-                                <div class="d-flex me-4">
-                                    <div class="bg-primary d-inline p-3" style="width: 80px; height: 80px;">
-                                        <img src="/public/img/icon-6.png" class="img-fluid" alt="">
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4>Cardio and Strength</h4>
-                                    <p class="text-white mb-0">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore est harum</p>
-                                </div>
-                            </div>
-                            <div class="ms-1">
-                                <a href="#" class="btn btn-primary py-3 px-5 ms-2"> <span>Read Details</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.2s">
-                        <div class="h-100">
-                            <img src="/public/img/fitness-goal-banner.png" class="img-fluid h-100" style="object-fit: cover;" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Fitness Goal End -->
-
-        <!-- Features Start -->
-        <div class="container-fluid feature bg-light py-5">
-            <div class="container py-5">
-                <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h4 class="text-primary"> Why choose us?</h4>
-                    <h1 class="display-4 mb-4">Out Our Highlights Below</h1>
-                    <p class="mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.
-                    </p>
-                </div>
-                <div class="feature-carousel owl-carousel">
-                    <div class="feature-item wow fadeInUp" data-wow-delay="0.2s">
-                        <div class="feature-img">
-                            <img src="/public/img/feature-1.jpg" class="img-fluid w-100"  alt="">
-                        </div>
-                        <div class="feature-content p-4">
-                            <h4 class="mb-3">Work Your Butt Off</h4>
-                            <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur obcaecati voluptatum,
-                            </p>
-                            <a href="#" class="btn btn-primary py-2 px-4"> <span>Read More</span></a>
-                        </div>
-                    </div>
-                    <div class="feature-item wow fadeInUp" data-wow-delay="0.4s">
-                        <div class="feature-img">
-                            <img src="/public/img/feature-2.jpg" class="img-fluid w-100"  alt="">
-                        </div>
-                        <div class="feature-content p-4">
-                            <h4 class="mb-3">Get In The groove</h4>
-                            <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur obcaecati voluptatum,
-                            </p>
-                            <a href="#" class="btn btn-primary py-2 px-4"> <span>Read More</span></a>
-                        </div>
-                    </div>
-                    <div class="feature-item wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="feature-img">
-                            <img src="/public/img/feature-3.jpg" class="img-fluid w-100"  alt="">
-                        </div>
-                        <div class="feature-content p-4">
-                            <h4 class="mb-3">It's more Than A Game</h4>
-                            <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur obcaecati voluptatum,
-                            </p>
-                            <a href="#" class="btn btn-primary py-2 px-4"> <span>Read More</span></a>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-img">
-                            <img src="/public/img/feature-4.jpg" class="img-fluid w-100"  alt="">
-                        </div>
-                        <div class="feature-content p-4">
-                            <h4 class="mb-3">Get Fit Don't Quit</h4>
-                            <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur obcaecati voluptatum,
-                            </p>
-                            <a href="#" class="btn btn-primary py-2 px-4"> <span>Read More</span></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="feature-shaps"></div>
-            </div>
-        </div>
-        <!-- Features End -->
-
-
-        <!-- Courses Start -->
-        <div class="container-fluid courses overflow-hidden py-5">
-            <div class="container py-5">
-                <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h4 class="text-primary"> Our Courses</h4>
-                    <h1 class="display-4 text-white mb-4">Out Our Highlights Below</h1>
-                    <p class="text-white mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.
-                    </p>
-                </div>
-                <div class="row gy-4 gx-0 justify-content-center">
-                    <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.2s">
-                        <div class="courses-item">
-                            <div class="courses-item-inner p-4">
-                                <div class="d-flex justify-content-between mb-4">
-                                    <div class="courses-icon-img p-3">
-                                        <img src="/public/img/icon-1.png" class="img-fluid" alt="">
-                                    </div>
-                                    <div class="data-info d-flex flex-column">
-                                        <div class="courses-trainer d-flex align-items-center mb-1">
-                                            <div class="me-2" style="width: 25px; height: 25px;">
-                                                <img src="/public/img/testimonial-3.jpg" class="img-fluid" alt="">
-                                            </div>
-                                            <p class="mb-0">Paul Flavius</p>
-                                        </div>
-                                        <div class="courses-date">
-                                            <p class="mb-1">Date: Saturday</p>
-                                            <p class="mb-0">Time: 06.00 - 07.00</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="#" class="d-inline-block h4 mb-3"> Gym Fitness Class</a>
-                                <p class="mb-4">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque tempora illo placeat.
-                                </p>
-                                <a href="#" class="btn btn-primary py-2 px-4"> <span>Read More</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.4s">
-                        <div class="courses-item">
-                            <div class="courses-item-inner p-4">
-                                <div class="d-flex justify-content-between mb-4">
-                                    <div class="courses-icon-img p-3">
-                                        <img src="/public/img/icon-2.png" class="img-fluid" alt="">
-                                    </div>
-                                    <div class="data-info d-flex flex-column">
-                                        <div class="courses-trainer d-flex align-items-center mb-1">
-                                            <div class="me-2" style="width: 25px; height: 25px;">
-                                                <img src="/public/img/testimonial-3.jpg" class="img-fluid" alt="">
-                                            </div>
-                                            <p class="mb-0">Paul Flavius</p>
-                                        </div>
-                                        <div class="courses-date">
-                                            <p class="mb-1">Date: Saturday</p>
-                                            <p class="mb-0">Time: 06.00 - 07.00</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="#" class="d-inline-block h4 mb-3"> Power Lifting Class</a>
-                                <p class="mb-4">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque tempora illo placeat.
-                                </p>
-                                <a href="#" class="btn btn-primary py-2 px-4"> <span>Read More</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="courses-item">
-                            <div class="courses-item-inner p-4">
-                                <div class="d-flex justify-content-between mb-4">
-                                    <div class="courses-icon-img p-3">
-                                        <img src="/public/img/icon-3.png" class="img-fluid" alt="">
-                                    </div>
-                                    <div class="data-info d-flex flex-column">
-                                        <div class="courses-trainer d-flex align-items-center mb-1">
-                                            <div class="me-2" style="width: 25px; height: 25px;">
-                                                <img src="/public/img/testimonial-3.jpg" class="img-fluid" alt="">
-                                            </div>
-                                            <p class="mb-0">Paul Flavius</p>
-                                        </div>
-                                        <div class="courses-date">
-                                            <p class="mb-1">Date: Saturday</p>
-                                            <p class="mb-0">Time: 06.00 - 07.00</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="#" class="d-inline-block h4 mb-3"> Body Building Class</a>
-                                <p class="mb-4">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque tempora illo placeat.
-                                </p>
-                                <a href="#" class="btn btn-primary py-2 px-4"> <span>Read More</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.2s">
-                        <div class="courses-item">
-                            <div class="courses-item-inner p-4">
-                                <div class="d-flex justify-content-between mb-4">
-                                    <div class="courses-icon-img p-3">
-                                        <img src="/public/img/icon-4.png" class="img-fluid" alt="">
-                                    </div>
-                                    <div class="data-info d-flex flex-column">
-                                        <div class="courses-trainer d-flex align-items-center mb-1">
-                                            <div class="me-2" style="width: 25px; height: 25px;">
-                                                <img src="/public/img/testimonial-3.jpg" class="img-fluid" alt="">
-                                            </div>
-                                            <p class="mb-0">Paul Flavius</p>
-                                        </div>
-                                        <div class="courses-date">
-                                            <p class="mb-1">Date: Saturday</p>
-                                            <p class="mb-0">Time: 06.00 - 07.00</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="#" class="d-inline-block h4 mb-3"> Aerobics & Skipping Class</a>
-                                
-                                <p class="mb-4">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque tempora illo placeat.
-                                </p>
-                                <a href="#" class="btn btn-primary py-2 px-4"> <span>Read More</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.4s">
-                        <div class="courses-item">
-                            <div class="courses-item-inner p-4">
-                                <div class="d-flex justify-content-between mb-4">
-                                    <div class="courses-icon-img p-3">
-                                        <img src="/public/img/icon-5.png" class="img-fluid" alt="">
-                                    </div>
-                                    <div class="data-info d-flex flex-column">
-                                        <div class="courses-trainer d-flex align-items-center mb-1">
-                                            <div class="me-2" style="width: 25px; height: 25px;">
-                                                <img src="/public/img/testimonial-3.jpg" class="img-fluid" alt="">
-                                            </div>
-                                            <p class="mb-0">Paul Flavius</p>
-                                        </div>
-                                        <div class="courses-date">
-                                            <p class="mb-1">Date: Saturday</p>
-                                            <p class="mb-0">Time: 06.00 - 07.00</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="#" class="d-inline-block h4 mb-3"> Boxing Class</a>
-                                <p class="mb-4">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque tempora illo placeat.
-                                </p>
-                                <a href="#" class="btn btn-primary py-2 px-4"> <span>Read More</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="courses-item">
-                            <div class="courses-item-inner p-4">
-                                <div class="d-flex justify-content-between mb-4">
-                                    <div class="courses-icon-img p-3">
-                                        <img src="/public/img/icon-6.png" class="img-fluid" alt="">
-                                    </div>
-                                    <div class="data-info d-flex flex-column">
-                                        <div class="courses-trainer d-flex align-items-center mb-1">
-                                            <div class="me-2" style="width: 25px; height: 25px;">
-                                                <img src="/public/img/testimonial-3.jpg" class="img-fluid" alt="">
-                                            </div>
-                                            <p class="mb-0">Paul Flavius</p>
-                                        </div>
-                                        <div class="courses-date">
-                                            <p class="mb-1">Date: Saturday</p>
-                                            <p class="mb-0">Time: 06.00 - 07.00</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="#" class="d-inline-block h4 mb-3"> Cardio Class</a>
-                                <p class="mb-4">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Atque tempora illo placeat.
-                                </p>
-                                <a href="#" class="btn btn-primary py-2 px-4"> <span>Read More</span></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.2s">
-                        <a href="#" class="btn btn-primary py-3 px-5"> <span>More Courses</span></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Courses End -->
-
-        <!-- Blog Start -->
-        <div class="container-fluid blog py-5">
-            <div class="container py-5">
-                <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-                    <h4 class="text-primary">  Our Blogs</h4>
-                    <h1 class="display-4 mb-4">Check out our latest stories</h1>
-                    <p class="mb-0">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur adipisci facilis cupiditate recusandae aperiam temporibus corporis itaque quis facere, numquam, ad culpa deserunt sint dolorem autem obcaecati, ipsam mollitia hic.
-                    </p>
-                </div>
-                <div class="blog-carousel owl-carousel">
-                    <div class="blog-item wow fadeInUp" data-wow-delay="0.2s">
-                        <div class="blog-img p-4 pb-0">
-                            <a href="#">
-                                <img src="/public/img/feature-4.jpg" class="img-fluid w-100" alt="">
-                            </a>
-                        </div>
-                        <div class="blog-content p-4">
-                            <div class="blog-comment d-flex justify-content-between py-2 px-3 mb-4">
-                                <div class="small"><span class="fa fa-user text-primary me-2"></span> Martin.C</div>
-                                <div class="small"><span class="fa fa-calendar text-primary me-2"></span> 30 Dec 2025</div>
-                            </div>
-                            <a href="#" class="h4 d-inline-block mb-3">Full Body Home Workout</a>
-                            <p class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius libero soluta impedit eligendi? Quibusdam, laudantium.</p>
-                            <a href="#" class="btn btn-dark py-2 px-4 ms-2"> <span class="me-2">Read More</span>  <i class="fa fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="blog-item wow fadeInUp" data-wow-delay="0.4s">
-                        <div class="blog-img p-4 pb-0">
-                            <a href="#">
-                                <img src="/public/img/feature-3.jpg" class="img-fluid w-100" alt="">
-                            </a>
-                        </div>
-                        <div class="blog-content p-4">
-                            <div class="blog-comment d-flex justify-content-between py-2 px-3 mb-4">
-                                <div class="small"><span class="fa fa-user text-primary me-2"></span> Martin.C</div>
-                                <div class="small"><span class="fa fa-calendar text-primary me-2"></span> 30 Dec 2025</div>
-                            </div>
-                            <a href="#" class="h4 d-inline-block mb-3">31-Day Fitness Calendar</a>
-                            <p class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius libero soluta impedit eligendi? Quibusdam, laudantium.</p>
-                            <a href="#" class="btn btn-dark py-2 px-4 ms-2"> <span class="me-2">Read More</span>  <i class="fa fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="blog-item wow fadeInUp" data-wow-delay="0.6s">
-                        <div class="blog-img p-4 pb-0">
-                            <a href="#">
-                                <img src="/public/img/feature-2.jpg" class="img-fluid w-100" alt="">
-                            </a>
-                        </div>
-                        <div class="blog-content p-4">
-                            <div class="blog-comment d-flex justify-content-between py-2 px-3 mb-4">
-                                <div class="small"><span class="fa fa-user text-primary me-2"></span> Martin.C</div>
-                                <div class="small"><span class="fa fa-calendar text-primary me-2"></span> 30 Dec 2025</div>
-                            </div>
-                            <a href="#" class="h4 d-inline-block mb-3">At Home Ab Workout</a>
-                            <p class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius libero soluta impedit eligendi? Quibusdam, laudantium.</p>
-                            <a href="#" class="btn btn-dark py-2 px-4 ms-2"> <span class="me-2">Read More</span>  <i class="fa fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="blog-item">
-                        <div class="blog-img p-4 pb-0">
-                            <a href="#">
-                                <img src="/public/img/feature-1.jpg" class="img-fluid w-100" alt="">
-                            </a>
-                        </div>
-                        <div class="blog-content p-4">
-                            <div class="blog-comment d-flex justify-content-between py-2 px-3 mb-4">
-                                <div class="small"><span class="fa fa-user text-primary me-2"></span> Martin.C</div>
-                                <div class="small"><span class="fa fa-calendar text-primary me-2"></span> 30 Dec 2025</div>
-                            </div>
-                            <a href="#" class="h4 d-inline-block mb-3">Full Body Home Workout</a>
-                            <p class="mb-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius libero soluta impedit eligendi? Quibusdam, laudantium.</p>
-                            <a href="#" class="btn btn-dark py-2 px-4 ms-2"> <span class="me-2">Read More</span>  <i class="fa fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Blog End -->
-
-        <!-- Explore Fitness Start -->
-        <div class="container-fluid explore py-5 wow zoomIn" data-wow-delay="0.2s">
-            <div class="container py-5 text-center">
-                <h1 class="display-1 text-white mb-0"> Explore Fitness Center</h1>
-                <a class="btn btn-primary py-3 px-4 px-md-5 me-2" href="https://www.youtube.com/embed/DWRcNpR6Kdc"><i class="fas fa-play-circle me-2"></i> <span>Watch Video</span></a>
-            </div>
-        </div>
-        <!-- Explore Fitness End -->
-
-
-  
-
-       
-
+    </div>
 
         <!-- Footer Start -->
         <div class="container-fluid footer py-5 wow fadeIn" data-wow-delay="0.2s">
@@ -624,47 +428,44 @@
                 <div class="row g-5 mb-5 align-items-center">
                     <div class="col-lg-7">
                         <div class="position-relative d-flex" style="transform: skew(18deg);">
-                            <input class="form-control border-0 w-100 py-3 pe-5" type="text" placeholder="Email address to Subscribe">
-                            <button type="button" class="btn-primary py-2 px-4 ms-3"> <span>Subscribe</span></button>
+                            <input class="form-control border-0 w-100 py-3 pe-5" type="text" placeholder="Email para suscribirse">
+                            <button type="button" class="btn-primary py-2 px-4 ms-3"> <span>Suscribirse</span></button>
                         </div>
                     </div>
                     <div class="col-lg-5">
                         <div class="d-flex align-items-center justify-content-center justify-content-lg-end">
-                            <a class="btn btn-primary btn-md-square me-3" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-primary btn-md-square me-3" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-primary btn-md-square me-3" href=""><i class="fab fa-instagram"></i></a>
-                            <a class="btn btn-primary btn-md-square me-0" href=""><i class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-primary btn-md-square me-3" href="https://www.instagram.com/elmanicomiogym?igsh=MXB3eHBkdjFjYXJleQ=="><i class="fab fa-instagram"></i></a>
                         </div>
                     </div>
                 </div>
                 <div class="row g-5">
                     <div class="col-md-6 col-lg-6 col-xl-3">
                         <div class="footer-item">
-                            <h4 class="text-white mb-4"><i class="fas fa-hand-rock text-primary me-2"></i> Fitness</h4>
-                            <p class="mb-0">Dolor amet sit justo amet elitr clita ipsum elitr est.Lorem ipsum dolor sit amet, consectetur adipiscing elit consectetur adipiscing elit.</p>
+                            <h4 class="text-white mb-4"><img src="/GestiFit/public/img/logo_gestifit_cuadrado-nofondo.png" class="img-fluid" width="70" height="70"> GestiFit</h4>
+                            <p class="mb-0">Manicomio Gym es más que un gimnasio, es un estilo de vida que motiva. Únete a nuestra comunidad fitness.</p>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-6 col-xl-3">
                         <div class="footer-item">
-                            <h4 class="text-white mb-4">Quick Links</h4>
-                            <a href="#"> Home</a>
-                            <a href="#"> About us</a>
-                            <a href="#"> Our Courses</a>
-                            <a href="#"> Our Features</a>
-                            <a href="#"> Our Blog & news</a>
-                            <a href="#"> Testimonial</a>
+                            <h4 class="text-white mb-4">Enlaces Rápidos</h4>
+                            <a href="index.html"> Inicio</a>
+                            <a href="#membership"> Membresías</a>
+                            <a href="Clases.html"> Clases</a>
+                            <a href="Instructores.html"> Instructores</a>
+                            <a href="#"> Blog</a>
+                            <a href="#"> Testimonios</a>
                         </div>
                     </div>
                     <div class="col-md-6 col-lg-6 col-xl-3">
                         <div class="footer-item">
-                            <h4 class="text-white mb-4"> Contact Info</h4>
+                            <h4 class="text-white mb-4"> Información de Contacto</h4>
                             <div class="row g-2">
                                 <div class="col-12">
                                     <div class="d-flex">
                                         <i class="fas fa-map-marker-alt text-primary me-2"></i>
                                         <div>
-                                            <h5 class="text-white mb-2">Address</h5>
-                                            <p class="mb-0">123 street New York</p>
+                                            <h5 class="text-white mb-2">Dirección</h5>
+                                            <p class="mb-0">Av. Principal 123, Ciudad de México</p>
                                         </div>
                                     </div>
                                 </div>
@@ -672,8 +473,8 @@
                                     <div class="d-flex">
                                         <i class="fas fa-envelope text-primary me-2"></i>
                                         <div>
-                                            <h5 class="text-white mb-2">Mail Us</h5>
-                                            <p class="mb-0">info@example.com</p>
+                                            <h5 class="text-white mb-2">Correo</h5>
+                                            <p class="mb-0">info@manicomiogym.com</p>
                                         </div>
                                     </div>
                                 </div>
@@ -681,76 +482,9 @@
                                     <div class="d-flex">
                                         <i class="fa fa-phone-alt text-primary me-2"></i>
                                         <div>
-                                            <h5 class="text-white mb-2">Telephone</h5>
-                                            <p class="mb-0">(+012) 3456 7890 123</p>
+                                            <h5 class="text-white mb-2">Teléfono</h5>
+                                            <p class="mb-0">+52 55 4916 4529</p>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-6 col-xl-3">
-                        <div class="footer-item">
-                            <h4 class="text-white mb-4">Recent Work</h4>
-                            <div class="row g-2">
-                                <div class="col-3">
-                                    <div class="footer-item-img">
-                                        <a href="#"><img src="/public/img/work-9.jpg" class="img-fluid" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="footer-item-img">
-                                        <a href="#"><img src="/public/img/work-10.jpg" class="img-fluid" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="footer-item-img">
-                                        <a href="#"><img src="/public/img/work-11.jpg" class="img-fluid" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="footer-item-img">
-                                        <a href="#"><img src="/public/img/work-12.jpg" class="img-fluid" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="footer-item-img">
-                                        <a href="#"><img src="/public/img/work-1.jpg" class="img-fluid" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="footer-item-img">
-                                        <a href="#"><img src="/public/img/work-2.jpg" class="img-fluid" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="footer-item-img">
-                                        <a href="#"><img src="/public/img/work-3.jpg" class="img-fluid" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="footer-item-img">
-                                        <a href="#"><img src="/public/img/work-4.jpg" class="img-fluid" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="footer-item-img">
-                                        <a href="#"><img src="/public/img/work-5.jpg" class="img-fluid" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="footer-item-img">
-                                        <a href="#"><img src="/public/img/work-6.jpg" class="img-fluid" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="footer-item-img">
-                                        <a href="#"><img src="/public/img/work-7.jpg" class="img-fluid" alt=""></a>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="footer-item-img">
-                                        <a href="#"><img src="/public/img/work-8.jpg" class="img-fluid" alt=""></a>
                                     </div>
                                 </div>
                             </div>
@@ -761,31 +495,30 @@
         </div>
         <!-- Footer End -->
 
-        
-        <!-- Copyright -->
+        <!-- Copyright Start -->
         <div class="copyright py-3 text-center text-white">
             <div class="container">
                 <small>&copy; 2025 GestiFit. Todos los derechos reservados.</small>
             </div>
         </div>
-
+        <!-- Copyright End -->
 
         <!-- Back to Top -->
         <div class="back-to-top">
             <a href="#"><i class="fa fa-angle-up"></i></a>
         </div>
-        
         <!-- JavaScript Libraries -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="/lib/wow/wow.min.js"></script>
-        <script src="/lib/easing/easing.min.js"></script>
-        <script src="/lib/waypoints/waypoints.min.js"></script>
-        <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="/GestiFit/lib/wow/wow.min.js"></script>
+        <script src="/GestiFit/lib/easing/easing.min.js"></script>
+        <script src="/GestiFit/lib/waypoints/waypoints.min.js"></script>
+        <script src="/GestiFit/lib/owlcarousel/owl.carousel.min.js"></script>
         
 
         <!-- Template Javascript -->
-        <script src="/public/js/main.js"></script>
+        <script src="/GestiFit/public/js/main.js"></script>
+        <script src="/GestiFit/public/js/usuario.js"></script>
     </body>
 
 </html>

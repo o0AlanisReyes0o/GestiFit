@@ -1,0 +1,297 @@
+/*** Announcements Carousel Start ***/
+.announcement-carousel {
+    padding: 0 60px;
+}
+
+.announcement-item {
+    position: relative;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    padding: 30px;
+    margin: 0 15px;
+    background: var(--bs-white);
+    transform: skew(-5deg);
+}
+
+.announcement-item:hover {
+    transform: skew(-5deg) translateY(-10px);
+    box-shadow: 0 10px 25px rgba(12, 24, 68, 0.2);
+}
+
+.announcement-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    transform: skew(5deg);
+}
+
+.announcement-item h4 {
+    color: var(--bs-dark);
+    margin-bottom: 15px;
+    transform: skew(5deg);
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.announcement-item h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background: var(--bs-primary);
+    transition: width 0.5s ease;
+}
+
+.announcement-item:hover h4::after {
+    width: 100px;
+}
+
+.announcement-item p {
+    color: var(--bs-gray);
+    transform: skew(5deg);
+    margin-bottom: 0;
+}
+
+.announcement-carousel .owl-nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 20px;
+}
+
+.announcement-carousel .owl-nav button {
+    width: 50px;
+    height: 50px;
+    background: var(--bs-primary) !important;
+    color: white !important;
+    border-radius: 50% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px !important;
+    transition: all 0.3s ease;
+}
+
+.announcement-carousel .owl-nav button:hover {
+    background: var(--bs-dark) !important;
+    transform: scale(1.1);
+}
+
+.announcement-carousel .owl-dots {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.announcement-carousel .owl-dots .owl-dot {
+    width: 15px;
+    height: 15px;
+    margin: 0 5px;
+    background: #ddd !important;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.announcement-carousel .owl-dots .owl-dot.active {
+    background: var(--bs-primary) !important;
+    transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+    .announcement-carousel {
+        padding: 0 30px;
+    }
+    
+    .announcement-item {
+        padding: 20px;
+        transform: skew(0);
+    }
+    
+    .announcement-item:hover {
+        transform: translateY(-5px);
+    }
+    
+    .announcement-item h4,
+    .announcement-item p,
+    .announcement-badge {
+        transform: skew(0);
+    }
+}
+/*** Announcements Carousel End ***/
+        /* Estilos adicionales para la página de membresía */
+        .membership-section {
+            background: linear-gradient(rgba(255, 255, 255, 0.95), rgba(245, 245, 245, 0.95)), url(/GestiFit/public/img/header-1.jpg);
+            background-size: cover;
+        }
+        
+        .membership-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(12, 24, 68, 0.1);
+            height: 100%;
+            margin-bottom: 25px;
+        }
+        
+        .membership-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(12, 24, 68, 0.2);
+        }
+        
+        .membership-card .card-header {
+            background: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-dark) 100%);
+            color: white;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .membership-card .card-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+        }
+        
+        .membership-card .card-body {
+            padding: 25px;
+        }
+        
+        .progress-thin {
+            height: 8px;
+            border-radius: 4px;
+        }
+        
+        .status-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .quick-access-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 20px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--bs-dark);
+        }
+        
+        .quick-access-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(12, 24, 68, 0.15);
+            color: var(--bs-primary);
+        }
+        
+        .quick-access-card .icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            background: rgba(13, 110, 253, 0.1);
+            color: var(--bs-primary);
+            font-size: 24px;
+        }
+        
+        .payment-history {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .payment-history::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .payment-history::-webkit-scrollbar-thumb {
+            background-color: var(--bs-primary);
+            border-radius: 4px;
+        }
+        
+        .payment-history::-webkit-scrollbar-track {
+            background-color: #f1f1f1;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--bs-primary);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 20px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--bs-white);
+            border: 3px solid var(--bs-primary);
+        }
+        
+        .timeline-item.active::before {
+            background: var(--bs-primary);
+        }
+        
+        @media (max-width: 768px) {
+            .membership-card {
+                margin-bottom: 20px;
+            }
+            
+            .quick-access-card {
+                margin-bottom: 15px;
+            }
+        }
