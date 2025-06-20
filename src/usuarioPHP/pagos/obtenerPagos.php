@@ -14,12 +14,14 @@ try {
                 p.id_pago,
                 p.fecha_pago,
                 p.monto,
-                p.metodo_pago,
+                c.nombre AS metodo_pago,
                 p.estado_pago,
                 m.nombre AS concepto,
                 p.id_transaccion
             FROM pagos p
             LEFT JOIN membresias m ON p.id_membresia = m.id_membresia
+            LEFT JOIN metodos_pago mp ON p.id_metodo_pago = mp.id_metodo
+            LEFT JOIN catalogo_metodos_pago c ON mp.id_tipo = c.id_tipo
             WHERE p.id_usuario = ?
             ORDER BY p.fecha_pago DESC
             LIMIT 10";
@@ -31,7 +33,6 @@ try {
 
     $pagos = array();
     while ($fila = $result->fetch_assoc()) {
-        // Asegurar que el monto sea numérico
         $fila['monto'] = (float)$fila['monto'];
         $pagos[] = $fila;
     }

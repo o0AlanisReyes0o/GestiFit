@@ -279,7 +279,7 @@
                     </h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index_usuario.html">Inicio</a></li>
+                            <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Mi Membresía</li>
                         </ol>
                     </nav>
@@ -336,12 +336,9 @@
                             </div>
                         </div>
                         <div class="card-footer bg-light">
-                            <div class="d-flex justify-content-between">
-                                <button id="upgrade-btn" class="btn btn-outline-primary">
-                                    <i class="fas fa-arrow-up me-2"></i>Mejorar Membresía
-                                </button>
-                                <button id="renew-btn" class="btn btn-primary">
-                                    <i class="fas fa-sync-alt me-2"></i>Renovar
+                            <div class="d-flex justify-content-center">
+                                <button id="renew-upgrade-btn" class="btn btn-primary">
+                                    <i class="fas fa-sync-alt me-2"></i>Renovar o Mejorar
                                 </button>
                             </div>
                         </div>
@@ -459,18 +456,20 @@
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 class="mb-0">Próximo pago:</h5>
-                                    <span class="fw-bold" id="next-payment-amount">$0.00</span>
+                                    <span class="fw-bold" id="next-payment-amount2">$0.00</span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <h5 class="mb-0">Método de pago:</h5>
-                                    <span class="badge bg-light text-dark" id="payment-method">No registrado</span>
+                                    <span class="badge bg-light text-dark" id="payment-method2">No registrado</span>
                                 </div>
                                 <div class="progress progress-thin mb-4">
                                     <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
                                 </div>
-                                <button class="btn btn-primary w-100" id="view-payments-btn">
-                                    <i class="fas fa-list me-2"></i>Ver historial completo
-                                </button>
+                                <a href="#historial">
+                                    <button  class="btn btn-primary w-100" id="view-payments-btn">
+                                        <i class="fas fa-list me-2"></i>Ver historial completo
+                                    </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -480,7 +479,7 @@
             <!-- Tercera fila: Historial de Pagos -->
             <div class="row">
                 <div class="col-12">
-                    <div class="card membership-card">
+                    <div id="historial" class="card membership-card">
                         <div class="card-header">
                             <h4 class="mb-0 text-white"><i class="fas fa-history me-2"></i> Historial de Pagos Recientes</h4>
                         </div>
@@ -518,22 +517,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Cuarta fila: Cronología de Membresía -->
-            <div class="row mt-4">
-                <div class="col-12">
-                    <div class="card membership-card">
-                        <div class="card-header">
-                            <h4 class="mb-0 text-white"><i class="fas fa-stream me-2"></i> Cronología de tu Membresía</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="timeline">
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 

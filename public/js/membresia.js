@@ -8,9 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
     //document.getElementById('renew-btn')?.addEventListener('click', renovarMembresia);
     document.getElementById('upgrade-btn')?.addEventListener('click', mostrarModalMembresias);
     document.getElementById('make-payment-btn')?.addEventListener('click', mostrarModalPago);
+    document.getElementById('renew-upgrade-btn')?.addEventListener('click', mostrarModalPago);
     
     // Evento para cuando se abre el modal de pago
     $('#paymentModal').on('show.bs.modal', cargarFormularioPago);
+
 });
 
 // ================ FUNCIONES PRINCIPALES ================
@@ -46,7 +48,7 @@ async function cargarHistorialPagos() {
             </tr>
         `;
 
-        const response = await fetch('http://localhost/GestiFit/src/usuarioPHP/pagos/obtenerPagos.php');
+        const response = await fetch('/GestiFit/src/usuarioPHP/pagos/obtenerPagos.php');
         console.log(response)
         // Verificar si la respuesta es exitosa
         if (!response.ok) {
@@ -170,6 +172,7 @@ function actualizarUIHistorialPagos(pagos) {
     const mesActual = new Date().getMonth();
     const añoActual = new Date().getFullYear();
 
+
     pagos.forEach(pago => {
         try {
             // Validación y conversión segura del monto
@@ -209,9 +212,14 @@ function actualizarUIHistorialPagos(pagos) {
             console.error('Error procesando pago:', pago, error);
         }
     });
-
     // Actualizar total del mes
+    const ultimoPago = pagos[pagos.length - 1];
+    const proximo_pago = parseFloat(ultimoPago?.monto || 0);
+    const metodoUltimoPago = ultimoPago?.metodo_pago || 'N/A';
+    document.getElementById('payment-method2').textContent = metodoUltimoPago;
+    document.getElementById('next-payment-amount2').textContent = `$${proximo_pago.toFixed(2)}`;
     document.getElementById('current-month-payment').textContent = `$${totalMes.toFixed(2)}`;
+
 }
 // ================ FUNCIONALIDADES DE PAGO ================
 
@@ -294,7 +302,7 @@ async function cargarFormularioPago() {
                 </div>
                 
                 <div class="mb-3">
-                    <label class="form-label">Monto a Pagar</label>
+                    <label class="form-label">Monto a Pagar (MXN)</label>
                     <input type="number" class="form-control" id="monto-pago" 
                            value="${membresiasData.membresias[0]?.precio || 0}" readonly>
                 </div>
@@ -333,7 +341,6 @@ async function cargarFormularioPago() {
     }
 }
 
-
 async function procesarPago(event) {
     event.preventDefault();
     
@@ -348,33 +355,60 @@ async function procesarPago(event) {
         `;
         submitBtn.disabled = true;
         
-        const formData = new FormData();
-        formData.append('id_membresia', document.getElementById('membresia-pago').value);
-        formData.append('monto', document.getElementById('monto-pago').value);
-        
+        // 1. Recopilar todos los datos necesarios
+        const idMembresia = document.getElementById('membresia-pago').value;
+        const monto = document.getElementById('monto-pago').value;
         const metodoPago = document.getElementById('metodo-pago').value;
+        
+        // Validar datos básicos
+        if (!idMembresia || !monto || !metodoPago) {
+            throw new Error('Por favor complete todos los campos del formulario');
+        }
+        
+        // 2. Preparar datos para enviar
+        const formData = new FormData();
+        formData.append('id_membresia', idMembresia);
+        formData.append('monto', monto);
+        
         if (metodoPago === 'nuevo') {
             formData.append('nuevo_metodo', '1');
             formData.append('tipo_metodo', document.getElementById('nuevo-metodo-tipo').value);
-            formData.append('alias_metodo', document.getElementById('nuevo-metodo-alias').value);
+            formData.append('alias_metodo', document.getElementById('nuevo-metodo-alias').value || 'Nuevo método');
         } else {
             formData.append('id_metodo_pago', metodoPago);
         }
+
+        console.log("Datos a enviar:", {
+            idMembresia,
+            monto,
+            metodoPago,
+            esNuevo: metodoPago === 'nuevo'
+        });
         
-        const response = await fetch('/GestiFit/backend/pagos/procesar_pago.php', {
+        // 3. Enviar datos al servidor
+        const response = await fetch('/GestiFit/src/usuarioPHP/pagos/procesarPago.php', {
             method: 'POST',
             body: formData
         });
         
-        const data = await response.json();
+        // 4. Procesar respuesta
+        const rawResponse = await response.text();
+        let data;
+        
+        try {
+            data = JSON.parse(rawResponse);
+        } catch (e) {
+            console.error("Respuesta no JSON:", rawResponse);
+            throw new Error('Error inesperado del servidor');
+        }
         
         if (!data.exito) {
             throw new Error(data.mensaje || 'Error al procesar pago');
         }
         
-        // Éxito
+        // 5. Éxito - actualizar interfaz
         $('#paymentModal').modal('hide');
-        mostrarAlerta('success', 'Pago realizado con éxito');
+        mostrarAlerta('success', 'Pago procesado correctamente');
         
         // Recargar datos
         await Promise.all([
@@ -383,14 +417,13 @@ async function procesarPago(event) {
         ]);
         
     } catch (error) {
-        console.error("Error:", error);
-        mostrarAlerta('danger', error.message || 'Error al procesar pago');
+        console.error("Error en procesarPago:", error);
+        mostrarAlerta('danger', error.message);
     } finally {
         submitBtn.innerHTML = originalBtnText;
         submitBtn.disabled = false;
     }
 }
-
 // ================ FUNCIONALIDADES DE MEMBRESÍAS ================
 
 async function mostrarModalMembresias() {
