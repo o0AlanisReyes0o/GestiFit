@@ -11,19 +11,36 @@ document.addEventListener('DOMContentLoaded', function() {
     let clasesData = [];
     let scheduleData = {};
 
+    // Función para mostrar notificaciones
+    function showNotification(type, message) {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        // Eliminar la notificación después de la animación
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+
+    // Función para cargar las clases
     async function loadClases() {
         try {
             const response = await fetch('/GestiFit/src/usuarioPHP/clases/obtenerClases.php');
+            
+            if (!response.ok) {
+                throw new Error('Error al cargar las clases');
+            }
+            
             const data = await response.json();
             
             if (!data.success) {
-                throw new Error(data.error || 'Error al cargar clases');
+                throw new Error(data.error || 'Error en los datos recibidos');
             }
             
-            // Verificar estructura de datos
             if (!Array.isArray(data.clases) || typeof data.horario !== 'object') {
-                console.error("Estructura de datos inválida:", data);
-                throw new Error('Formato de datos incorrecto del servidor');
+                throw new Error('Formato de datos incorrecto');
             }
             
             clasesData = data.clases;
@@ -32,15 +49,17 @@ document.addEventListener('DOMContentLoaded', function() {
             renderSchedule();
             
         } catch (error) {
-            console.error('Error cargando clases:', error);
+            console.error('Error:', error);
+            showNotification('error', error.message);
             mostrarError(error);
         }
     }
 
     function mostrarError(error) {
         clasesContainer.innerHTML = `
-            <div class="alert alert-danger">
-                <h4>Error al cargar clases</h4>
+            <div class="col-12 text-center text-danger">
+                <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
+                <h4>Error al cargar las clases</h4>
                 <p>${error.message}</p>
                 <button class="btn btn-primary" onclick="loadClases()">Reintentar</button>
             </div>
@@ -51,18 +70,16 @@ document.addEventListener('DOMContentLoaded', function() {
     function renderClases() {
         clasesContainer.innerHTML = '';
         modalsContainer.innerHTML = '';
-        console.log(clasesData);
+
         clasesData.forEach(clase => {
             // Crear tarjeta de clase
             const classCard = document.createElement('div');
-            classCard.className = 'col-lg-4 col-md-6 wow fadeInUp';
-            classCard.setAttribute('data-wow-delay', '0.2s');
+            classCard.className = 'col-lg-4 col-md-6 mb-4';
             classCard.innerHTML = `
                 <div class="class-card h-100" data-id="${clase.id_clase}" data-dias="${clase.dias.join(',')}" 
                      data-hora="${clase.hora_inicio.split(':')[0]}" data-nivel="${clase.dificultad}">
                     <div class="class-img position-relative overflow-hidden">
-                        <img src="/GestiFit/public/img/work-6.jpg" 
-                             class="img-fluid w-100" alt="${clase.nombre}">
+                        <img src="/GestiFit/public/img/work-6.jpg" class="img-fluid w-100" alt="${clase.nombre}">
                         <div class="class-overlay d-flex align-items-center justify-content-center">
                             <div class="text-center p-4">
                                 <h4 class="text-white mb-3">${clase.nombre}</h4>
@@ -112,11 +129,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <img src="/GestiFit/public/img/icon-3.png" 
-                                         class="img-fluid rounded mb-3" alt="${clase.nombre}">
+                                    <img src="/GestiFit/public/img/icon-3.png" class="img-fluid rounded mb-3" alt="${clase.nombre}">
                                     <div class="mb-4">
                                         <h5 class="text-primary">Descripción</h5>
                                         <p>${clase.descripcion}</p>
+                                    </div>
+                                    <div class="mb-4">
+                                        <h5 class="text-primary">Requisitos</h5>
+                                        <ul class="requirements-list">
+                                            ${clase.requisitos.map(r => `<li>${r}</li>`).join('')}
+                                        </ul>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -139,22 +161,23 @@ document.addEventListener('DOMContentLoaded', function() {
                                                             ${clase.cupos_disponibles}/${clase.cupo_maximo} cupos
                                                         </span>
                                                     </p>
+                                                    <div class="mt-2">
+                                                        <button class="btn btn-sm btn-outline-primary btn-register-day" 
+                                                                data-clase-id="${clase.id_clase}"
+                                                                data-dia="${dia}"
+                                                                ${clase.cupos_disponibles <= 0 ? 'disabled' : ''}>
+                                                            Inscribirse este día
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             `).join('')}
                                             
                                             <div class="mt-4">
-                                                <h5 class="text-primary mb-3">Requisitos</h5>
-                                                <ul class="requirements-list">
-                                                    ${clase.requisitos.map(r => `<li>${r}</li>`).join('')}
-                                                </ul>
-                                            </div>
-                                            
-                                            <div class="mt-4">
-                                                <button class="btn btn-primary w-100 btn-register" 
+                                                <button class="btn btn-primary w-100 btn-register-all" 
                                                         data-clase-id="${clase.id_clase}"
                                                         ${clase.cupos_disponibles <= 0 ? 'disabled' : ''}>
                                                     <i class="fas fa-calendar-plus me-2"></i> 
-                                                    ${clase.cupos_disponibles > 0 ? 'Inscribirse a esta clase' : 'Clase llena'}
+                                                    Inscribirse a todos los días
                                                 </button>
                                             </div>
                                         </div>
@@ -168,7 +191,6 @@ document.addEventListener('DOMContentLoaded', function() {
             modalsContainer.appendChild(modal);
         });
 
-        // Inicializar eventos de los botones de registro
         initRegisterButtons();
     }
 
@@ -199,53 +221,73 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Función para inicializar los botones de registro
-    function initRegisterButtons() {
-        document.querySelectorAll('.btn-register').forEach(button => {
-            button.addEventListener('click', function() {
-                const claseId = this.dataset.claseId;
-                registerToClass(claseId);
-            });
+// Función para inicializar los botones de registro
+function initRegisterButtons() {
+        // Eliminar eventos anteriores primero
+    document.querySelectorAll('.btn-register-day').forEach(btn => {
+        btn.replaceWith(btn.cloneNode(true));
+    });
+    document.querySelectorAll('.btn-register-all').forEach(btn => {
+        btn.replaceWith(btn.cloneNode(true));
+    });
+    // Botones para inscribirse en un día específico
+    document.querySelectorAll('.btn-register-day').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const claseId = this.getAttribute('data-clase-id');
+            const dia = this.getAttribute('data-dia');
+            registerToClass(claseId, dia);
         });
-    }
+    });
+    
+    // Botones para inscribirse en todos los días
+    document.querySelectorAll('.btn-register-all').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const claseId = this.getAttribute('data-clase-id');
+            registerToClass(claseId, 'todos');
+        });
+    });
+}
 
-    // Función para registrar a una clase
-    async function registerToClass(claseId) {
-        try {
-            // Verificar si el usuario está logueado (deberías implementar esto)
-            const isLoggedIn = checkIfUserIsLoggedIn();
+async function registerToClass(claseId, dia) {
+    console.log('Intentando inscribir:', {claseId, dia});
+    try {
+        const response = await fetch('/GestiFit/src/usuarioPHP/clases/inscribirClase.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id_clase: claseId,
+                dia: dia
+            })
+        });
+        
+        console.log('Respuesta recibida:', response);
+        
+        const data = await response.json();
+        console.log('Datos recibidos:', data);
+
+        // Resto del código...
+                if (data.success) {
+            showNotification('success', data.message);
+            // Recargar las clases para actualizar la disponibilidad
+            loadClases();
             
-            if (!isLoggedIn) {
-                window.location.href = `login.php?redirect=${encodeURIComponent(window.location.pathname)}&action=register&clase=${claseId}`;
-                return;
+            // Cerrar el modal después de inscribirse
+            const modalEl = document.querySelector('.modal.show');
+            if (modalEl) {
+                const modal = bootstrap.Modal.getInstance(modalEl);
+                if (modal) modal.hide();
             }
-
-            const response = await fetch('/GestiFit/src/usuarioPHP/clases/inscribirClase.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    id_clase: claseId,
-                    id_usuario: getUserId() // Deberías implementar esta función
-                })
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-                alert('¡Inscripción exitosa!');
-                // Recargar las clases para actualizar la disponibilidad
-                loadClases();
-            } else {
-                alert('Error: ' + (data.message || 'No se pudo completar la inscripción'));
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Error al conectar con el servidor');
+        } else {
+            showNotification('error', data.message);
         }
+    } catch (error) {
+        console.error('Error completo:', error);
     }
-
+}
     // Funciones auxiliares
     function getBadgeColor(dificultad) {
         switch(dificultad) {
@@ -264,17 +306,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
-    // Funciones que deberías implementar según tu sistema
-    function checkIfUserIsLoggedIn() {
-        // Implementar lógica para verificar si el usuario está logueado
-        return false;
-    }
-
-    function getUserId() {
-        // Implementar lógica para obtener el ID del usuario logueado
-        return 0;
     }
 
     // Filtrado de clases

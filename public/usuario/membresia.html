@@ -199,13 +199,13 @@
 <body>
 
     
-    <!-- Spinner Start -->
-    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Loading...</span>
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
         </div>
-    </div>
-    <!-- Spinner End -->
+        <!-- Spinner End -->
 
     <!-- Navbar modificado para usuario logueado -->
     <div class="container-fluid header-top">
@@ -245,13 +245,16 @@
                 </div>
                 <div class="nav-bar px-0 py-lg-0" style="height: 80px;">
                     <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-lg-end">
+                        <a href="#" class="navbar-brand-2">
+                            <h1 class="text-primary mb-0"><i class="fas fa-hand-rock me-2"></i> Fitness</h1>
+                        </a> 
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                             <span class="fa fa-bars"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarCollapse">
                             <div class="navbar-nav mx-0 mx-lg-auto">
-                                <a href="index_usuario.html" class="nav-item nav-link active">Inicio</a>
-                                <a href="membresia.html" class="nav-item nav-link">Mi Membresía</a>
+                                <a href="index.html" class="nav-item nav-link">Inicio</a>
+                                <a href="membresia.html" class="nav-item nav-link active">Mi Membresía</a>
                                 <a href="clases.html" class="nav-item nav-link">Clases</a>
                                 <a href="entrenadores.html" class="nav-item nav-link">Entrenadores</a>
                                 <a href="casillero.html" class="nav-item nav-link">Casilleros</a>
@@ -269,6 +272,7 @@
             </div>
         </div>
     </div>
+
     
     <div class="container-fluid membership-section py-5">
         <div class="container">

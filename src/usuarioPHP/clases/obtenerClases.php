@@ -13,7 +13,7 @@ try {
     $sqlClases = "SELECT c.*, u.nombre AS instructor_nombre, u.apellido AS instructor_apellido 
                  FROM clases_grupales c
                  JOIN usuarios u ON c.id_instructor = u.id_usuario
-                 WHERE c.estado = 'activa'";
+                 WHERE c.estado = 'disponible'";
     $resultClases = mysqli_query($conn, $sqlClases);
     
     if (!$resultClases) {
@@ -58,13 +58,13 @@ try {
         $clases[] = $row;
     }
 
-    // Consulta para el horario (similar a tu código original)
+    // Consulta para el horario 
     $sqlHorario = "SELECT c.id_clase, c.nombre AS clase_nombre, cd.dia, c.hora_inicio, c.hora_fin, 
                   u.nombre AS instructor_nombre, u.apellido AS instructor_apellido
                   FROM clases_grupales c
                   JOIN clase_dias cd ON c.id_clase = cd.id_clase
                   JOIN usuarios u ON c.id_instructor = u.id_usuario
-                  WHERE c.estado = 'activa'
+                  WHERE c.estado = 'disponible'
                   ORDER BY FIELD(cd.dia, 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'), 
                   c.hora_inicio";
     
