@@ -13,8 +13,11 @@ $options = [
 ];
 
 try {
-  $pdo = new PDO($dsn, $user, $pass, $options);
+    $pdo = new PDO($dsn, $user, $pass, $options);
+    // Puedes usar error_log para confirmar conexión exitosa si quieres
+    // error_log('✅ Conexión establecida correctamente.');
 } catch (PDOException $e) {
-  die("Error de conexión: " . $e->getMessage());
+    error_log("❌ Error de conexión a la base de datos: " . $e->getMessage());
+    die("Error en la conexión. Intenta más tarde.");
 }
 ?>
