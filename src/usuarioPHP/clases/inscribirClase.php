@@ -1,20 +1,16 @@
 <?php
 header('Content-Type: application/json');
 require_once __DIR__ . '/../conexion.php';
+require_once '../../autenticacion.php';
 
 $response = ['success' => false, 'message' => ''];
 
-// Configuración manual del ID de usuario (TEMPORAL)
-$id_usuario = 1; // <- CAMBIA ESTE VALOR SEGÚN NECESITES
-
-// Verificar método POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     $response['message'] = 'Método no permitido';
     echo json_encode($response);
     exit;
 }
 
-// Obtener datos del cuerpo de la petición
 $data = json_decode(file_get_contents('php://input'), true);
 
 if (empty($data['id_clase']) || empty($data['dia'])) {
@@ -24,7 +20,7 @@ if (empty($data['id_clase']) || empty($data['dia'])) {
 }
 
 $id_clase = intval($data['id_clase']);
-$dia = $data['dia']; // 'todos' o un día específico
+$dia = $data['dia'];
 
 try {
     $conn = conectarDB();
@@ -82,7 +78,7 @@ try {
         $sqlCheck = "SELECT COUNT(*) FROM reservas_clases 
                     WHERE id_usuario = ? AND id_clase = ? AND dia = ?";
         $stmtCheck = mysqli_prepare($conn, $sqlCheck);
-        mysqli_stmt_bind_param($stmtCheck, 'iis', $id_usuario, $id_clase, $dia_inscripcion);
+        mysqli_stmt_bind_param($stmtCheck, 'iis', $usuario_id, $id_clase, $dia_inscripcion);
         mysqli_stmt_execute($stmtCheck);
         $resultCheck = mysqli_stmt_get_result($stmtCheck);
         $count = mysqli_fetch_row($resultCheck)[0];
@@ -93,7 +89,7 @@ try {
                          (id_usuario, id_clase, dia, fecha_reserva) 
                          VALUES (?, ?, ?, NOW())";
             $stmtInsert = mysqli_prepare($conn, $sqlInsert);
-            mysqli_stmt_bind_param($stmtInsert, 'iis', $id_usuario, $id_clase, $dia_inscripcion);
+            mysqli_stmt_bind_param($stmtInsert, 'iis', $usuario_id, $id_clase, $dia_inscripcion);
             if (mysqli_stmt_execute($stmtInsert)) {
                 $inscripciones_exitosas++;
             }
@@ -135,5 +131,3 @@ try {
 
 echo json_encode($response);
 ?>
-
-

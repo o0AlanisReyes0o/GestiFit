@@ -1,10 +1,10 @@
 <?php
 require_once '../conexion.php';
+require_once '../../autenticacion.php';
 
 header('Content-Type: application/json');
 
-// Obtener datos del POST
-$usuario_id = $_POST['id_usuario'] ?? 0;
+$idUsuario = $_POST['id_usuario'] ?? 0;
 
 $conexion = conectarDB();
 
@@ -15,7 +15,7 @@ $sql = "SELECT um.id_membresia, um.fecha_fin
         ORDER BY um.fecha_fin DESC
         LIMIT 1";
 
-$stmt = consultaDB($conexion, $sql, [$usuario_id]);
+$stmt = consultaDB($conexion, $sql, [$idUsuario]);
 $membresia_actual = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
 
 if (!$membresia_actual) {
@@ -38,17 +38,17 @@ $sql_insert = "INSERT INTO usuarios_membresias
                VALUES (?, ?, ?, ?, 'activa')";
 
 $stmt_insert = consultaDB($conexion, $sql_insert, [
-    $usuario_id,
+    $idUsuario,
     $membresia_actual['id_membresia'],
     $nueva_fecha_inicio,
     $nueva_fecha_fin
 ]);
 
 if ($stmt_insert) {
-    // 5. Registrar el pago (simplificado)
+    // 5. Registrar el pago
     $sql_pago = "INSERT INTO pagos 
-                 (id_usuario, id_membresia, monto, metodo_pago, estado_pago)
-                 VALUES (?, ?, ?, 'efectivo', 'completado')";
+                 (id_usuario, id_membresia, monto, estado_pago)
+                 VALUES (?, ?, ?, 'completado')";
     
     // Obtener precio actual de la membresía
     $sql_precio = "SELECT precio FROM membresias WHERE id_membresia = ?";
@@ -56,7 +56,7 @@ if ($stmt_insert) {
     $precio = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt_precio))['precio'];
     
     consultaDB($conexion, $sql_pago, [
-        $usuario_id,
+        $idUsuario,
         $membresia_actual['id_membresia'],
         $precio
     ]);

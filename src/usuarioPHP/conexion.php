@@ -3,7 +3,7 @@
 $db_host = 'localhost';
 $db_user = 'root';
 $db_pass = '';
-$db_name = 'BDGestiFit';
+$db_name = 'gestifitbd';
 
 // Función para conectar
 function conectarDB() {

@@ -1,5 +1,6 @@
 <?php
 require_once '../conexion.php';
+require_once '../../autenticacion.php';
 
 header('Content-Type: application/json');
 
@@ -23,7 +24,7 @@ try {
     }
 
     foreach ($membresias as &$m) {
-        $m['precio'] = (float)$m['precio']; // Fuerza conversión a float
+        $m['precio'] = (float)$m['precio'];
     }
     
     echo json_encode([

@@ -7,10 +7,9 @@ ini_set('display_errors', 0);
 error_reporting(0);
 
 require_once '../conexion.php'; // Ajusta la ruta según tu estructura
-
+require_once '../../autenticacion.php';
 try {
-    // Obtener ID de usuario (en producción debería venir de la sesión)
-    $usuario_id = 1; // Cambiar por el ID real del usuario
+
 
     $conexion = conectarDB();
     if (!$conexion) {

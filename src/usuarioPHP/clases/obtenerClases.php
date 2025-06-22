@@ -1,8 +1,9 @@
 <?php
 header('Content-Type: application/json');
-error_reporting(0); // Desactivar errores para producción
+error_reporting(0);
 
 require_once __DIR__ . '/../conexion.php';
+require_once '../../autenticacion.php';
 
 $response = ['success' => false, 'clases' => [], 'horario' => []];
 
@@ -10,9 +11,9 @@ try {
     $conn = conectarDB();
 
     // Consulta para obtener las clases
-    $sqlClases = "SELECT c.*, u.nombre AS instructor_nombre, u.apellido AS instructor_apellido 
+    $sqlClases = "SELECT c.*, u.nombre AS instructor_nombre, u.apellidoPaterno AS instructor_apellido 
                  FROM clases_grupales c
-                 JOIN usuarios u ON c.id_instructor = u.id_usuario
+                 JOIN Usuario u ON c.id_instructor = u.idUsuario
                  WHERE c.estado = 'disponible'";
     $resultClases = mysqli_query($conn, $sqlClases);
     
@@ -49,10 +50,8 @@ try {
         $reservas = mysqli_fetch_row($resultReservas);
         $row['cupos_disponibles'] = $row['cupo_maximo'] - $reservas[0];
         
-        // Procesar requisitos y beneficios CORREGIDO
+        // Procesar requisitos y beneficios
         $row['requisitos'] = !empty($row['requisitos']) ? array_map('trim', explode(',', $row['requisitos'])) : [];
-        
-        // Manejo CORRECTO de beneficios como texto plano separado por comas
         $row['beneficios'] = !empty($row['beneficios']) ? array_map('trim', explode(',', $row['beneficios'])) : [];
         
         $clases[] = $row;
@@ -60,10 +59,10 @@ try {
 
     // Consulta para el horario 
     $sqlHorario = "SELECT c.id_clase, c.nombre AS clase_nombre, cd.dia, c.hora_inicio, c.hora_fin, 
-                  u.nombre AS instructor_nombre, u.apellido AS instructor_apellido
+                  u.nombre AS instructor_nombre, u.apellidoPaterno AS instructor_apellido
                   FROM clases_grupales c
                   JOIN clase_dias cd ON c.id_clase = cd.id_clase
-                  JOIN usuarios u ON c.id_instructor = u.id_usuario
+                  JOIN Usuario u ON c.id_instructor = u.idUsuario
                   WHERE c.estado = 'disponible'
                   ORDER BY FIELD(cd.dia, 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'), 
                   c.hora_inicio";
@@ -101,8 +100,6 @@ try {
     if (isset($conn)) mysqli_close($conn);
 }
 
-// Limpiar buffer y enviar JSON
-if (ob_get_length()) ob_clean();
 echo json_encode($response, JSON_UNESCAPED_UNICODE);
 exit;
 ?>

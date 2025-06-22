@@ -393,6 +393,7 @@ async function procesarPago(event) {
         
         // 4. Procesar respuesta
         const rawResponse = await response.text();
+        console.log("Respuesta del servidor:", rawResponse); // Para depuración
         let data;
         
         try {

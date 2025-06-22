@@ -1,31 +1,28 @@
 <?php
 require_once '../conexion.php';
+require_once '../../autenticacion.php';
 
 header('Content-Type: application/json');
 
-
-$usuario_id = 2;
 $conexion = conectarDB();
 
-// Consulta para obtener los datos del usuario
+// Consulta modificada para nueva estructura de Usuario
 $sql = "SELECT 
-            id_usuario, 
-            username, 
+            idUsuario, 
+            usuario,
             nombre, 
-            apellido, 
+            apellidoPaterno, 
+            apellidoMaterno, 
             email, 
-            fecha_nacimiento, 
+            edad,
             telefono, 
             direccion, 
-            rol, 
-            estado,
-            fecha_registro,
-            -- Último acceso (puedes almacenarlo en otra tabla si lo necesitas)
+            tipo, 
+            fechaRegistro,
             NOW() as last_access,
-            -- Avatar (asumiendo que lo tienes en otra tabla o campo)
             'default-avatar.jpg' as avatar
-        FROM usuarios 
-        WHERE id_usuario = ?";
+        FROM Usuario 
+        WHERE idUsuario = ?";
 
 $stmt = consultaDB($conexion, $sql, [$usuario_id]);
 $result = mysqli_stmt_get_result($stmt);
@@ -40,23 +37,20 @@ if (mysqli_num_rows($result) === 0) {
 
 $usuario = mysqli_fetch_assoc($result);
 
-// Formatear fecha de nacimiento si existe
-$fecha_nacimiento = $usuario['fecha_nacimiento'] ? date('d/m/Y', strtotime($usuario['fecha_nacimiento'])) : null;
-
-// Formatear respuesta
+// Formatear respuesta para nueva estructura
 $respuesta = [
     'success' => true,
     'data' => [
-        'id' => $usuario['id_usuario'],
-        'username' => $usuario['username'],
-        'name' => $usuario['nombre'] . ' ' . $usuario['apellido'],
+        'id' => $usuario['idUsuario'],
+        'username' => $usuario['usuario'],
+        'name' => $usuario['nombre'] . ' ' . $usuario['apellidoPaterno'] . 
+                 ($usuario['apellidoMaterno'] ? ' ' . $usuario['apellidoMaterno'] : ''),
         'email' => $usuario['email'],
-        'birthdate' => $fecha_nacimiento,
+        'age' => $usuario['edad'], // Cambiado de birthdate a age
         'phone' => $usuario['telefono'],
         'address' => $usuario['direccion'],
-        'role' => $usuario['rol'],
-        'status' => $usuario['estado'],
-        'registration_date' => date('d/m/Y H:i', strtotime($usuario['fecha_registro'])),
+        'role' => $usuario['tipo'], // Cambiado de rol a tipo
+        'registration_date' => date('d/m/Y H:i', strtotime($usuario['fechaRegistro'])),
         'last_access' => date('d/m/Y H:i', strtotime($usuario['last_access'])),
         'avatar' => '/GestiFit/public/img/gymProfileicon.jpg'
     ]

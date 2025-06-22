@@ -1,13 +1,11 @@
 <?php
 require_once '../conexion.php';
+require_once '../../autenticacion.php';
 
 header('Content-Type: application/json');
 
-
-$usuario_id = 1;
 $conexion = conectarDB();
 
-// Consulta para obtener los datos de la membresía del usuario
 $sql = "SELECT 
             m.id_membresia,
             m.nombre AS plan_name,
@@ -50,10 +48,10 @@ $membresia = mysqli_fetch_assoc($result);
 // Formatear fechas
 $fecha_inicio = date('d/m/Y', strtotime($membresia['fecha_inicio']));
 $fecha_fin = date('d/m/Y', strtotime($membresia['fecha_fin']));
-
-// Determinar si se puede renovar (últimos 7 días o ya vencida)
+$hoy = date('Y-m-d');
+// Determinar si se puede renovar
 $canRenew = ($membresia['days_remaining'] <= 7 || !$membresia['is_active']);
-
+$dias_restantes = max(0, floor((strtotime($membresia['fecha_fin']) - strtotime($hoy)) / (60 * 60 * 24)));
 // Formatear respuesta
 $respuesta = [
     'success' => true,
@@ -68,7 +66,7 @@ $respuesta = [
         'end_date' => $fecha_fin,
         'days_used' => max(0, $membresia['days_used']),
         'total_days' => $membresia['total_days'],
-        'days_remaining' => max(0, $membresia['days_remaining']),
+        'days_remaining' => $dias_restantes,
         'status' => $membresia['estado'],
         'is_active' => (bool)$membresia['is_active'],
         'can_renew' => $canRenew,

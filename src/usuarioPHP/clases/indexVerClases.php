@@ -1,23 +1,21 @@
 <?php
 require_once '../conexion.php';
+require_once '../../autenticacion.php';
 
-// Configurar cabeceras primero para asegurar que es JSON
 header('Content-Type: application/json');
 
 try {
-
-    $usuario_id = 1;
     $conexion = conectarDB();
 
     if (!$conexion) {
         throw new Exception('Error de conexión a la base de datos', 500);
     }
 
-    // Consulta corregida y más simple
+    // Consulta modificada para nueva estructura
     $sql = "SELECT 
             c.id_clase,
             c.nombre AS class_name,
-            CONCAT(u.nombre, ' ', u.apellido) AS instructor,
+            CONCAT(u.nombre, ' ', u.apellidoPaterno) AS instructor,
             TIME_FORMAT(c.hora_inicio, '%H:%i') AS start_time,
             TIME_FORMAT(c.hora_fin, '%H:%i') AS end_time,
             cd.dia AS day_of_week,
@@ -29,7 +27,7 @@ try {
             ) AS is_today
         FROM reservas_clases rc
         JOIN clases_grupales c ON rc.id_clase = c.id_clase
-        JOIN usuarios u ON c.id_instructor = u.id_usuario
+        JOIN Usuario u ON c.id_instructor = u.idUsuario
         JOIN clase_dias cd ON c.id_clase = cd.id_clase
         WHERE rc.id_usuario = ?
         ORDER BY 
@@ -63,14 +61,12 @@ try {
         ];
     }
 
-    // Respuesta exitosa
     echo json_encode([
         'success' => true,
         'data' => $clases
     ]);
 
 } catch (Exception $e) {
-    // Manejo centralizado de errores
     http_response_code($e->getCode() ?: 500);
     echo json_encode([
         'success' => false,
@@ -78,7 +74,6 @@ try {
         'error_code' => $e->getCode()
     ]);
 } finally {
-    // Cerrar conexión si existe
     if (isset($conexion)) {
         $conexion->close();
     }

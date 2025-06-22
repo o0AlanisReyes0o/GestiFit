@@ -3,9 +3,7 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 require_once '../conexion.php'; 
-
-// Simular usuario (en producción usar sesión)
-$usuario_id = 1;
+require_once '../../autenticacion.php';
 
 try {
     $conexion = conectarDB();
@@ -17,7 +15,7 @@ try {
                 c.nombre AS metodo_pago,
                 p.estado_pago,
                 m.nombre AS concepto,
-                p.id_transaccion
+                p.referencia_pago
             FROM pagos p
             LEFT JOIN membresias m ON p.id_membresia = m.id_membresia
             LEFT JOIN metodos_pago mp ON p.id_metodo_pago = mp.id_metodo

@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
     loadUpcomingClasses();
     loadMembershipPlans();
     // Configurar eventos
-    setupEventHandlers();
 });
 
 // Inicializar el carrusel de bienvenida
@@ -385,7 +384,7 @@ async function loadMembershipPlans() {
     try {
         const response = await fetch('/GestiFit/src/usuarioPHP/membresia/verMemb.php');
         const data = await response.json();
-        
+
         const plansContainer = document.getElementById('planes-container');
         const loadingElement = document.getElementById('planes-loading');
         

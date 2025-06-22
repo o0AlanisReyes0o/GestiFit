@@ -1,14 +1,10 @@
 <?php
 require_once '../conexion.php';
-
+require_once '../../autenticacion.php';
 header('Content-Type: application/json');
-
-// Simulamos usuario (en producción usarías sesión)
-$usuario_id = 1; // Cambiar por el ID real del usuario
 
 $conexion = conectarDB();
 
-// Consulta para obtener la membresía activa del usuario
 $sql = "SELECT m.nombre, m.precio, m.duracion_dias, m.descripcion, m.beneficios, 
                um.fecha_inicio, um.fecha_fin, um.estado
         FROM usuarios_membresias um
