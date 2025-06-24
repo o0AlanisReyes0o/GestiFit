@@ -26,12 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $pdo->commit();
-            header("Location: adminClases.php?mensaje=clase_agregada");
+            header("Location: /GestiFit/public/admin/adminClases.php?mensaje=clase_agregada");
             exit;
         } catch (PDOException $e) {
             $pdo->rollBack();
             error_log("Error al agregar clase: " . $e->getMessage());
-            header("Location: adminClases.php?error=agregado_fallido");
+            header("Location: /GestiFit/public/admin/adminClases.php?error=agregado_fallido");
             exit;
         }
     } else {
@@ -39,6 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 } else {
-    header("Location: adminClases.php");
+    header("/GestiFit/public/admin/adminClases.php");
     exit;
 }

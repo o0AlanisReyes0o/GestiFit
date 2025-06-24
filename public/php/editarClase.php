@@ -29,19 +29,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $pdo->commit();
-            header("Location: adminClases.php?mensaje=clase_editada");
+            header("Location: /GestiFit/public/admin/adminClases.php?mensaje=clase_editada");
             exit;
         } catch (PDOException $e) {
             $pdo->rollBack();
             error_log("Error al editar clase: " . $e->getMessage());
-            header("Location: adminClases.php?error=edicion_fallida");
+            header("Location: /GestiFit/public/admin/adminClases.php?error=edicion_fallida");
             exit;
         }
     } else {
-        header("Location: adminClases.php?error=datos_invalidos");
+        header("Location: /GestiFit/public/admin/adminClases.php?error=datos_invalidos");
         exit;
     }
 } else {
-    header("Location: adminClases.php");
+    header("Location: /GestiFit/public/admin/adminClases.php");
     exit;
 }

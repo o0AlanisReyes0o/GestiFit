@@ -110,11 +110,17 @@ try {
                         </button>
                         <div class="collapse navbar-collapse" id="navbarCollapse">
                             <div class="navbar-nav mx-0 mx-lg-auto">
-                                <a href="/GestiFit/public/admin/admin.php" class="nav-item nav-link fa fa-home"> Principal</a>
-                                <a href="/GestiFit/public/admin/adminClientes.php" class="nav-item nav-link fa fa-users"> Clientes</a>
-                                <a href="/GestiFit/public/admin/adminMembresias.php" class="nav-item nav-link fa fa-user-tie"> Membresias</a>
-                                <a href="/GestiFit/public/admin/adminInstructores.php" class="nav-item nav-link fa fa-dumbbell"> Instructores</a>
-                                <a href="/GestiFit/public/admin/adminClases.php" class="nav-item nav-link fa fa-id-card active"> Clases</a>
+                                <a href="/GestiFit/public/admin/admin.php" class="nav-item nav-link">
+                                    <i class="fa fa-home me-2"></i>Principal
+                                </a>
+                                <a href="/GestiFit/public/admin/adminClientes.php" class="nav-item nav-link">
+                                    <i class="fa fa-users me-2"></i>Clientes</a>
+                                <a href="/GestiFit/public/admin/adminMembresias.php" class="nav-item nav-link">
+                                    <i class="fa fa-user-tie me-2"></i>Membresias</a>
+                                <a href="/GestiFit/public/admin/adminInstructores.php" class="nav-item nav-link">
+                                    <i class="fa fa-dumbbell me-2"></i>Instructores</a>
+                                <a href="/GestiFit/public/admin/adminClases.php" class="nav-item nav-link">
+                                    <i class="fa fa-id-card me-2"></i>Clases</a>
                                 <div class="nav-btn ps-3">
                                     <a href="login.html" class="btn btn-primary py-2 px-4 ms-0 ms-lg-3"> <span>Cerrar sesión</span></a>
                                 </div>
@@ -219,7 +225,15 @@ try {
 
                         <div class="mb-3 col-md-6">
                             <label for="horarioAgregar" class="form-label">Horario</label>
-                            <input type="time" class="form-control" id="horarioAgregar" name="horario" required>
+                            <select class="form-select" id="horarioAgregar" name="horario" required>
+                                <option value="" disabled selected>Seleccione un horario</option>
+                                <?php
+                                for ($hora = 8; $hora <= 19; $hora++) {
+                                    $horaFormatted = str_pad($hora, 2, '0', STR_PAD_LEFT) . ':00';
+                                    echo "<option value=\"$horaFormatted\">$horaFormatted</option>";
+                                }
+                                ?>
+                            </select>
                         </div>
 
                         <div class="mb-3 col-md-6">
@@ -233,21 +247,21 @@ try {
                         </div>
                     </div>
 
-                        <div class="mb-3 col-md-12">
-                            <label for="instructorAgregar" class="form-label">Instructor</label>
-                            <select class="form-select" id="instructorAgregar" name="idInstructor" required>
-                                <option value="" disabled selected>Seleccione un instructor</option>
-                                <?php foreach ($instructores as $inst): ?>
-                                    <option value="<?= $inst['idInstructor'] ?>">
-                                        <?= htmlspecialchars($inst['nombre'] . ' ' . $inst['apellidoPaterno'] . ' ' . $inst['apellidoMaterno']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
+                    <div class="mb-3 col-md-12">
+                        <label for="instructorAgregar" class="form-label">Instructor</label>
+                        <select class="form-select" id="instructorAgregar" name="idInstructor" required>
+                            <option value="" disabled selected>Seleccione un instructor</option>
+                            <?php foreach ($instructores as $inst): ?>
+                                <option value="<?= $inst['idInstructor'] ?>">
+                                    <?= htmlspecialchars($inst['nombre'] . ' ' . $inst['apellidoPaterno'] . ' ' . $inst['apellidoMaterno']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
 
-                        <div class="mb-3 col-md-12">
-                            <label class="form-label">Días</label>
-                            <div class= "d-flex flex-wrap gap-2">
+                    <div class="mb-3 col-md-12">
+                        <label class="form-label">Días</label>
+                        <div class="d-flex flex-wrap gap-2">
                             <?php
                             $diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
                             foreach ($diasSemana as $dia): ?>
@@ -256,8 +270,8 @@ try {
                                     <label class="form-check-label" for="diaAgregar<?= $dia ?>"><?= $dia ?></label>
                                 </div>
                             <?php endforeach; ?>
-                            </div>
-                            </div>
+                        </div>
+                    </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -288,8 +302,17 @@ try {
 
                     <div class="mb-3 col-md-6">
                         <label for="horarioEditar" class="form-label">Horario</label>
-                        <input type="time" class="form-control" name="horario" id="horarioEditar" required>
+                        <select class="form-select" name="horario" id="horarioEditar" required>
+                            <option value="" disabled selected>Seleccione un horario</option>
+                            <?php
+                            for ($hora = 8; $hora <= 19; $hora++) {
+                                $horaFormatted = str_pad($hora, 2, '0', STR_PAD_LEFT) . ':00';
+                                echo "<option value=\"$horaFormatted\">$horaFormatted</option>";
+                            }
+                            ?>
+                        </select>
                     </div>
+
 
                     <div class="mb-3 col-md-6">
                         <label for="cuposDisponiblesEditar" class="form-label">Cupos disponibles</label>
@@ -353,13 +376,12 @@ try {
             btn.addEventListener('click', () => {
                 const id = btn.getAttribute('data-id');
                 const nombre = btn.getAttribute('data-nombre');
-                const horario = btn.getAttribute('data-horario');
+                const horario = btn.getAttribute('data-horario')?.substring(0, 5); // recorta a "HH:MM"
                 const cuposDisponibles = btn.getAttribute('data-cuposdisp');
                 const cuposOcupados = btn.getAttribute('data-cuposocu');
                 const idInstructor = btn.getAttribute('data-idinstructor');
                 const dias = (btn.getAttribute('data-dias') || '').split(',').map(d => d.trim());
 
-                // Rellenar campos del formulario de edición
                 document.getElementById('idClaseEditar').value = id;
                 document.getElementById('nombreClaseEditar').value = nombre;
                 document.getElementById('horarioEditar').value = horario;
@@ -367,12 +389,10 @@ try {
                 document.getElementById('cuposOcupadosEditar').value = cuposOcupados;
                 document.getElementById('instructorEditar').value = idInstructor;
 
-                // Limpiar y marcar checkboxes de días
                 document.querySelectorAll('.diasEditar').forEach(chk => {
                     chk.checked = dias.includes(chk.value);
                 });
 
-                // Mostrar el modal
                 const modal = new bootstrap.Modal(document.getElementById('modalEditarClase'));
                 modal.show();
             });

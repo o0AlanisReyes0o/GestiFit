@@ -141,13 +141,17 @@ $membresias = $stmtM->fetchAll(PDO::FETCH_ASSOC);
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
               <div class="navbar-nav mx-0 mx-lg-auto">
-                <a href="/GestiFit/public/admin/admin.php" class="nav-item nav-link fa fa-home active"> Principal</a>
-                <a href="/GestiFit/public/admin/adminClientes.php" class="nav-item nav-link fa fa-users"> Clientes</a>
-                <a href="/GestiFit/public/admin/adminMembresias.php" class="nav-item nav-link fa fa-user-tie">
-                  Membresias</a>
-                <a href="/GestiFit/public/admin/adminInstructores.php" class="nav-item nav-link fa fa-dumbbell"> Instructores</a>
-                <a href="/GestiFit/public/admin/adminClases.php" class="nav-item nav-link fa fa-id-card"> Clases</a>
-
+                <a href="/GestiFit/public/admin/admin.php" class="nav-item nav-link">
+                  <i class="fa fa-home me-2"></i>Principal
+                </a>
+                <a href="/GestiFit/public/admin/adminClientes.php" class="nav-item nav-link">
+                  <i class="fa fa-users me-2"></i>Clientes</a>
+                <a href="/GestiFit/public/admin/adminMembresias.php" class="nav-item nav-link">
+                  <i class="fa fa-user-tie me-2"></i>Membresias</a>
+                <a href="/GestiFit/public/admin/adminInstructores.php" class="nav-item nav-link">
+                  <i class="fa fa-dumbbell me-2"></i>Instructores</a>
+                <a href="/GestiFit/public/admin/adminClases.php" class="nav-item nav-link">
+                  <i class="fa fa-id-card me-2"></i>Clases</a>
                 <div class="nav-btn ps-3">
                   <a href="login.html" class="btn btn-primary py-2 px-4 ms-0 ms-lg-3"> <span>Cerrar sesión</span></a>
                 </div>
@@ -171,8 +175,8 @@ $membresias = $stmtM->fetchAll(PDO::FETCH_ASSOC);
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h3 class="text-primary mb-4">Clientes registrados</h3>
         <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalAgregarCliente">
-  Nuevo Registro
-</button>
+          Nuevo Registro
+        </button>
 
       </div>
 
@@ -337,72 +341,89 @@ $membresias = $stmtM->fetchAll(PDO::FETCH_ASSOC);
   <!-- Modal Agregar Cliente -->
 
   <div class="modal fade" id="modalAgregarCliente" tabindex="-1" aria-labelledby="modalAgregarClienteLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <form id="formAgregarCliente" method="POST" action="/GestiFit/public/php/agregarCliente.php">
-      <div class="modal-content">
-        <div class="modal-header bg-success text-white">
-          <h5 class="modal-title" id="modalAgregarClienteLabel">Agregar Nuevo Cliente</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+    <div class="modal-dialog modal-lg">
+      <form id="formAgregarCliente" method="POST" action="/GestiFit/public/php/agregarCliente.php">
+        <div class="modal-content">
+          <div class="modal-header bg-success text-white">
+            <h5 class="modal-title" id="modalAgregarClienteLabel">Agregar Nuevo Cliente</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body row">
+            <?php if (isset($_GET['error'])): ?>
+              <div class="alert alert-danger">
+                <?php
+                switch ($_GET['error']) {
+                  case 'usuario':
+                    echo "⚠️ El nombre de usuario ya está en uso.";
+                    break;
+                  case 'email':
+                    echo "⚠️ El correo electrónico ya está registrado.";
+                    break;
+                  default:
+                    echo "⚠️ Error desconocido.";
+                }
+                ?>
+              </div>
+            <?php endif; ?>
+
+            <div class="mb-3 col-md-6">
+              <label for="nombre" class="form-label">Nombre *</label>
+              <input type="text" class="form-control" id="nombre" name="nombre" required />
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="apellidoPaterno" class="form-label">Apellido Paterno *</label>
+              <input type="text" class="form-control" id="apellidoPaterno" name="apellidoPaterno" required />
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="apellidoMaterno" class="form-label">Apellido Materno *</label>
+              <input type="text" class="form-control" id="apellidoMaterno" name="apellidoMaterno" required />
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="edad" class="form-label">Edad *</label>
+              <input type="text" class="form-control" id="edad" name="edad" min="0" max="120" required />
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="usuario" class="form-label">Usuario *</label>
+              <input type="text" class="form-control" id="usuario" name="usuario" required />
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="contrasena" class="form-label">Contraseña *</label>
+              <input type="password" class="form-control" id="contrasena" name="contrasena" required />
+            </div>
+            <div class="mb-3 col-6">
+              <label for="direccion" class="form-label">Dirección *</label>
+              <input type="text" class="form-control" id="direccion" name="direccion" rows="2" required></input>
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="agregar_membresia" class="form-label">Membresía</label>
+              <select class="form-control" id="agregar_membresia" name="membresia">
+                <option value="">-- Sin membresía --</option>
+                <?php foreach ($membresias as $m): ?>
+                  <option value="<?= htmlspecialchars($m['idMembresia']) ?>">
+                    <?= htmlspecialchars($m['nombre']) ?>
+                  </option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+
+            <div class="mb-3 col-md-6">
+              <label for="email" class="form-label">Email *</label>
+              <input type="email" class="form-control" id="email" name="email" required />
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="telefono" class="form-label">Teléfono *</label>
+              <input type="tel" class="form-control" id="telefono" name="telefono" pattern="[0-9+\-\s]{7,15}" required />
+              <div class="form-text">Ejemplo: +52 55 1234 5678</div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success">Agregar Cliente</button>
+          </div>
         </div>
-        <div class="modal-body row">
-          <div class="mb-3 col-md-6">
-            <label for="nombre" class="form-label">Nombre *</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" required />
-          </div>
-          <div class="mb-3 col-md-6">
-            <label for="apellidoPaterno" class="form-label">Apellido Paterno *</label>
-            <input type="text" class="form-control" id="apellidoPaterno" name="apellidoPaterno" required />
-          </div>
-          <div class="mb-3 col-md-6">
-            <label for="apellidoMaterno" class="form-label">Apellido Materno *</label>
-            <input type="text" class="form-control" id="apellidoMaterno" name="apellidoMaterno" required />
-          </div>
-          <div class="mb-3 col-md-6">
-            <label for="edad" class="form-label">Edad *</label>
-            <input type="text" class="form-control" id="edad" name="edad" min="0" max="120" required />
-          </div>
-          <div class="mb-3 col-md-6">
-            <label for="usuario" class="form-label">Usuario *</label>
-            <input type="text" class="form-control" id="usuario" name="usuario" required />
-          </div>
-          <div class="mb-3 col-md-6">
-            <label for="contrasena" class="form-label">Contraseña *</label>
-            <input type="password" class="form-control" id="contrasena" name="contrasena" required />
-          </div>
-          <div class="mb-3 col-6">
-            <label for="direccion" class="form-label">Dirección *</label>
-            <input type="text" class="form-control" id="direccion" name="direccion" rows="2" required></input>
-          </div>
-          <div class="mb-3 col-md-6">
-            <label for="agregar_membresia" class="form-label">Membresía</label>
-            <select class="form-control" id="agregar_membresia" name="membresia">
-              <option value="">-- Sin membresía --</option>
-              <?php foreach ($membresias as $m): ?>
-                <option value="<?= htmlspecialchars($m['idMembresia']) ?>">
-                  <?= htmlspecialchars($m['nombre']) ?>
-                </option>
-              <?php endforeach; ?>
-            </select>
-          </div>
-        
-          <div class="mb-3 col-md-6">
-            <label for="email" class="form-label">Email *</label>
-            <input type="email" class="form-control" id="email" name="email" required />
-          </div>
-          <div class="mb-3 col-md-6">
-            <label for="telefono" class="form-label">Teléfono *</label>
-            <input type="tel" class="form-control" id="telefono" name="telefono" pattern="[0-9+\-\s]{7,15}" required />
-            <div class="form-text">Ejemplo: +52 55 1234 5678</div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-success">Agregar Cliente</button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
-</div>
 
 
   <script>
@@ -427,6 +448,16 @@ $membresias = $stmtM->fetchAll(PDO::FETCH_ASSOC);
       });
     });
   </script>
+
+  <?php if (isset($_GET['error'])): ?>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const modal = new bootstrap.Modal(document.getElementById('modalAgregarCliente'));
+        modal.show();
+      });
+    </script>
+  <?php endif; ?>
+
 
 </body>
 

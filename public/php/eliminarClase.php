@@ -24,5 +24,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-header("Location: adminClases.php");
+header("Location: /GestiFit/public/admin/adminClases.php");
 exit;
