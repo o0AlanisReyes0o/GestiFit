@@ -3,11 +3,8 @@
 <head> 
     <meta charset="utf-8">
     <title>Reserva de Casillero - GestiFit</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
 
-    <!-- Google Web Fonts -->
+   <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Teko:wght@300..700&display=swap" rel="stylesheet">
@@ -15,24 +12,110 @@
     <!-- Icon Font Stylesheet -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="/public/img/logo.jpg">
 
     <!-- Libraries Stylesheet -->
-    <link rel="stylesheet" href="/lib/animate/animate.min.css"/>
-    <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/GestiFit/lib/animate/animate.min.css"/>
+    <link href="/GestiFit/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/GestiFit/public/img/logo_gestifit_cuadrado-nofondo.png">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="/public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/GestiFit/public/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="/public/css/style.css" rel="stylesheet">
+    <link href="/GestiFit/public/css/style.css" rel="stylesheet">
+    <link href="/GestiFit/public/css/stylesUsuario.css" rel="stylesheet">
+
+
+    <style>
+        /* Estilos personalizados para modals y otros elementos de la aplicación de casilleros */
+        .modal {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4); /* Fondo semi-transparente */
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #aaa;
+        }
+        .close-button:hover {
+            color: #000;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Estilos para SVG de casilleros */
+        .locker-svg-rect {
+            fill: #a8e6cf; /* Color disponible */
+            stroke: #333;
+            stroke-width: 1;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .locker-svg-rect.rented {
+            fill: #ffadad; /* Color ocupado */
+            cursor: not-allowed;
+        }
+        .locker-svg-rect.selected {
+            stroke: #007bff;
+            stroke-width: 3;
+        }
+        .locker-svg-text {
+            font-family: 'Roboto', sans-serif; /* Usando la fuente de tu plantilla */
+            font-size: 10px;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            fill: #333;
+            pointer-events: none; /* Asegura que el texto no interfiera con los clics en el rectángulo */
+        }
+        .locker-legend .legend-color.available { background-color: #a8e6cf; }
+        .locker-legend .legend-color.reserved { background-color: #ffadad; }
+        .locker-legend .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        /* Ocultar elementos de mapa estáticos si los había, ahora serán dinámicos */
+        .locker-map .row.g-3 { display: none; }
+    </style>
 </head>
 
 <body>
     <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Loading...</span>
+            <span class="sr-only">Cargando...</span>
         </div>
     </div>
     <!-- Spinner End -->
@@ -43,8 +126,8 @@
             <div class="container d-flex align-items-center">
                 <div class="d-flex align-items-center h-100">
                     <a href="#" class="navbar-brand" style="height: 125px;">
-                        <h1 class="text-primary mb-0"><i class="fas fa-hand-rock me-2"></i>GestiFit</h1>
-                        <!-- <img src="/public/img/logo.png" alt="Logo"> -->
+                        <h1 class="text-primary mb-0">
+                            <i class="fas fa-hand-rock me-2"></i> GestiFit </h1>
                     </a>
                 </div>
                 <div class="w-100 h-100">
@@ -55,20 +138,18 @@
                                     <div class="pe-4">
                                     </div>
                                     <div class="pe-0">
-                                        
-                                        <a href="mailto:example@gmail.com" class="text-muted small"><i class="fa fa-clock text-primary me-2"></i>Mon - Sat: 8.00 am-7.00 pm</a>
+                                        <a href="mailto:example@gmail.com" class="text-muted small"><i class="fa fa-clock text-primary me-2"></i>Lun - Sab: 8.00 am-7.00 pm</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-4 text-center text-lg-end">
                                 <div class="d-flex justify-content-end">
                                     <div class="d-flex align-items-center small">
-                                        <a href="#" class="login-btn text-body me-3 pe-3"> <span>Login</span></a>
-                                        <a href="Registro.html" class="text-body me-3"> Register</a>
+                                        <a href="#" class="login-btn text-body me-3 pe-3" id="login-or-profile-link"> <span>Login</span></a>
+                                        <a href="Registro.html" class="text-body me-3"> Registrarse</a>
                                     </div>
                                     <div class="d-flex pe-3">
-                                    <a class="btn p-0 text-primary me-3" href="https://www.instagram.com/elmanicomiogym?igsh=MXB3eHBkdjFjYXJleQ=="><i class="fab fa-instagram"></i></a>
-
+                                        <a class="btn p-0 text-primary me-3" href="https://www.instagram.com/elmanicomiogym?igsh=MXB3eHBkdjFjYXJleQ=="><i class="fab fa-instagram"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -78,28 +159,28 @@
                         <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-lg-end">
                             <a href="#" class="navbar-brand-2">
                                 <h1 class="text-primary mb-0"><i class="fas fa-hand-rock me-2"></i> Fitness</h1>
-                                <!-- <img src="/public/img/logo.png" alt="Logo"> -->
                             </a> 
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                                 <span class="fa fa-bars"></span>
                             </button>
                             <div class="collapse navbar-collapse" id="navbarCollapse">
                                 <div class="navbar-nav mx-0 mx-lg-auto">
-                                    <a href="index_usuario.html" class="nav-item nav-link active">Home</a>
-                                    <a href="/public/public/about.html" class="nav-item nav-link">About</a>
-                                    <a href="/public/public/Clases.html" class="nav-item nav-link">Clases</a>
-                                    <a href="#" class="nav-item nav-link">Blogs</a>
+                                    <a href="index.html" class="nav-item nav-link active">Principal</a>
+                                    <a href="membresia.html" class="nav-item nav-link">Membresia</a>
+                                    <a href="#" class="nav-item nav-link">Clases</a>
+                                    <a href="Rutinas.html" class="nav-item nav-link ">Rutina</a>
+                                    <a href="Instructores.html" class="nav-item nav-link">Instructores</a>
                                     <a href="casillero.html" class="nav-item nav-link">Casilleros</a>
-                                    <a href="membresia.html" class="nav-item nav-link">Membresía</a>
+
                                     <div class="nav-item dropdown">
                                         <a href="#" class="nav-link" data-bs-toggle="dropdown">
-                                            <span class="dropdown-toggle">Paginas</span>
+                                            <span class="dropdown-toggle">Páginas</span>
                                         </a>
                                         <div class="dropdown-menu">
-                                            <a href="/public/public/feature.html" class="dropdown-item">Our Features</a>
-                                            <a href="/public/public/Instructores.html" class="dropdown-item">Our team</a>
-                                            <a href="/public/public/testimonial.html" class="dropdown-item">Testimonial</a>
-                                            <a href="/public/public/404.html" class="dropdown-item">404 Page</a>
+                                            <a href="feature.html" class="dropdown-item">Nuestras Características</a>
+                                            <a href="team.html" class="dropdown-item">Nuestro Equipo</a>
+                                            <a href="testimonial.html" class="dropdown-item">Testimonios</a>
+                                            <a href="404.html" class="dropdown-item">Página 404</a>
                                         </div>
                                     </div>
                                     
@@ -123,7 +204,7 @@
             <h1 class="display-4 text-white mb-4">Reserva de Casilleros</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb justify-content-center">
-                    <li class="breadcrumb-item"><a href="index_usuario.html">Inicio</a></li>
+                    <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Casilleros</li>
                 </ol>
             </nav>
@@ -176,55 +257,37 @@
                     </div>
                 </div>
 
-                <!-- Formulario de Reserva -->
+                <!-- Formulario de Reserva e Interfaz de Usuario/Admin -->
                 <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.2s">
                     <div class="bg-light p-5">
                         <h4 class="text-primary mb-4">Reservar casillero</h4>
-                        <form>
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <label for="fecha" class="form-label">Fecha de reserva</label>
-                                    <input type="date" class="form-control" id="fecha" required>
-                                </div>
-                                <div class="col-12">
-                                    <label for="hora" class="form-label">Hora de llegada</label>
-                                    <select class="form-select" id="hora" required>
-                                        <option value="" selected disabled>Selecciona una hora</option>
-                                        <option value="06:00">6:00 AM</option>
-                                        <option value="07:00">7:00 AM</option>
-                                        <option value="08:00">8:00 AM</option>
-                                        <option value="09:00">9:00 AM</option>
-                                        <option value="10:00">10:00 AM</option>
-                                        <option value="16:00">4:00 PM</option>
-                                        <option value="17:00">5:00 PM</option>
-                                        <option value="18:00">6:00 PM</option>
-                                    </select>
-                                </div>
-                                <div class="col-12">
-                                    <label for="duracion" class="form-label">Duración estimada</label>
-                                    <select class="form-select" id="duracion" required>
-                                        <option value="1">1 hora</option>
-                                        <option value="1.5">1.5 horas</option>
-                                        <option value="2" selected>2 horas</option>
-                                        <option value="2.5">2.5 horas</option>
-                                        <option value="3">3 horas</option>
-                                    </select>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="terminos" required>
-                                        <label class="form-check-label" for="terminos">
-                                            Acepto las políticas de uso de casilleros
-                                        </label>
+                        <div id="casilleros-app-container">
+                            <!-- Mensaje de carga inicial -->
+                            <div id="loading-message" class="text-center text-gray-600">Cargando aplicación...</div>
+
+                            <!-- Vista de la aplicación (se llenará con JavaScript) -->
+                            <div id="casilleros-app-content" class="hidden">
+                                <!-- Contenido de usuario o administrador se inyectará aquí -->
+                                <div id="user-view">
+                                    <div class="mb-4">
+                                        <label for="currentDateFilter" class="form-label">Fecha de reserva:</label>
+                                        <input type="date" id="currentDateFilter" class="form-control">
                                     </div>
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">
+                                    <div class="mb-4">
+                                        <label for="filterStartTime" class="form-label">Hora de Inicio:</label>
+                                        <input type="time" id="filterStartTime" class="form-control" value="08:00">
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="filterEndTime" class="form-label">Hora de Fin:</label>
+                                        <input type="time" id="filterEndTime" class="form-control" value="09:00">
+                                    </div>
+                                    <p id="user-message" class="mt-4 text-center text-gray-600"></p>
+                                    <button id="rent-selected-locker-btn" class="btn btn-primary w-100 py-3 mt-4 hidden">
                                         <span>Reservar Casillero</span>
                                     </button>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -244,105 +307,15 @@
             <div class="row justify-content-center wow fadeInUp" data-wow-delay="0.4s">
                 <div class="col-lg-10">
                     <div class="bg-white p-4 p-lg-5 text-center">
-                        <!-- Mapa de casilleros (simulado) -->
-                        <div class="locker-map mb-4">
-                            <div class="row g-3">
-                                <!-- Fila 1 -->
-                                <div class="col-2">
-                                    <div class="locker available" data-locker="A1">
-                                        <span>A1</span>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="locker available" data-locker="A2">
-                                        <span>A2</span>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="locker reserved" data-locker="A3">
-                                        <span>A3</span>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="locker available" data-locker="A4">
-                                        <span>A4</span>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="locker available" data-locker="A5">
-                                        <span>A5</span>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="locker reserved" data-locker="A6">
-                                        <span>A6</span>
-                                    </div>
-                                </div>
-                                
-                                <!-- Fila 2 -->
-                                <div class="col-2">
-                                    <div class="locker available" data-locker="B1">
-                                        <span>B1</span>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="locker reserved" data-locker="B2">
-                                        <span>B2</span>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="locker available" data-locker="B3">
-                                        <span>B3</span>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="locker available" data-locker="B4">
-                                        <span>B4</span>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="locker reserved" data-locker="B5">
-                                        <span>B5</span>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="locker available" data-locker="B6">
-                                        <span>B6</span>
-                                    </div>
-                                </div>
-                                
-                                <!-- Fila 3 -->
-                                <div class="col-2">
-                                    <div class="locker available" data-locker="C1">
-                                        <span>C1</span>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="locker available" data-locker="C2">
-                                        <span>C2</span>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="locker available" data-locker="C3">
-                                        <span>C3</span>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="locker reserved" data-locker="C4">
-                                        <span>C4</span>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="locker available" data-locker="C5">
-                                        <span>C5</span>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <div class="locker available" data-locker="C6">
-                                        <span>C6</span>
-                                    </div>
-                                </div>
-                            </div>
+                        <!-- Mapa de casilleros dinámico (SVG) -->
+                        <div id="locker-map-container" class="w-full flex justify-center items-center mb-4 p-4 border border-gray-300 rounded-lg bg-gray-50 overflow-auto">
+                            <svg id="locker-map-svg" viewBox="0 0 500 500" class="w-full h-auto max-w-lg bg-gray-200 rounded-lg shadow-inner border border-gray-400">
+                                <!-- Marco del casillero gigante -->
+                                <rect id="main-locker-frame" x="10" y="10" width="480" height="480" fill="#f0f0f0" stroke="#333" stroke-width="5" rx="10" ry="10" />
+                                <!-- Handle del casillero gigante -->
+                                <rect id="main-locker-handle" x="470" y="220" width="10" height="60" fill="#555" rx="3" ry="3" />
+                                <circle id="main-locker-handle-circle" cx="475" cy="250" r="8" fill="#888" stroke="#333" stroke-width="1" />
+                            </svg>
                         </div>
                         
                         <div class="locker-legend d-flex justify-content-center mb-4">
@@ -357,7 +330,8 @@
                         </div>
                         
                         <p class="mb-4">Selecciona un casillero disponible en el mapa para completar tu reserva.</p>
-                        <a href="#" class="btn btn-primary py-3 px-5">
+                        <!-- El botón "Ver más casilleros" podría redirigir a una página de administración o simplemente no tener función si ya se muestran todos -->
+                        <a href="#" class="btn btn-primary py-3 px-5 hidden">
                             <span>Ver más casilleros</span>
                         </a>
                     </div>
@@ -494,37 +468,762 @@
         </div>
     </div>
 
-
     <!-- Back to Top -->
     <div class="back-to-top">
         <a href="#"><i class="fa fa-angle-up"></i></a>
     </div>
 
-    <!-- JavaScript Libraries -->
+    <!-- JavaScript Libraries (retained from your template) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/lib/wow/wow.min.js"></script>
-    <script src="/lib/easing/easing.min.js"></script>
-    <script src="/lib/waypoints/waypoints.min.js"></script>
-    <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="/public/js/main.js"></script>
+    <!-- Template Javascript (your existing main.js) -->
+    <script src="js/main.js"></script>
 
-    <script>
-        // Script para selección de casilleros
-        $(document).ready(function() {
-            $('.locker.available').click(function() {
-                // Deseleccionar cualquier casillero previamente seleccionado
-                $('.locker').removeClass('selected');
-                
-                // Seleccionar el casillero clickeado
-                $(this).addClass('selected');
-                
-                // Actualizar el formulario con el casillero seleccionado
-                $('#casillero').val($(this).data('locker'));
-            });
+    <!-- Custom Casillero App JavaScript -->
+    <script type="module">
+        // Base URL for your PHP API
+        // *** CAMBIA ESTA URL a la ubicación real de tu carpeta 'api' en tu servidor web ***
+        // Por ejemplo: 'http://localhost/gestifit/api'
+        const API_BASE_URL = 'http://localhost/gestifit/api'; 
+
+        // Variables de estado global
+        let loggedInUserId = localStorage.getItem('gestifit_userId') || null;
+        let loggedInUserName = localStorage.getItem('gestifit_userName') || null;
+        let isAdmin = localStorage.getItem('gestifit_isAdmin') === 'true'; // Convert string to boolean
+
+        let allLockers = [];
+        let allRents = [];
+        let selectedLockerForRent = null;
+
+        // --- Funciones de Modals (jQuery compatible) ---
+        window.openModal = (modalId) => {
+            $(`#${modalId}`).css('display', 'flex');
+        };
+
+        window.closeModal = (modalId) => {
+            $(`#${modalId}`).css('display', 'none');
+        };
+
+        const showMessage = (message, elementId, isError = false) => {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = message;
+                element.className = isError ? 'mt-4 text-center text-red-600' : 'mt-4 text-center text-gray-600';
+            }
+        };
+
+        // --- Manejo de Autenticación (Login) ---
+        const updateLoginStatusUI = () => {
+            const loginLink = $('#login-or-profile-link');
+            if (loggedInUserId) {
+                loginLink.html(`<span>${loggedInUserName || 'Perfil'}</span>`);
+                loginLink.off('click').on('click', showProfileOrLogout); // Placeholder for profile/logout
+            } else {
+                loginLink.html(`<span>Login</span>`);
+                loginLink.off('click').on('click', () => openModal('loginModal'));
+            }
+        };
+
+        const showProfileOrLogout = () => {
+            // Implementar un modal de perfil o un simple logout
+            if (confirm('¿Deseas cerrar sesión?')) {
+                logout();
+            }
+        };
+
+        const logout = () => {
+            localStorage.removeItem('gestifit_userId');
+            localStorage.removeItem('gestifit_userName');
+            localStorage.removeItem('gestifit_isAdmin');
+            loggedInUserId = null;
+            loggedInUserName = null;
+            isAdmin = false;
+            alert('Has cerrado sesión.');
+            renderApp(); // Re-render to show login view
+            updateLoginStatusUI();
+        };
+
+        $('#loginButton').on('click', async () => {
+            const usuario = $('#loginUsuario').val();
+            const contrasena = $('#loginContrasena').val();
+            const loginMessage = $('#loginMessage');
+            loginMessage.text('').addClass('hidden');
+
+            if (!usuario || !contrasena) {
+                loginMessage.text('Por favor, ingresa usuario y contraseña.').removeClass('hidden');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/login.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario, contrasena })
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error("Error del servidor:", errorText);
+                    loginMessage.text('Error del servidor durante el login. Revisa la consola.').removeClass('hidden');
+                    return;
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    loggedInUserId = result.userId;
+                    loggedInUserName = result.userName;
+                    isAdmin = result.isAdmin; // Suponiendo que el backend PHP devuelve esto
+                    localStorage.setItem('gestifit_userId', loggedInUserId);
+                    localStorage.setItem('gestifit_userName', loggedInUserName);
+                    localStorage.setItem('gestifit_isAdmin', isAdmin);
+
+                    alert('Inicio de sesión exitoso!');
+                    closeModal('loginModal');
+                    renderApp(); // Renderiza la aplicación con el nuevo estado de autenticación
+                    updateLoginStatusUI();
+                } else {
+                    loginMessage.text(`Error de inicio de sesión: ${result.error}`).removeClass('hidden');
+                }
+            } catch (error) {
+                console.error("Error al iniciar sesión:", error);
+                loginMessage.text(`Error de red al iniciar sesión. Asegúrate de que el servidor PHP esté corriendo y la 'API_BASE_URL' sea correcta. Detalles: ${error.message}`).removeClass('hidden');
+            }
         });
+
+        // --- Funciones de la Aplicación de Casilleros ---
+
+        const fetchLockers = async (fecha, horaInicio, horaFin) => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/lockers/get_lockers.php?fecha=${fecha}&hora_inicio=${horaInicio}&hora_fin=${horaFin}`);
+                if (!response.ok) {
+                    const errorDetails = await response.text();
+                    throw new Error(`HTTP error! status: ${response.status}. Details: ${errorDetails}`);
+                }
+                const data = await response.json();
+                if (data.error) {
+                    console.error("Error de la API:", data.error);
+                    alert(`Error de la API al obtener casilleros: ${data.error}`);
+                    return [];
+                }
+                return data;
+            } catch (error) {
+                console.error("Error al obtener casilleros:", error);
+                alert(`Error al obtener casilleros. Asegúrate de que tu servidor PHP esté corriendo y la 'API_BASE_URL' sea correcta. Detalles: ${error.message}`);
+                return [];
+            }
+        };
+
+        const fetchRents = async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/rents/get_rents.php`);
+                if (!response.ok) {
+                    const errorDetails = await response.text();
+                    throw new Error(`HTTP error! status: ${response.status}. Details: ${errorDetails}`);
+                }
+                const data = await response.json();
+                if (data.error) {
+                    console.error("Error de la API:", data.error);
+                    alert(`Error de la API al obtener rentas: ${data.error}`);
+                    return [];
+                }
+                return data;
+            } catch (error) {
+                console.error("Error al obtener rentas:", error);
+                alert(`Error al obtener rentas. Asegúrate de que tu servidor PHP esté corriendo y la 'API_BASE_URL' sea correcta. Detalles: ${error.message}`);
+                return [];
+            }
+        };
+
+        const renderApp = () => {
+            const appContentDiv = $('#casilleros-app-content');
+            appContentDiv.empty(); // Limpiar contenido previo
+
+            if (!loggedInUserId) {
+                // Si no está logueado, mostrar el prompt de login
+                appContentDiv.html(`
+                    <div class="text-center p-5">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4">Acceso Restringido</h2>
+                        <p class="text-gray-600 mb-4">Para ver y reservar casilleros, por favor inicia sesión.</p>
+                        <button id="promptLoginButton" class="btn btn-primary py-2 px-4">Iniciar Sesión</button>
+                    </div>
+                `).removeClass('hidden');
+                $('#promptLoginButton').on('click', () => openModal('loginModal'));
+                $('#locker-map-container').addClass('hidden'); // Ocultar el mapa si no está logueado
+                return;
+            }
+
+            // Si está logueado, mostrar el contenido de la aplicación y el mapa
+            $('#locker-map-container').removeClass('hidden'); 
+
+            const userGreeting = `Hola, ${loggedInUserName || 'Usuario'}`;
+            const adminStatus = isAdmin ? ' (ADMIN)' : '';
+
+            // Renderizar la parte superior de la interfaz de casilleros (Saludo y ID de usuario)
+            const headerHtml = `
+                <div class="flex justify-between items-center mb-6">
+                    <p class="text-gray-700 text-sm">ID de Usuario: <span class="font-semibold text-blue-600">${loggedInUserId}</span>${adminStatus}</p>
+                    <p class="text-gray-700 text-sm">${userGreeting}</p>
+                </div>
+            `;
+            appContentDiv.html(headerHtml); // Usa html() para reemplazar el contenido existente con el encabezado
+
+            if (isAdmin) {
+                renderAdminView(appContentDiv);
+            } else {
+                renderUserView(appContentDiv);
+            }
+            appContentDiv.removeClass('hidden'); // Asegura que el contenido sea visible
+        };
+
+        const renderUserView = (parentDiv) => {
+            // La vista de usuario ahora solo contendrá el mensaje y el botón de rentar,
+            // ya que los filtros y el mapa están en la estructura principal del HTML.
+            parentDiv.append(`
+                <div id="user-view-controls">
+                    <p id="user-message" class="mt-4 text-center text-gray-600"></p>
+                    <button id="rent-selected-locker-btn" class="btn btn-primary w-100 py-3 mt-4 hidden">
+                        <span>Reservar Casillero</span>
+                    </button>
+                </div>
+            `);
+
+            // Attach event listeners for the filter inputs
+            $('#currentDateFilter').on('change', populateLockersForUser);
+            $('#filterStartTime').on('change', populateLockersForUser);
+            $('#filterEndTime').on('change', populateLockersForUser);
+
+            $('#rent-selected-locker-btn').on('click', showRentModal);
+
+            // Set initial date filter
+            $('#currentDateFilter').val(new Date().toISOString().split('T')[0]);
+            populateLockersForUser(); // Initial population
+        };
+
+        const renderAdminView = (parentDiv) => {
+            parentDiv.append(`
+                <div id="admin-view">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Administración de Casilleros</h2>
+                    <div class="flex flex-wrap gap-4 mb-6">
+                        <button id="add-locker-btn" class="btn btn-success py-2 px-4">Agregar Nuevo Casillero</button>
+                        <button id="summarize-rents-btn" class="btn btn-info py-2 px-4">✨ Resumen de Rentas</button>
+                    </div>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Asistente de Gestión de Casilleros ✨</h3>
+                    <div class="mb-6 p-4 bg-gray-100 rounded-lg shadow-inner">
+                        <label for="llm-locker-prompt" class="block text-gray-700 text-sm font-bold mb-2">Pregúntale a Gemini:</label>
+                        <textarea id="llm-locker-prompt" rows="3" class="form-control mb-3" placeholder="Ej: Sugiere 5 números de casillero tipo 'Grande'."></textarea>
+                        <button id="generate-locker-suggestion-btn" class="btn btn-secondary w-100">Generar Sugerencia</button>
+                    </div>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Lista de Casilleros</h3>
+                    <div id="admin-locker-list" class="space-y-3">
+                        <!-- Lista de casilleros para administración -->
+                    </div>
+
+                    <h3 class="text-xl font-semibold text-gray-800 mt-8 mb-3">Rentas Actuales/Históricas</h3>
+                    <div id="admin-rent-list" class="overflow-x-auto">
+                        <table class="table table-bordered bg-white rounded-lg shadow-md">
+                            <thead>
+                                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                    <th class="py-3 px-6 text-left">Casillero</th>
+                                    <th class="py-3 px-6 text-left">Usuario (ID)</th>
+                                    <th class="py-3 px-6 text-left">Fecha</th>
+                                    <th class="py-3 px-6 text-left">Horario</th>
+                                    <th class="py-3 px-6 text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-rent-table-body" class="text-gray-700 text-sm">
+                                <!-- Rentas se cargarán aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <p id="admin-message" class="mt-4 text-center text-gray-600"></p>
+                </div>
+            `);
+            // Ocultar la sección del mapa para la vista de admin, a menos que se quiera mostrar siempre
+            $('#locker-map-container').addClass('hidden'); 
+
+            $('#add-locker-btn').on('click', showAddLockerModal);
+            $('#summarize-rents-btn').on('click', generateRentalSummary);
+            $('#generate-locker-suggestion-btn').on('click', suggestLockerManagement);
+
+            populateAdminLockers();
+            populateAdminRents();
+        };
+
+        const populateLockersForUser = async () => {
+            const lockerMapSvg = document.getElementById('locker-map-svg');
+            const userMessage = document.getElementById('user-message');
+            // Clear existing locker elements but keep the main locker frame
+            Array.from(lockerMapSvg.children).forEach(child => {
+                if (child.id !== 'main-locker-frame' && child.id !== 'main-locker-handle' && child.id !== 'main-locker-handle-circle') {
+                    lockerMapSvg.removeChild(child);
+                }
+            });
+            userMessage.textContent = '';
+            $('#rent-selected-locker-btn').addClass('hidden');
+            selectedLockerForRent = null;
+
+            const selectedDate = $('#currentDateFilter').val();
+            const filterStartTime = $('#filterStartTime').val();
+            const filterEndTime = $('#filterEndTime').val();
+
+            if (!selectedDate || !filterStartTime || !filterEndTime) {
+                 userMessage.textContent = 'Por favor, selecciona una fecha y un rango de horario para ver la disponibilidad.';
+                 allLockers = []; // Clear current lockers
+                 return;
+            }
+
+            allLockers = await fetchLockers(selectedDate, filterStartTime, filterEndTime);
+
+            if (allLockers.length === 0) {
+                userMessage.textContent = 'No hay casilleros disponibles en este momento para el horario seleccionado.';
+                return;
+            }
+
+            // Define grid for lockers within the SVG
+            const svgWidth = 500;
+            const svgHeight = 500;
+            const padding = 30; // Padding from the main locker frame
+            const innerWidth = svgWidth - 2 * padding;
+            const innerHeight = svgHeight - 2 * padding;
+
+            const cols = 5; // Number of columns
+            const rows = Math.ceil(allLockers.length / cols);
+
+            const cellSpacing = 15; // Spacing between locker cells
+            const lockerWidth = (innerWidth - (cols - 1) * cellSpacing) / cols;
+            const lockerHeight = (innerHeight - (rows - 1) * cellSpacing) / rows;
+
+
+            allLockers.forEach((locker, index) => {
+                const col = index % cols;
+                const row = Math.floor(index / cols);
+
+                const x = padding + col * (lockerWidth + cellSpacing);
+                const y = padding + row * (lockerHeight + cellSpacing);
+
+                const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                rect.setAttribute("x", x);
+                rect.setAttribute("y", y);
+                rect.setAttribute("width", lockerWidth);
+                rect.setAttribute("height", lockerHeight);
+                rect.setAttribute("rx", "5");
+                rect.setAttribute("ry", "5");
+                rect.classList.add('locker-svg-rect');
+
+                // `isRented` comes directly from the PHP API response now
+                if (locker.isRented) {
+                    rect.classList.add('rented');
+                } else {
+                    $(rect).on('click', () => selectLocker(locker.id_casillero, locker.numero, rect));
+                }
+                rect.dataset.lockerId = locker.id_casillero;
+                rect.dataset.lockerNumero = locker.numero; // Change data-locker to data-locker-numero for consistency
+                lockerMapSvg.appendChild(rect);
+
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("x", x + lockerWidth / 2);
+                text.setAttribute("y", y + lockerHeight / 2);
+                text.classList.add('locker-svg-text');
+                text.textContent = locker.numero;
+                lockerMapSvg.appendChild(text);
+            });
+        };
+
+        const selectLocker = (lockerId, lockerNumero, svgElement) => {
+            // Deseleccionar cualquier casillero previamente seleccionado
+            $('.locker-svg-rect').removeClass('selected');
+
+            // Seleccionar el nuevo casillero
+            $(svgElement).addClass('selected');
+            selectedLockerForRent = {
+                id: lockerId,
+                numero: lockerNumero
+            };
+            $('#rent-selected-locker-btn').removeClass('hidden');
+        };
+
+        const showRentModal = () => {
+            if (!selectedLockerForRent) {
+                showMessage('Por favor, selecciona un casillero primero.', 'user-message');
+                return;
+            }
+            $('#modalLockerNumber').text(selectedLockerForRent.numero);
+            $('#rentDate').val($('#currentDateFilter').val()); // Pre-fill with current filter date
+            $('#rentStartTime').val($('#filterStartTime').val()); // Pre-fill with filter start time
+            $('#rentEndTime').val($('#filterEndTime').val());   // Pre-fill with filter end time
+            openModal('rentLockerModal');
+        };
+
+        $('#confirmRentButton').on('click', async () => {
+            const rentDate = $('#rentDate').val();
+            const rentStartTime = $('#rentStartTime').val();
+            const rentEndTime = $('#rentEndTime').val();
+
+            if (!loggedInUserId) {
+                alert('Debes iniciar sesión para rentar un casillero.');
+                closeModal('rentLockerModal');
+                openModal('loginModal');
+                return;
+            }
+
+            if (!rentDate || !rentStartTime || !rentEndTime) {
+                alert('Por favor, completa todos los campos para la renta.');
+                return;
+            }
+
+            // Basic time validation
+            if (rentStartTime >= rentEndTime) {
+                alert('La hora de inicio debe ser anterior a la hora de fin.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/lockers/rent_locker.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        lockerId: selectedLockerForRent.id,
+                        userId: loggedInUserId, // Use the actual logged in user ID
+                        startDate: rentDate,
+                        startTime: rentStartTime,
+                        endDate: rentDate, // Assuming single-day rents for now
+                        endTime: rentEndTime
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error("Error del servidor:", errorText);
+                    alert('Error del servidor al rentar el casillero. Por favor, revisa la consola para más detalles.');
+                    return;
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(`Casillero ${selectedLockerForRent.numero} rentado exitosamente!`);
+                    closeModal('rentLockerModal');
+                    populateLockersForUser(); // Re-fetch and update UI
+                    populateAdminRents(); // Also update admin view if it's open
+                } else {
+                    alert(`Hubo un error al intentar rentar el casillero: ${result.error}`);
+                }
+            } catch (error) {
+                console.error("Error al rentar casillero:", error);
+                alert(`Hubo un error de red al intentar rentar el casillero. Asegúrate de que tu servidor PHP esté corriendo y la 'API_BASE_URL' sea correcta. Detalles: ${error.message}`);
+            }
+        });
+
+
+        // --- Admin View Functions ---
+
+        const populateAdminLockers = async () => {
+            const adminLockerList = $('#admin-locker-list');
+            adminLockerList.empty();
+            // Fetch all lockers without time constraints for admin view
+            // Using dummy date/time as these fields are required by get_lockers.php,
+            // but for admin's full list, we're not filtering by availability.
+            const allLockersForAdmin = await fetchLockers(new Date().toISOString().split('T')[0], '00:00', '23:59');
+            if (allLockersForAdmin.length === 0) {
+                adminLockerList.html('<p class="text-gray-600">No hay casilleros registrados.</p>');
+                return;
+            }
+            allLockersForAdmin.forEach(locker => {
+                const lockerItem = $(`
+                    <div class="flex justify-between items-center bg-gray-100 p-3 rounded-lg shadow-sm">
+                        <span class="font-semibold text-gray-800">${locker.numero} (${locker.ubicacion}) - Estado: ${locker.estado}</span>
+                        <div>
+                            <button class="btn btn-warning btn-sm mr-2 edit-locker-btn" data-id="${locker.id_casillero}">Editar</button>
+                            <button class="btn btn-danger btn-sm delete-locker-btn" data-id="${locker.id_casillero}">Eliminar</button>
+                        </div>
+                    </div>
+                `);
+                adminLockerList.append(lockerItem);
+            });
+            // Attach event listeners after elements are added to DOM
+            $('.edit-locker-btn').on('click', function() { editLocker($(this).data('id')); });
+            $('.delete-locker-btn').on('click', function() { confirmDeleteItem($(this).data('id'), 'locker'); });
+        };
+
+        const showAddLockerModal = () => {
+            $('#newLockernumero').val('');
+            $('#newLockerType').val('');
+            openModal('addLockerModal');
+        };
+
+        $('#saveNewLockerButton').on('click', async () => {
+            const numero = $('#newLockernumero').val().trim();
+            const type = $('#newLockerType').val().trim(); // This maps to 'ubicacion' in DB
+
+            if (!numero || !type) {
+                alert('Por favor, ingresa el número y el tipo (ubicación) de casillero.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/lockers/add_locker.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ numero: numero, type: type })
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error("Error del servidor:", errorText);
+                    alert('Error del servidor al agregar el casillero. Por favor, revisa la consola para más detalles.');
+                    return;
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert('Casillero agregado exitosamente!');
+                    closeModal('addLockerModal');
+                    populateAdminLockers(); // Re-fetch and update UI
+                    populateLockersForUser(); // Also update user view if needed
+                } else {
+                    alert(`Hubo un error al agregar el casillero: ${result.error}`);
+                }
+            } catch (error) {
+                console.error("Error al agregar casillero:", error);
+                alert(`Hubo un error de red al agregar el casillero. Asegúrate de que tu servidor PHP esté corriendo y la 'API_BASE_URL' sea correcta. Detalles: ${error.message}`);
+            }
+        });
+
+        const populateAdminRents = async () => {
+            const adminRentTableBody = $('#admin-rent-table-body');
+            adminRentTableBody.empty();
+            allRents = await fetchRents(); // Fetch all rents for admin view
+
+            if (allRents.length === 0) {
+                $('#admin-message').text('No hay rentas de casilleros registradas.');
+                return;
+            }
+            // Sort by date and then by start time descending
+            const sortedRents = [...allRents].sort((a, b) => {
+                const dateA = new Date(a.startDate + 'T' + a.startTime);
+                const dateB = new Date(b.startDate + 'T' + b.startTime);
+                return dateB.getTime() - dateA.getTime(); // Newest first, use getTime() for reliable comparison
+            });
+
+            sortedRents.forEach(rent => {
+                const rentRow = $(`
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-3 px-6 text-left whitespace-nowrap">${rent.lockerNumero || 'N/A'}</td>
+                        <td class="py-3 px-6 text-left">${rent.userName || (rent.id_usuario ? `Usuario ${String(rent.id_usuario)}` : 'N/A')}</td>
+                        <td class="py-3 px-6 text-left">${rent.startDate}</td>
+                        <td class="py-3 px-6 text-left">${rent.startTime} - ${rent.endTime}</td>
+                        <td class="py-3 px-6 text-center">
+                            <button class="btn btn-danger btn-sm delete-rent-btn" data-id="${rent.id_reserva}">Eliminar Renta</button>
+                        </td>
+                    </tr>
+                `);
+                adminRentTableBody.append(rentRow);
+            });
+            // Attach event listeners after elements are added to DOM
+            $('.delete-rent-btn').on('click', function() { confirmDeleteItem($(this).data('id'), 'rent'); });
+        };
+
+        window.editLocker = (lockerId) => {
+            alert(`Editar casillero con ID: ${lockerId}. (Funcionalidad pendiente: abrir modal de edición)`);
+        };
+
+        // --- Gemini API Integration Functions ---
+        const callGeminiAPI = async (promptText) => {
+            const llmModalTitle = document.getElementById('llmModalTitle');
+            const llmModalContent = document.getElementById('llmModalContent');
+            const llmModalLoader = document.getElementById('llmModalLoader');
+            const llmModalError = document.getElementById('llmModalError');
+
+            llmModalContent.textContent = '';
+            llmModalError.classList.add('hidden');
+            llmModalLoader.classList.remove('hidden'); // Show loader
+
+            openModal('llmResponseModal');
+
+            try {
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: promptText }] });
+                const payload = { contents: chatHistory };
+                const apiKey = ""; // If you want to use models other than gemini-2.0-flash, provide an API key here.
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                llmModalLoader.classList.add('hidden'); // Hide loader
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    llmModalContent.textContent = text;
+                } else {
+                    console.error("Unexpected LLM response structure:", result);
+                    llmModalContent.textContent = 'No se pudo obtener una respuesta del asistente.';
+                    llmModalError.textContent = 'Error: Estructura de respuesta inesperada.';
+                    llmModalError.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                llmModalLoader.classList.add('hidden'); // Hide loader
+                llmModalContent.textContent = 'Hubo un error al comunicarse con el asistente. Por favor, inténtalo de nuevo.';
+                llmModalError.textContent = `Detalles: ${error.message}`;
+                llmModalError.classList.remove('hidden');
+            }
+        };
+
+        const generateRentalSummary = async () => {
+            $('#llmModalTitle').text('✨ Resumen y Perspectivas de Rentas');
+
+            if (allRents.length === 0 && allLockers.length === 0) {
+                $('#llmModalContent').text('No hay datos de casilleros o rentas para analizar.');
+                openModal('llmResponseModal');
+                return;
+            }
+
+            let prompt = "Analiza los siguientes datos de casilleros y rentas. Proporciona un resumen de la actividad de renta, identifica cualquier tendencia interesante (casilleros más populares, horarios de mayor afluencia, casilleros menos usados), y ofrece algunas perspectivas o recomendaciones. Presenta la información de forma concisa y fácil de leer.\n\n";
+            prompt += "--- Datos de Casilleros ---\n";
+            if (allLockers.length > 0) {
+                allLockers.forEach(locker => {
+                    prompt += `Casillero ${locker.numero} (Tipo: ${locker.ubicacion}, Estado: ${locker.estado})\n`; // Use 'ubicacion' from DB
+                });
+            } else {
+                prompt += "No hay casilleros registrados.\n";
+            }
+
+            prompt += "\n--- Datos de Rentas ---\n";
+            if (allRents.length > 0) {
+                // Limit the number of rents sent to the LLM to avoid exceeding context window
+                const recentRents = allRents.slice(0, 50); // Get up to 50 most recent rents
+                recentRents.forEach(rent => {
+                    prompt += `Renta: Casillero ${rent.lockerNumero} por ${rent.userName || rent.id_usuario} el ${rent.startDate} de ${rent.startTime} a ${rent.endTime} (Estado: ${rent.status})\n`;
+                });
+                if (allRents.length > 50) {
+                    prompt += `... (y ${allRents.length - 50} rentas más no incluidas para brevedad)\n`;
+                }
+            } else {
+                prompt += "No hay rentas registradas.\n";
+            }
+
+            await callGeminiAPI(prompt);
+        };
+
+        const suggestLockerManagement = async () => {
+            const userPrompt = $('#llm-locker-prompt').val().trim();
+            $('#llmModalTitle').text('✨ Sugerencia del Asistente de Gestión');
+
+            if (!userPrompt) {
+                alert('Por favor, escribe tu pregunta o solicitud para el asistente.');
+                return;
+            }
+
+            let currentLockersInfo = "Casilleros existentes:\n";
+            if (allLockers.length > 0) {
+                allLockers.forEach(locker => {
+                    currentLockersInfo += `- ${locker.numero} (Tipo: ${locker.ubicacion}, Estado: ${locker.estado})\n`;
+                });
+            } else {
+                currentLockersInfo += "No hay casilleros registrados.\n";
+            }
+
+            const fullPrompt = `Como asistente para la gestión de casilleros, por favor, responde a la siguiente solicitud, considerando los casilleros existentes. Sé conciso y solo proporciona la información solicitada o sugerencias directamente relacionadas.
+            \nSolicitud: "${userPrompt}"
+            \n${currentLockersInfo}
+            \nRespuesta:`;
+
+            await callGeminiAPI(fullPrompt);
+        };
+
+        // --- General Utility Functions (Delete Confirmation) ---
+
+        let itemToDeleteId = null;
+        let itemToDeleteType = null;
+
+        window.confirmDeleteItem = (itemId, itemType) => {
+            itemToDeleteId = itemId;
+            itemToDeleteType = itemType;
+            const message = itemType === 'locker'
+                ? '¿Estás seguro de que quieres eliminar este casillero? Esto también eliminará sus rentas asociadas.'
+                : '¿Estás seguro de que quieres eliminar esta renta de casillero?';
+            $('#confirmDeleteMessage').text(message);
+            openModal('confirmDeleteModal');
+        };
+
+        $('#confirmDeleteButton').on('click', async () => {
+            if (!itemToDeleteId || !itemToDeleteType) return;
+
+            try {
+                let response;
+                if (itemToDeleteType === 'locker') {
+                    response = await fetch(`${API_BASE_URL}/lockers/delete_locker.php`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ lockerId: itemToDeleteId })
+                    });
+                } else if (itemToDeleteType === 'rent') {
+                    response = await fetch(`${API_BASE_URL}/rents/delete_rent.php`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ rentId: itemToDeleteId })
+                    });
+                } else {
+                    throw new Error('Tipo de ítem desconocido para eliminar.');
+                }
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error("Error del servidor durante la eliminación:", errorText);
+                    alert('Error del servidor al eliminar. Por favor, revisa la consola para más detalles.');
+                    return;
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(result.message);
+                    closeModal('confirmDeleteModal');
+                    // Re-fetch data to update UI
+                    populateLockersForUser();
+                    populateAdminLockers();
+                    populateAdminRents();
+                } else {
+                    alert(`Hubo un error al eliminar: ${result.error}`);
+                }
+            } catch (error) {
+                console.error(`Error al eliminar ${itemToDeleteType}:`, error);
+                alert(`Hubo un error de red al eliminar. Asegúrate de que tu servidor PHP esté corriendo y la 'API_BASE_URL' sea correcta. Detalles: ${error.message}`);
+            } finally {
+                itemToDeleteId = null;
+                itemToDeleteType = null;
+            }
+        });
+
+        $('#cancelDeleteButton').on('click', () => {
+            closeModal('confirmDeleteModal');
+            itemToDeleteId = null;
+            itemToDeleteType = null;
+        });
+
+        // --- Initial Load ---
+        $(document).ready(() => {
+            // Inicializar la aplicación
+            renderApp();
+            updateLoginStatusUI(); // Actualizar el enlace de login/perfil al cargar
+        });
+
     </script>
 </body>
 </html>

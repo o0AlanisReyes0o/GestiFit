@@ -1,3 +1,42 @@
+<?php
+// Usar rutas absolutas para mayor seguridad
+require_once __DIR__ . '/../../src/conexion.php';
+
+// Iniciar sesión antes de cualquier verificación
+session_start();
+
+// Verificar si el usuario está logueado
+if (!isset($_SESSION['idUsuario'])) {  // Cambiado de 'user_id' a 'usuario_id'
+    header("Location: /GestiFit/public/public/index.html");
+    exit;
+}
+
+// Obtener información del usuario
+$userId = $_SESSION['idUsuario'];  // Cambiado para coincidir con tu otro código
+$query = "SELECT * FROM Usuario WHERE idUsuario = ?";
+$stmt = mysqli_prepare($conexion, $query);
+
+if (!$stmt) {
+    die("Error en la preparación de la consulta: " . mysqli_error($conexion));
+}
+
+mysqli_stmt_bind_param($stmt, "i", $userId);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+if (!$result) {
+    die("Error en la consulta: " . mysqli_error($conexion));
+}
+
+$user = mysqli_fetch_assoc($result);
+
+if (!$user) {
+    session_destroy();
+    header("Location: /GestiFit/public/login.html");
+    exit;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,7 +55,7 @@
         <!-- Icon Font Stylesheet -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-        <link rel="icon" type="image/png" href="/public/img/logo.jpg">
+        <link rel="icon" type="image/png" href="/GestiFit/public/img/logo.jpg">
 
         <!-- Libraries Stylesheet -->
         <link rel="stylesheet" href="/lib/animate/animate.min.css"/>
@@ -24,93 +63,83 @@
 
 
         <!-- Customized Bootstrap Stylesheet -->
-        <link href="/public/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/GestiFit/public/css/bootstrap.min.css" rel="stylesheet">
 
         <!-- Template Stylesheet -->
-        <link href="/public/css/style.css" rel="stylesheet">
+        <link href="/GestiFit/public/css/style.css" rel="stylesheet">
 
     </head>
 
     <body>
   <!-- Navbar & Hero Start -->
-        <div class="container-fluid header-top">
-            <div class="nav-shaps-2"></div>
-            <div class="container d-flex align-items-center">
-                <div class="d-flex align-items-center h-100">
-                    <a href="#" class="navbar-brand" style="height: 125px;">
-                        <h1 class="text-primary mb-0">
-                            <i class="fas fa-hand-rock me-2"></i> GestiFit </h1>
-                         
-                    </a>
-                </div>
-                <div class="w-100 h-100">
-                    <div class="topbar px-0 py-2 d-none d-lg-block" style="height: 45px;">
-                        <div class="row gx-0 align-items-center">
-                            <div class="col-lg-8 text-center text-lg-center mb-lg-0">
-                                <div class="d-flex flex-wrap">
-                                    <div class="pe-4">
-                                    </div>
-                                    <div class="pe-0">
-                                        
-                                        <a href="mailto:example@gmail.com" class="text-muted small"><i class="fa fa-clock text-primary me-2"></i>Mon - Sat: 8.00 am-7.00 pm</a>
-                                    </div>
+           <div class="container-fluid header-top">
+        <div class="nav-shaps-2"></div>
+        <div class="container d-flex align-items-center">
+            <div class="d-flex align-items-center h-100">
+                <a href="#" class="navbar-brand" style="height: 125px;">
+                    <h1 class="text-primary mb-0">
+                        <img src="/GestiFit/public/img/logo_gestifit_cuadrado-nofondo.png" class="img-fluid" width="70" height="70"> GestiFit </h1>
+                </a>
+            </div>
+            <div class="w-100 h-100">
+                <div class="topbar px-0 py-2 d-none d-lg-block" style="height: 45px;">
+                    <div class="row gx-0 align-items-center">
+                        <div class="col-lg-8 text-center text-lg-center mb-lg-0">
+                            <div class="d-flex flex-wrap">
+                                <div class="pe-4">
+                                    <span class="text-white">
+                                    <i class="fa fa-user text-primary me-2"></i>
+                                    Bienvenido, <strong><?= htmlspecialchars($user['nombre' ]) ?></strong>
+                                    </span>
                                 </div>
                             </div>
-                            <div class="col-lg-4 text-center text-lg-end">
-                                <div class="d-flex justify-content-end">
-                                    <div class="d-flex align-items-center small">
-                                        <a href="#" class="login-btn text-body me-3 pe-3"> <span>Login</span></a>
-                                        <a href="Registro.html" class="text-body me-3"> Register</a>
-                                    </div>
-                                    <div class="d-flex pe-3">
+                        </div>
+                        <div class="col-lg-4 text-center text-lg-end">
+                            <div class="d-flex justify-content-end">
+                                <div class="d-flex align-items-center small">
+                                    <a href="#" class="text-body me-3 pe-3" data-bs-toggle="modal" data-bs-target="#profileModal"><i class="fas fa-cog me-2"></i>Mi cuenta</a>
+                                    <a href="/GestiFit/src/cerrar_sesion.php" 
+                                        class="text-body me-3"
+                                        onclick="return confirm('¿Seguro que deseas cerrar sesión?')">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
+                                    </a>
+                                </div>
+                                <div class="d-flex pe-3">
                                     <a class="btn p-0 text-primary me-3" href="https://www.instagram.com/elmanicomiogym?igsh=MXB3eHBkdjFjYXJleQ=="><i class="fab fa-instagram"></i></a>
-
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="nav-bar px-0 py-lg-0" style="height: 80px;">
-                        <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-lg-end">
-                            <a href="#" class="navbar-brand-2">
-                                <h1 class="text-primary mb-0"><i class="fas fa-hand-rock me-2"></i> Fitness</h1>
-                               
-                            </a> 
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                                <span class="fa fa-bars"></span>
-                            </button>
-                            <div class="collapse navbar-collapse" id="navbarCollapse">
-                                <div class="navbar-nav mx-0 mx-lg-auto">
-                                    <a href="index_usuario.html" class="nav-item nav-link active">Principal</a>
-                                    <a href="membresia.html" class="nav-item nav-link">Membresia</a>
-                                    <a href="Rutinas.html" class="nav-item nav-link">Rutinas</a>
-                                    <a href="/public/public/Instructores.html" class="nav-item nav-link">Instructores</a>
-                                    <a href="casillero.html" class="nav-item nav-link">Casilleros</a>
-
-                                    <div class="nav-item dropdown">
-                                        <a href="#" class="nav-link" data-bs-toggle="dropdown">
-                                            <span class="dropdown-toggle">Pages</span>
-                                        </a>
-                                        <div class="dropdown-menu">
-                                            <a href="feature.html" class="dropdown-item">Our Features</a>
-                                            <a href="team.html" class="dropdown-item">Our team</a>
-                                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                            <a href="404.html" class="dropdown-item">404 Page</a>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="nav-btn ps-3">
-                                        <button class="btn-search btn btn-primary btn-md-square mt-2 mt-lg-0 mb-4 mb-lg-0 flex-shrink-0" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search"></i></button>
-                                        <a href="#" class="btn btn-primary py-2 px-4 ms-0 ms-lg-3"> <span>Planes</span></a>
-                                    </div>
-                                    <div class="nav-shaps-1"></div>
+                </div>
+                <div class="nav-bar px-0 py-lg-0" style="height: 80px;">
+                    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-lg-end">
+                        <a href="#" class="navbar-brand-2">
+                            <h1 class="text-primary mb-0"><i class="fas fa-hand-rock me-2"></i> Fitness</h1>
+                        </a> 
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                            <span class="fa fa-bars"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <div class="navbar-nav mx-0 mx-lg-auto">
+                                <a href="index_usuario.php" class="nav-item nav-link active">Inicio</a>
+                                <a href="membresia.php" class="nav-item nav-link">Mi Membresía</a>
+                                <a href="clases.php" class="nav-item nav-link ">Clases</a>
+                                <a href="Rutinas.php" class="nav-item nav-link ">Rutina</a>
+                                <a href="entrenadores.php" class="nav-item nav-link">Entrenadores</a>
+                                <a href="casillero.html" class="nav-item nav-link">Casilleros</a>
+                                
+                                <div class="nav-btn ps-3">
+                                    <button class="btn-search btn btn-primary btn-md-square mt-2 mt-lg-0 mb-4 mb-lg-0 flex-shrink-0" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search"></i></button>
+                                    <a href="clases.html" class="btn btn-primary py-2 px-4 ms-0 ms-lg-3"> <span>Reservar Clase</span></a>
                                 </div>
+                                <div class="nav-shaps-1"></div>
                             </div>
-                        </nav>
-                    </div>
+                        </div>
+                    </nav>
                 </div>
             </div>
         </div>
+    </div>
         <!-- Navbar & Hero End -->
 
         <div class="container-fluid courses overflow-hidden py-5" style="margin-bottom: 90px;">
