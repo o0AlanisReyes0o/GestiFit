@@ -12,157 +12,147 @@ try {
         throw new Exception("No se pudo conectar a la base de datos");
     }
 
+    // Start transaction
     mysqli_begin_transaction($conn);
 
     $datos = $_POST;
 
+    // Validate required fields
     if (empty($datos['id_membresia']) || empty($datos['monto'])) {
         throw new Exception('Datos de pago incompletos');
     }
 
-    $idMetodoPago = null;
+    // Process payment method
+    $idMetodoPago = processPaymentMethod($conn, $datos, $usuario_id);
 
-    if (isset($datos['nuevo_metodo']) && $datos['nuevo_metodo'] == '1') {
-        //$tipoMetodoPago = $datos['tipo_metodo'] ?? 'otro';
-        $alias = $datos['alias_metodo'] ?? 'Nuevo método';
-        $ultimosDigitos = $datos['ultimos_digitos'] ?? null;
+    // Register payment
+    $referencia = 'GESTI-' . strtoupper(uniqid());
+    $idPago = registerPayment($conn, $usuario_id, $idMetodoPago, $datos, $referencia);
 
-        $idTipo = $datos['tipo_metodo'] ?? 0;
+    // Process membership
+    processMembership($conn, $usuario_id, $datos['id_membresia'], $idPago);
 
-        if (!$idTipo) {
-            throw new Exception("Tipo de método de pago no válido");
-        }
-
-        $sqlNuevoMetodo = "INSERT INTO metodos_pago 
-                          (id_usuario, id_tipo, alias, ultimos_digitos, fecha_creacion, activo) 
-                          VALUES (?, ?, ?, ?, NOW(), TRUE)";
-        $stmtNuevoMetodo = consultaDB($conn, $sqlNuevoMetodo, [
-            $usuario_id, $idTipo, $alias, $ultimosDigitos
-        ]);
-
-        if ($stmtNuevoMetodo === false) {
-            throw new Exception("Error al registrar nuevo método de pago: " . mysqli_error($conn));
-        }
-
-        $idMetodoPago = mysqli_insert_id($conn);
-        mysqli_stmt_close($stmtNuevoMetodo);
-    } else {
-        if (empty($datos['id_metodo_pago'])) {
-            throw new Exception('Método de pago no especificado');
-        }
-        $idMetodoPago = $datos['id_metodo_pago'];
-    }
-
-    $referencia = 'SIM-' . strtoupper(uniqid());
-    $sqlPago = "INSERT INTO pagos 
-                (id_usuario, id_metodo_pago, id_membresia, fecha_pago, monto, estado_pago, referencia_pago) 
-                VALUES (?, ?, ?, NOW(), ?, 'completado', ?)";
-
-    $stmtPago = consultaDB($conn, $sqlPago, [
-        $usuario_id,
-        $idMetodoPago,
-        $datos['id_membresia'],
-        $datos['monto'],
-        $referencia
-    ]);
-
-    if ($stmtPago === false) {
-        throw new Exception("Error al registrar el pago: " . mysqli_error($conn));
-    }
-
-    $idPago = mysqli_insert_id($conn);
-    mysqli_stmt_close($stmtPago);
-
-    $sqlDuracion = "SELECT duracion_dias FROM membresias WHERE id_membresia = ?";
-    $stmtDuracion = consultaDB($conn, $sqlDuracion, [$datos['id_membresia']]);
-    
-    if ($stmtDuracion === false) {
-        throw new Exception("Error al consultar duración: " . mysqli_error($conn));
-    }
-    
-    mysqli_stmt_bind_result($stmtDuracion, $duracion_dias);
-    if (!mysqli_stmt_fetch($stmtDuracion)) {
-        throw new Exception("Membresía no encontrada");
-    }
-    
-    mysqli_stmt_free_result($stmtDuracion);
-    mysqli_stmt_close($stmtDuracion);
-
-    $fechaFin = date('Y-m-d', strtotime("+{$duracion_dias} days"));
-
-    $sqlVerificar = "SELECT id_relacion FROM usuarios_membresias 
-                    WHERE id_usuario = ? AND estado = 'activa'";
-    $stmtVerificar = consultaDB($conn, $sqlVerificar, [$usuario_id]);
-    
-    if ($stmtVerificar === false) {
-        throw new Exception("Error al verificar membresía: " . mysqli_error($conn));
-    }
-    
-    mysqli_stmt_store_result($stmtVerificar);
-    $tieneMembresiaActiva = (mysqli_stmt_num_rows($stmtVerificar) > 0);
-    mysqli_stmt_free_result($stmtVerificar);
-    mysqli_stmt_close($stmtVerificar);
-
-    if ($tieneMembresiaActiva) {
-        $sqlActualizar = "UPDATE usuarios_membresias 
-                         SET id_membresia = ?, fecha_inicio = CURDATE(), fecha_fin = ?, id_pago = ?
-                         WHERE id_usuario = ? AND estado = 'activa'";
-        $stmtActualizar = consultaDB($conn, $sqlActualizar, [
-            $datos['id_membresia'],
-            $fechaFin,
-            $idPago,
-            $usuario_id
-        ]);
-        
-        if ($stmtActualizar === false) {
-            throw new Exception("Error al actualizar membresía: " . mysqli_error($conn));
-        }
-        mysqli_stmt_close($stmtActualizar);
-    } else {
-        $sqlInsertar = "INSERT INTO usuarios_membresias 
-                       (id_usuario, id_membresia, fecha_inicio, fecha_fin, estado, id_pago) 
-                       VALUES (?, ?, CURDATE(), ?, 'activa', ?)";
-        $stmtInsertar = consultaDB($conn, $sqlInsertar, [
-            $idUsuario,
-            $datos['id_membresia'],
-            $fechaFin,
-            $idPago
-        ]);
-        
-        if ($stmtInsertar === false) {
-            throw new Exception("Error al crear membresía: " . mysqli_error($conn));
-        }
-        mysqli_stmt_close($stmtInsertar);
-    }
-
+    // Commit transaction
     mysqli_commit($conn);
 
-    $response['exito'] = true;
-    $response['mensaje'] = 'Pago procesado y membresía actualizada correctamente';
-    $response['referencia'] = $referencia;
-    $response['id_pago'] = $idPago;
+    $response = [
+        'exito' => true,
+        'mensaje' => 'Pago procesado correctamente',
+        'referencia' => $referencia,
+        'id_pago' => $idPago
+    ];
 
 } catch (Exception $e) {
     if ($conn) {
         mysqli_rollback($conn);
     }
     $response['mensaje'] = $e->getMessage();
+    http_response_code(500);
 } finally {
     if ($conn) {
+        // Close all statements and connection
         mysqli_close($conn);
     }
+    // Ensure JSON output
+    echo json_encode($response);
+    exit;
 }
 
-echo json_encode($response);
-
-function obtenerIdTipoMetodo($conn, $tipoMetodo) {
-    $sql = "SELECT id_tipo FROM catalogo_metodos_pago WHERE nombre = ?";
-    $stmt = consultaDB($conn, $sql, [$tipoMetodo]);
-
-    if ($stmt && mysqli_stmt_bind_result($stmt, $idTipo) && mysqli_stmt_fetch($stmt)) {
-        mysqli_stmt_close($stmt);
-        return $idTipo;
+// Helper functions
+function processPaymentMethod($conn, $datos, $usuario_id) {
+    if (!isset($datos['nuevo_metodo']) || $datos['nuevo_metodo'] != '1') {
+        if (empty($datos['id_metodo_pago'])) {
+            throw new Exception('Método de pago no especificado');
+        }
+        return $datos['id_metodo_pago'];
     }
-    return null;
+
+    $alias = $datos['alias_metodo'] ?? 'Nuevo método';
+    $ultimosDigitos = $datos['ultimos_digitos'] ?? null;
+    $idTipo = $datos['tipo_metodo'] ?? 0;
+
+    if (!$idTipo) {
+        throw new Exception("Tipo de método de pago no válido");
+    }
+
+    $sql = "INSERT INTO metodos_pago 
+            (id_usuario, id_tipo, alias, ultimos_digitos, fecha_creacion, activo) 
+            VALUES (?, ?, ?, ?, NOW(), 1)";
+    $stmt = mysqli_prepare($conn, $sql);
+    
+    if (!$stmt || !mysqli_stmt_bind_param($stmt, "iiss", $usuario_id, $idTipo, $alias, $ultimosDigitos) || !mysqli_stmt_execute($stmt)) {
+        throw new Exception("Error al registrar método de pago");
+    }
+
+    $id = mysqli_insert_id($conn);
+    mysqli_stmt_close($stmt);
+    return $id;
+}
+
+function registerPayment($conn, $usuario_id, $idMetodoPago, $datos, $referencia) {
+    $sql = "INSERT INTO pagos 
+            (id_usuario, id_metodo_pago, id_membresia, fecha_pago, monto, estado_pago, referencia_pago) 
+            VALUES (?, ?, ?, NOW(), ?, 'completado', ?)";
+    $stmt = mysqli_prepare($conn, $sql);
+    
+    if (!$stmt || !mysqli_stmt_bind_param($stmt, "iiids", $usuario_id, $idMetodoPago, $datos['id_membresia'], $datos['monto'], $referencia) || !mysqli_stmt_execute($stmt)) {
+        throw new Exception("Error al registrar el pago");
+    }
+
+    $id = mysqli_insert_id($conn);
+    mysqli_stmt_close($stmt);
+    return $id;
+}
+
+function processMembership($conn, $usuario_id, $idMembresia, $idPago) {
+    // Get membership duration
+    $sql = "SELECT duracionMeses FROM membresia WHERE idMembresia = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    
+    if (!$stmt || !mysqli_stmt_bind_param($stmt, "i", $idMembresia) || !mysqli_stmt_execute($stmt)) {
+        throw new Exception("Error al obtener duración de membresía");
+    }
+
+    mysqli_stmt_bind_result($stmt, $duracionMeses);
+    if (!mysqli_stmt_fetch($stmt)) {
+        mysqli_stmt_close($stmt);
+        throw new Exception("Membresía no encontrada");
+    }
+    mysqli_stmt_close($stmt);
+
+    $fechaFin = date('Y-m-d', strtotime("+{$duracionMeses} months"));
+
+    // Check existing membership
+    $sql = "SELECT idUsuario FROM usuariomembresia WHERE idUsuario = ? AND estado = 'activa'";
+    $stmt = mysqli_prepare($conn, $sql);
+    
+    if (!$stmt || !mysqli_stmt_bind_param($stmt, "i", $usuario_id) || !mysqli_stmt_execute($stmt)) {
+        throw new Exception("Error al verificar membresía existente");
+    }
+
+    mysqli_stmt_store_result($stmt);
+    $exists = (mysqli_stmt_num_rows($stmt)) > 0;
+    mysqli_stmt_close($stmt);
+
+    // Update or insert membership
+    if ($exists) {
+        $sql = "UPDATE usuariomembresia 
+               SET idMembresia = ?, fechaInicio = CURDATE(), fechaFin = ?
+               WHERE idUsuario = ? AND estado = 'activa'";
+    } else {
+        $sql = "INSERT INTO usuariomembresia 
+               (idUsuario, idMembresia, fechaInicio, fechaFin, estado) 
+               VALUES (?, ?, CURDATE(), ?, 'activa')";
+    }
+
+    $stmt = mysqli_prepare($conn, $sql);
+    $params = $exists ? 
+        [$idMembresia, $fechaFin, $usuario_id] : 
+        [$usuario_id, $idMembresia, $fechaFin];
+
+    if (!$stmt || !mysqli_stmt_bind_param($stmt, str_repeat("s", count($params)), ...$params) || !mysqli_stmt_execute($stmt)) {
+        throw new Exception("Error al " . ($exists ? "actualizar" : "crear") . " membresía");
+    }
+    mysqli_stmt_close($stmt);
 }
 ?>

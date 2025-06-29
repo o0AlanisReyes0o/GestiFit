@@ -28,7 +28,7 @@ try {
     // 1. Obtener información de la clase y sus días
     $sqlClase = "SELECT c.*, GROUP_CONCAT(cd.dia) as dias_clase 
                 FROM clases_grupales c
-                JOIN clase_dias cd ON c.id_clase = cd.id_clase
+                JOIN clasedias cd ON c.id_clase = cd.idClase
                 WHERE c.id_clase = ?
                 GROUP BY c.id_clase";
     $stmtClase = mysqli_prepare($conn, $sqlClase);
@@ -56,7 +56,9 @@ try {
     // 3. Verificar cupos disponibles
     $sqlCupos = "SELECT c.cupo_maximo, COUNT(r.id_reserva) as inscritos
                 FROM clases_grupales c
-                LEFT JOIN reservas_clases r ON c.id_clase = r.id_clase
+                LEFT JOIN reservas_clases r ON c.id_clase = r.id_clase AND r.dia IN (
+                    SELECT dia FROM clasedias WHERE idClase = c.id_clase
+                )
                 WHERE c.id_clase = ?
                 GROUP BY c.id_clase";
     $stmtCupos = mysqli_prepare($conn, $sqlCupos);
@@ -123,11 +125,13 @@ try {
         $conn->rollback();
     }
     $response['message'] = '✗ ' . $e->getMessage();
+    http_response_code(400);
 } finally {
     if (isset($conn)) {
         mysqli_close($conn);
     }
 }
 
-echo json_encode($response);
+echo json_encode($response, JSON_UNESCAPED_UNICODE);
+exit;
 ?>

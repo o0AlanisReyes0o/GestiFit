@@ -21,18 +21,18 @@ try {
             cd.dia AS day_of_week,
             DATE_FORMAT(CURDATE(), '%d/%m/%Y') AS fecha_actual,
             IF(
-                cd.dia = ELT(WEEKDAY(CURDATE()) + 1, 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'),
+                cd.dia = ELT(WEEKDAY(CURDATE()) + 1, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'),
                 1,
                 0
             ) AS is_today
         FROM reservas_clases rc
         JOIN clases_grupales c ON rc.id_clase = c.id_clase
-        JOIN Usuario u ON c.id_instructor = u.idUsuario
-        JOIN clase_dias cd ON c.id_clase = cd.id_clase
+        JOIN usuario u ON c.id_instructor = u.idUsuario
+        JOIN clasedias cd ON c.id_clase = cd.idClase
         WHERE rc.id_usuario = ?
         ORDER BY 
             is_today DESC,
-            FIELD(cd.dia, 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'),
+            FIELD(cd.dia, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'),
             c.hora_inicio
         LIMIT 3";
 

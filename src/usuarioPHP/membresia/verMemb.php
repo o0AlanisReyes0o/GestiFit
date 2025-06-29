@@ -7,9 +7,14 @@ header('Content-Type: application/json');
 $conexion = conectarDB();
 
 // Consulta para obtener todas las membresías disponibles
-$sql = "SELECT id_membresia, nombre, precio, duracion_dias, descripcion, beneficios, tipo 
-        FROM membresias
-        ORDER BY precio ASC";
+$sql = "SELECT idMembresia AS id_membresia, 
+               nombre, 
+               costo AS precio, 
+               duracionMeses AS duracion_meses,
+               descripcion,
+               beneficios
+        FROM membresia
+        ORDER BY costo ASC";
 
 $stmt = consultaDB($conexion, $sql, []);
 $result = mysqli_stmt_get_result($stmt);
@@ -20,25 +25,30 @@ while ($row = mysqli_fetch_assoc($result)) {
     // Convertir beneficios separados por comas en array
     $beneficios = array_map('trim', explode(',', $row['beneficios']));
     
-    // Determinar si es featured (puedes ajustar esta lógica)
-    $featured = ($row['tipo'] === 'premium' || $row['tipo'] === 'vip');
+    // Determinar si es featured (Premium en este caso)
+    $featured = ($row['nombre'] === 'Premium');
     
     $planes[] = [
         'id' => $row['id_membresia'],
         'name' => $row['nombre'],
-        'price' => $row['precio'],
-        'duration' => $row['duracion_dias'] . ' días',
+        'price' => (float)$row['precio'],
+        'duration' => $row['duracion_meses'] . ' mes(es)',
         'description' => $row['descripcion'],
         'features' => $beneficios,
         'featured' => $featured,
-        'type' => $row['tipo']
+        'type' => strtolower($row['nombre'])
     ];
 }
 
 // Consulta para obtener la membresía actual del usuario
-$sql_current = "SELECT id_membresia FROM usuarios_membresias 
-                WHERE id_usuario = ? AND estado = 'activa' 
+$sql_current = "SELECT um.idMembresia, m.costo 
+                FROM usuariomembresia um
+                JOIN membresia m ON um.idMembresia = m.idMembresia
+                WHERE um.idUsuario = ? 
+                AND um.estado = 'activa'
+                AND (um.fechaFin IS NULL OR um.fechaFin >= CURDATE())
                 LIMIT 1";
+
 $stmt_current = consultaDB($conexion, $sql_current, [$usuario_id]);
 $result_current = mysqli_stmt_get_result($stmt_current);
 
@@ -47,16 +57,8 @@ $current_plan_price = null;
 
 if (mysqli_num_rows($result_current) > 0) {
     $current = mysqli_fetch_assoc($result_current);
-    $current_plan_id = $current['id_membresia'];
-    
-    // Obtener el precio del plan actual
-    $sql_price = "SELECT precio FROM membresias WHERE id_membresia = ?";
-    $stmt_price = consultaDB($conexion, $sql_price, [$current_plan_id]);
-    $price_result = mysqli_stmt_get_result($stmt_price);
-    if (mysqli_num_rows($price_result) > 0) {
-        $current_plan = mysqli_fetch_assoc($price_result);
-        $current_plan_price = $current_plan['precio'];
-    }
+    $current_plan_id = $current['idMembresia'];
+    $current_plan_price = (float)$current['costo'];
 }
 
 // Marcar planes como current y upgrade

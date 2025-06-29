@@ -1,3 +1,43 @@
+<?php
+// Usar rutas absolutas para mayor seguridad
+require_once __DIR__ . '/../../src/conexion.php';
+
+// Iniciar sesión antes de cualquier verificación
+session_start();
+
+// Verificar si el usuario está logueado
+if (!isset($_SESSION['idUsuario'])) {  // Cambiado de 'user_id' a 'usuario_id'
+    header("Location: /GestiFit/public/public/index.html");
+    exit;
+}
+
+// Obtener información del usuario
+$userId = $_SESSION['idUsuario'];  // Cambiado para coincidir con tu otro código
+$query = "SELECT * FROM Usuario WHERE idUsuario = ?";
+$stmt = mysqli_prepare($conexion, $query);
+
+if (!$stmt) {
+    die("Error en la preparación de la consulta: " . mysqli_error($conexion));
+}
+
+mysqli_stmt_bind_param($stmt, "i", $userId);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+if (!$result) {
+    die("Error en la consulta: " . mysqli_error($conexion));
+}
+
+$user = mysqli_fetch_assoc($result);
+
+if (!$user) {
+    session_destroy();
+    header("Location: /GestiFit/public/login.html");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -103,7 +143,10 @@
                         <div class="col-lg-8 text-center text-lg-center mb-lg-0">
                             <div class="d-flex flex-wrap">
                                 <div class="pe-4">
-                                    <span class="text-white"><i class="fa fa-user text-primary me-2"></i> Bienvenido, <strong>NombreUsuario</strong></span>
+                                    <span class="text-white">
+                                    <i class="fa fa-user text-primary me-2"></i>
+                                    Bienvenido, <strong><?= htmlspecialchars($user['nombre' ]) ?></strong>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +154,14 @@
                             <div class="d-flex justify-content-end">
                                 <div class="d-flex align-items-center small">
                                     <a href="#" class="text-body me-3 pe-3" data-bs-toggle="modal" data-bs-target="#profileModal"><i class="fas fa-cog me-2"></i>Mi cuenta</a>
-                                    <a href="logout.html" class="text-body me-3"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</a>
+                                    <form id="logoutForm" action="/GestiFit/src/cerrar_sesion.php" method="POST" style="display: inline;">
+                                        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
+                                        <button type="submit" class="btn btn-link text-body me-3" 
+                                                onclick="return confirm('¿Seguro que deseas cerrar sesión?')">
+                                            <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
+                                        </button>
+                                    </form>
+
                                 </div>
                                 <div class="d-flex pe-3">
                                     <a class="btn p-0 text-primary me-3" href="https://www.instagram.com/elmanicomiogym?igsh=MXB3eHBkdjFjYXJleQ=="><i class="fab fa-instagram"></i></a>
@@ -130,11 +180,12 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbarCollapse">
                             <div class="navbar-nav mx-0 mx-lg-auto">
-                                <a href="index.html" class="nav-item nav-link active">Inicio</a>
-                                <a href="membresia.html" class="nav-item nav-link">Mi Membresía</a>
-                                <a href="clases.html" class="nav-item nav-link ">Clases</a>
-                                <a href="entrenadores.html" class="nav-item nav-link">Entrenadores</a>
-                                <a href="casillero.html" class="nav-item nav-link">Casilleros</a>
+                                <a href="index_usuario.php" class="nav-item nav-link active">Inicio</a>
+                                <a href="membresia.php" class="nav-item nav-link">Mi Membresía</a>
+                                <a href="Clases.php" class="nav-item nav-link">Clases</a>
+                                <a href="rutinas.html" class="nav-item nav-link">Rutinas</a>
+                                <a href="Entrenadores.php" class="nav-item nav-link">Entrenadores</a>
+                                <a href="casillero.html" class="nav-item nav-link">Casilleros</a>    
                                 
                                 <div class="nav-btn ps-3">
                                     <button class="btn-search btn btn-primary btn-md-square mt-2 mt-lg-0 mb-4 mb-lg-0 flex-shrink-0" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search"></i></button>

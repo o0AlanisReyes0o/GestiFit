@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Datos de las clases
     let clasesData = [];
-    let scheduleData = {};
+    let scheduleData = [];
 
     // Función para mostrar notificaciones
     function showNotification(type, message) {
@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
         notification.textContent = message;
         document.body.appendChild(notification);
         
-        // Eliminar la notificación después de la animación
         setTimeout(() => {
             notification.remove();
         }, 3000);
@@ -39,12 +38,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 throw new Error(data.error || 'Error en los datos recibidos');
             }
             
-            if (!Array.isArray(data.clases) || typeof data.horario !== 'object') {
-                throw new Error('Formato de datos incorrecto');
-            }
-            
             clasesData = data.clases;
             scheduleData = data.horario;
+            
             renderClases();
             renderSchedule();
             
@@ -61,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
                 <h4>Error al cargar las clases</h4>
                 <p>${error.message}</p>
-                <button class="btn btn-primary" onclick="loadClases()">Reintentar</button>
+                <button class="btn btn-primary" onclick="location.reload()">Reintentar</button>
             </div>
         `;
     }
@@ -70,6 +66,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function renderClases() {
         clasesContainer.innerHTML = '';
         modalsContainer.innerHTML = '';
+
+        if (clasesData.length === 0) {
+            clasesContainer.innerHTML = `
+                <div class="col-12 text-center">
+                    <i class="fas fa-calendar-times fa-3x mb-3 text-muted"></i>
+                    <h4>No hay clases disponibles</h4>
+                    <p>Por favor, intenta más tarde o con otros filtros.</p>
+                </div>
+            `;
+            return;
+        }
 
         clasesData.forEach(clase => {
             // Crear tarjeta de clase
@@ -93,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="class-content p-4">
                         <div class="d-flex justify-content-between mb-3">
                             <span class="badge bg-${getBadgeColor(clase.dificultad)}">${capitalizeFirstLetter(clase.dificultad)}</span>
-                            <span class="text-muted"><i class="far fa-clock me-2"></i> ${clase.hora_inicio} - ${clase.hora_fin}</span>
+                            <span class="text-muted"><i class="far fa-clock me-2"></i>${formatTime(clase.hora_inicio)} - ${formatTime(clase.hora_fin)}</span>
                         </div>
                         <h4 class="mb-3">${clase.nombre}</h4>
                         <p class="mb-4">${clase.descripcion}</p>
@@ -154,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                             ${clase.cupos_disponibles > 0 ? 'Disponible' : 'Lleno'}
                                                         </span>
                                                     </div>
-                                                    <p class="mb-1"><i class="far fa-clock me-2"></i> ${clase.hora_inicio} - ${clase.hora_fin}</p>
+                                                    <p class="mb-1"><i class="far fa-clock me-2"></i> ${formatTime(clase.hora_inicio)} - ${formatTime(clase.hora_fin)}</p>
                                                     <p class="mb-1"><i class="fas fa-user-tie me-2"></i> ${clase.instructor_nombre} ${clase.instructor_apellido}</p>
                                                     <p class="mb-0"><i class="fas fa-users me-2"></i> 
                                                         <span class="seats-${getSeatsClass(clase.cupos_disponibles)}">
@@ -192,102 +199,132 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         initRegisterButtons();
+        applyFilters(); // Aplicar filtros después de renderizar
     }
 
     // Función para renderizar el horario
     function renderSchedule() {
         scheduleBody.innerHTML = '';
 
-        // Ordenar las horas
-        const horas = Object.keys(scheduleData).sort((a, b) => a - b);
-
-        horas.forEach(hora => {
-            const row = document.createElement('tr');
-            const horaData = scheduleData[hora];
-            
-            row.innerHTML = `
-                <td>${horaData.hora}</td>
-                ${['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'].map(dia => `
-                    <td>
-                        ${horaData[dia] ? `
-                            <span class="d-block">${horaData[dia].nombre}</span>
-                            <small class="text-muted">(${horaData[dia].instructor})</small>
-                        ` : ''}
+        if (!scheduleData || scheduleData.length === 0) {
+            scheduleBody.innerHTML = `
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-4">
+                        <i class="fas fa-calendar-times fa-2x mb-3"></i>
+                        <p>No hay horarios disponibles</p>
                     </td>
-                `).join('')}
+                </tr>
+            `;
+            return;
+        }
+
+        scheduleData.forEach(hora => {
+            const row = document.createElement('tr');
+            
+            // Mapear días de la semana en el orden correcto
+            const diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+            
+            let celdas = diasSemana.map(dia => {
+                // Buscar si hay clase en este día y hora
+                const claseEnDia = Object.entries(hora).find(([key, value]) => 
+                    key.toLowerCase() === dia.toLowerCase()
+                );
+                
+                if (claseEnDia && claseEnDia[1]) {
+                    return `
+                        <td class="schedule-cell">
+                            <div class="schedule-class">
+                                <span class="d-block fw-bold">${claseEnDia[1].nombre}</span>
+                                <small class="text-muted">${claseEnDia[1].instructor}</small>
+                                <button class="btn btn-sm btn-link p-0 mt-1 btn-view-class" 
+                                        data-clase-id="${claseEnDia[1].id_clase}">
+                                    Ver detalles
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                }
+                return '<td></td>';
+            }).join('');
+
+            row.innerHTML = `
+                <td class="text-nowrap">${hora.hora}</td>
+                ${celdas}
             `;
             
             scheduleBody.appendChild(row);
         });
+
+        // Agregar eventos a los botones de ver detalles
+        document.querySelectorAll('.btn-view-class').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const claseId = this.getAttribute('data-clase-id');
+                const modal = document.getElementById(`modal-clase-${claseId}`);
+                if (modal) {
+                    const bsModal = new bootstrap.Modal(modal);
+                    bsModal.show();
+                }
+            });
+        });
     }
 
-// Función para inicializar los botones de registro
-function initRegisterButtons() {
-        // Eliminar eventos anteriores primero
-    document.querySelectorAll('.btn-register-day').forEach(btn => {
-        btn.replaceWith(btn.cloneNode(true));
-    });
-    document.querySelectorAll('.btn-register-all').forEach(btn => {
-        btn.replaceWith(btn.cloneNode(true));
-    });
-    // Botones para inscribirse en un día específico
-    document.querySelectorAll('.btn-register-day').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const claseId = this.getAttribute('data-clase-id');
-            const dia = this.getAttribute('data-dia');
-            registerToClass(claseId, dia);
-        });
-    });
-    
-    // Botones para inscribirse en todos los días
-    document.querySelectorAll('.btn-register-all').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const claseId = this.getAttribute('data-clase-id');
-            registerToClass(claseId, 'todos');
-        });
-    });
-}
-
-async function registerToClass(claseId, dia) {
-    console.log('Intentando inscribir:', {claseId, dia});
-    try {
-        const response = await fetch('/GestiFit/src/usuarioPHP/clases/inscribirClase.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                id_clase: claseId,
-                dia: dia
-            })
+    // Función para inicializar los botones de registro
+    function initRegisterButtons() {
+        // Botones para inscribirse en un día específico
+        document.querySelectorAll('.btn-register-day').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const claseId = this.getAttribute('data-clase-id');
+                const dia = this.getAttribute('data-dia');
+                registerToClass(claseId, dia);
+            });
         });
         
-        console.log('Respuesta recibida:', response);
-        
-        const data = await response.json();
-        console.log('Datos recibidos:', data);
+        // Botones para inscribirse en todos los días
+        document.querySelectorAll('.btn-register-all').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const claseId = this.getAttribute('data-clase-id');
+                registerToClass(claseId, 'todos');
+            });
+        });
+    }
 
-        // Resto del código...
-                if (data.success) {
-            showNotification('success', data.message);
-            // Recargar las clases para actualizar la disponibilidad
-            loadClases();
+    // Función para registrar en una clase
+    async function registerToClass(claseId, dia) {
+        try {
+            const response = await fetch('/GestiFit/src/usuarioPHP/clases/inscribirClase.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id_clase: claseId,
+                    dia: dia
+                })
+            });
             
-            // Cerrar el modal después de inscribirse
-            const modalEl = document.querySelector('.modal.show');
-            if (modalEl) {
-                const modal = bootstrap.Modal.getInstance(modalEl);
-                if (modal) modal.hide();
+            const data = await response.json();
+
+            if (data.success) {
+                showNotification('success', data.message);
+                loadClases(); // Recargar las clases para actualizar la disponibilidad
+                
+                // Cerrar el modal después de inscribirse
+                const modalEl = document.querySelector('.modal.show');
+                if (modalEl) {
+                    const modal = bootstrap.Modal.getInstance(modalEl);
+                    if (modal) modal.hide();
+                }
+            } else {
+                showNotification('error', data.message);
             }
-        } else {
-            showNotification('error', data.message);
+        } catch (error) {
+            console.error('Error:', error);
+            showNotification('error', 'Error al intentar inscribirse');
         }
-    } catch (error) {
-        console.error('Error completo:', error);
     }
-}
+
     // Funciones auxiliares
     function getBadgeColor(dificultad) {
         switch(dificultad) {
@@ -305,7 +342,15 @@ async function registerToClass(claseId, dia) {
     }
 
     function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    }
+
+    function formatTime(timeString) {
+        const [hours, minutes] = timeString.split(':');
+        const hour = parseInt(hours, 10);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        const hour12 = hour % 12 || 12;
+        return `${hour12}:${minutes} ${ampm}`;
     }
 
     // Filtrado de clases
@@ -320,7 +365,7 @@ async function registerToClass(claseId, dia) {
             const cardLevel = card.dataset.nivel;
             
             // Verificar filtros
-            const dayMatch = !dayValue || cardDays.includes(dayValue);
+            const dayMatch = !dayValue || cardDays.some(d => d.toLowerCase() === dayValue.toLowerCase());
             const levelMatch = !levelValue || cardLevel === levelValue;
             
             let timeMatch = true;
@@ -329,13 +374,35 @@ async function registerToClass(claseId, dia) {
             } else if (timeValue === 'afternoon') {
                 timeMatch = cardHour >= 12 && cardHour < 18;
             } else if (timeValue === 'evening') {
-                timeMatch = cardHour >= 18 && cardHour < 21;
+                timeMatch = cardHour >= 18 || cardHour < 6; // Incluye noche y madrugada
             }
             
             // Mostrar/ocultar según coincidencia
             card.closest('.col-lg-4').style.display = (dayMatch && timeMatch && levelMatch) ? 'block' : 'none';
         });
+
+        // Mostrar mensaje si no hay resultados
+        const visibleCards = document.querySelectorAll('.class-card').length;
+        const visibleAfterFilter = document.querySelectorAll('.class-card').length;
+        
+        if (visibleAfterFilter === 0 && visibleCards > 0) {
+            clasesContainer.innerHTML += `
+                <div class="col-12 text-center mt-4">
+                    <i class="fas fa-filter fa-2x text-muted mb-3"></i>
+                    <h5>No hay clases que coincidan con los filtros</h5>
+                    <button class="btn btn-outline-primary mt-2" onclick="resetFilters()">Limpiar filtros</button>
+                </div>
+            `;
+        }
     }
+
+    // Función para resetear filtros
+    window.resetFilters = function() {
+        filterDay.value = '';
+        filterTime.value = '';
+        filterLevel.value = '';
+        applyFilters();
+    };
 
     // Event listeners para filtros
     filterDay.addEventListener('change', applyFilters);

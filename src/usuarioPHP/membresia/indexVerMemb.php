@@ -7,28 +7,26 @@ header('Content-Type: application/json');
 $conexion = conectarDB();
 
 $sql = "SELECT 
-            m.id_membresia,
+            m.idMembresia AS id_membresia,
             m.nombre AS plan_name,
-            m.precio,
-            m.duracion_dias,
+            m.costo AS precio,
+            m.duracionMeses AS duracion_meses,
             m.descripcion,
             m.beneficios,
-            m.tipo,
-            um.fecha_inicio,
-            um.fecha_fin,
-            DATEDIFF(um.fecha_fin, um.fecha_inicio) AS total_days,
-            DATEDIFF(CURDATE(), um.fecha_inicio) AS days_used,
-            DATEDIFF(um.fecha_fin, CURDATE()) AS days_remaining,
+            um.fechaInicio,
+            um.fechaFin,
+            DATEDIFF(um.fechaFin, um.fechaInicio) AS total_days,
+            DATEDIFF(CURDATE(), um.fechaInicio) AS days_used,
+            DATEDIFF(um.fechaFin, CURDATE()) AS days_remaining,
             um.estado,
             CASE 
-                WHEN um.fecha_fin >= CURDATE() THEN 1 
+                WHEN um.fechaFin >= CURDATE() AND um.estado = 'activa' THEN 1 
                 ELSE 0 
             END AS is_active
-        FROM usuarios_membresias um
-        JOIN membresias m ON um.id_membresia = m.id_membresia
-        WHERE um.id_usuario = ?
-        AND um.estado = 'activa'
-        ORDER BY um.fecha_fin DESC
+        FROM usuariomembresia um
+        JOIN membresia m ON um.idMembresia = m.idMembresia
+        WHERE um.idUsuario = ?
+        ORDER BY um.fechaFin DESC
         LIMIT 1";
 
 $stmt = consultaDB($conexion, $sql, [$usuario_id]);
@@ -42,35 +40,41 @@ if (mysqli_num_rows($result) === 0) {
     ]);
     exit;
 }
-
+    
 $membresia = mysqli_fetch_assoc($result);
 
 // Formatear fechas
-$fecha_inicio = date('d/m/Y', strtotime($membresia['fecha_inicio']));
-$fecha_fin = date('d/m/Y', strtotime($membresia['fecha_fin']));
+$fecha_inicio = date('d/m/Y', strtotime($membresia['fechaInicio']));
+$fecha_fin = date('d/m/Y', strtotime($membresia['fechaFin']));
 $hoy = date('Y-m-d');
+
+// Calcular días totales basados en duración en meses
+$total_dias = $membresia['duracion_meses'] * 30; // Aproximación de 30 días por mes
+$dias_usados = max(0, floor((strtotime($hoy) - strtotime($membresia['fechaInicio'])) / (60 * 60 * 24)));
+$dias_restantes = max(0, floor((strtotime($membresia['fechaFin']) - strtotime($hoy)) / (60 * 60 * 24)));
+
 // Determinar si se puede renovar
-$canRenew = ($membresia['days_remaining'] <= 7 || !$membresia['is_active']);
-$dias_restantes = max(0, floor((strtotime($membresia['fecha_fin']) - strtotime($hoy)) / (60 * 60 * 24)));
+$canRenew = ($dias_restantes <= 7 || $membresia['estado'] !== 'activa');
+
 // Formatear respuesta
 $respuesta = [
     'success' => true,
     'data' => [
         'plan_name' => $membresia['plan_name'],
-        'price' => $membresia['precio'],
-        'duration_days' => $membresia['duracion_dias'],
+        'price' => (float)$membresia['precio'],
+        'duration_months' => $membresia['duracion_meses'],
+        'duration_days' => $total_dias,
         'description' => $membresia['descripcion'],
-        'benefits' => $membresia['beneficios'],
-        'type' => $membresia['tipo'],
+        'benefits' => array_map('trim', explode(',', $membresia['beneficios'])),
         'start_date' => $fecha_inicio,
         'end_date' => $fecha_fin,
-        'days_used' => max(0, $membresia['days_used']),
-        'total_days' => $membresia['total_days'],
+        'days_used' => $dias_usados,
+        'total_days' => $total_dias,
         'days_remaining' => $dias_restantes,
         'status' => $membresia['estado'],
         'is_active' => (bool)$membresia['is_active'],
         'can_renew' => $canRenew,
-        'progress_percentage' => round(($membresia['days_used'] / $membresia['total_days']) * 100)
+        'progress_percentage' => $total_dias > 0 ? round(($dias_usados / $total_dias) * 100) : 0
     ]
 ];
 

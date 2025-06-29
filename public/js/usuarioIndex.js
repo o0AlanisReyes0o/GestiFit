@@ -341,43 +341,93 @@ async function loadUpcomingClasses() {
         `;
     }
 }
-// Cargar datos de membresía
 async function loadMembershipData() {
     try {
         const response = await fetch('/GestiFit/src/usuarioPHP/membresia/indexVerMemb.php');
         const data = await response.json();
-        
-        if(data.success) {
 
-            console.log('Datos de membresía cargados:', data.data);
+        console.log('Respuesta del servidor:', data);
+        
+        const card = document.querySelector('#mi-membresia-card');
+        
+        // Check if data is null or undefined first
+        if(!data || data.data === null) {
+            console.log('No hay membresía activa');
+            card.innerHTML = `
+                <div class="card-body text-center">
+                    <h5 class="card-title">Sin membresía activa</h5>
+                    <p class="text-muted">Actualmente no tienes una membresía activa</p>
+                    <a href="/GestiFit/public/usuario/membresia.php" 
+                       class="btn btn-primary">
+                        Adquirir membresía
+                    </a>
+                </div>
+            `;
+            return;
+        }
+        
+        // Check if data exists and has the expected properties
+        if(data.success && data.data) {
             const membership = data.data;
-            const card = document.querySelector('#mi-membresia-card');
             
-            // Actualizar progreso
-            const progressPercentage = Math.round((membership.days_used / membership.total_days) * 100);
-            card.querySelector('.progress-bar').style.width = `${progressPercentage}%`;
+            // Calcular días usados basado en días restantes
+            const daysUsed = membership.duration_days - membership.days_remaining;
+            const progressPercentage = Math.round((daysUsed / membership.duration_days) * 100);
             
-            // Actualizar texto
-            card.querySelector('h5').textContent = membership.plan_name;
-            card.querySelector('small.text-muted').textContent = `Válida hasta: ${membership.end_date}`;
-            card.querySelector('p.mb-3').innerHTML = `Días restantes: <strong>${membership.days_remaining}</strong>`;
-            
-            // Actualizar botón según estado
-            const btn = card.querySelector('a.btn');
-            if(membership.can_renew) {
-                btn.classList.remove('btn-secondary');
-                btn.classList.add('btn-outline-primary');
-                btn.textContent = 'Renovar';
-            } else {
-                btn.classList.remove('btn-outline-primary');
-                btn.classList.add('btn-secondary');
-                btn.textContent = 'Ver detalles';
+            // Make sure card elements exist before trying to update them
+            if(card) {
+                const progressBar = card.querySelector('.progress-bar');
+                if(progressBar) {
+                    progressBar.style.width = `${progressPercentage}%`;
+                    progressBar.setAttribute('aria-valuenow', progressPercentage);
+                    progressBar.textContent = `${progressPercentage}%`;
+                }
+                
+                const title = card.querySelector('h5');
+                if(title) title.textContent = membership.plan_name;
+                
+                const dateText = card.querySelector('small.text-muted');
+                if(dateText) dateText.textContent = `Válida hasta: ${membership.end_date}`;
+                
+                const daysRemaining = card.querySelector('p.mb-3');
+                if(daysRemaining) {
+                    daysRemaining.innerHTML = `Días restantes: <strong>${membership.days_remaining}</strong>`;
+                }
+                
+                // Actualizar botón según estado
+                const btn = card.querySelector('a.btn');
+                if(btn) {
+                    if(membership.can_renew) {
+                        btn.classList.remove('btn-secondary');
+                        btn.classList.add('btn-primary');
+                        btn.textContent = 'Renovar ahora';
+                        btn.href = '/GestiFit/public/usuario/membresia.php';
+                    } else {
+                        btn.classList.remove('btn-primary');
+                        btn.classList.add('btn-outline-secondary');
+                        btn.textContent = 'Ver detalles';
+                    }
+                }
             }
         }
     } catch (error) {
         console.error('Error al cargar datos de membresía:', error);
+        const card = document.querySelector('#mi-membresia-card');
+        if(card) {
+            card.innerHTML = `
+                <div class="card-body text-center text-danger">
+                    <p>Error al cargar la información de membresía</p>
+                    <a href="javascript:location.reload()" class="btn btn-sm btn-outline-secondary">
+                        Reintentar
+                    </a>
+                </div>
+            `;
+        }
     }
 }
+
+// Llamar a la función cuando se cargue la página
+document.addEventListener('DOMContentLoaded', loadMembershipData);
 
 // Cargar planes de membresía disponibles (versión corregida)
 async function loadMembershipPlans() {

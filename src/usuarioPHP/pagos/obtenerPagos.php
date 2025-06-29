@@ -17,7 +17,7 @@ try {
                 m.nombre AS concepto,
                 p.referencia_pago
             FROM pagos p
-            LEFT JOIN membresias m ON p.id_membresia = m.id_membresia
+            LEFT JOIN membresia m ON p.id_membresia = m.idMembresia
             LEFT JOIN metodos_pago mp ON p.id_metodo_pago = mp.id_metodo
             LEFT JOIN catalogo_metodos_pago c ON mp.id_tipo = c.id_tipo
             WHERE p.id_usuario = ?
@@ -31,20 +31,32 @@ try {
 
     $pagos = array();
     while ($fila = $result->fetch_assoc()) {
-        $fila['monto'] = (float)$fila['monto'];
-        $pagos[] = $fila;
+        // Formatear datos para consistencia
+        $pago = [
+            'id_pago' => $fila['id_pago'],
+            'fecha_pago' => date('d/m/Y H:i', strtotime($fila['fecha_pago'])),
+            'monto' => (float)$fila['monto'],
+            'metodo_pago' => $fila['metodo_pago'] ?? 'No especificado',
+            'estado_pago' => $fila['estado_pago'],
+            'concepto' => $fila['concepto'] ?? 'Membresía',
+            'referencia' => $fila['referencia_pago'] ?? 'N/A'
+        ];
+        $pagos[] = $pago;
     }
 
     echo json_encode([
         'exito' => true,
-        'pagos' => $pagos
+        'pagos' => $pagos,
+        'total' => count($pagos)
     ]);
 
 } catch (Exception $e) {
+    http_response_code(500);
     echo json_encode([
         'exito' => false,
-        'mensaje' => 'Error: ' . $e->getMessage(),
-        'pagos' => []
+        'mensaje' => 'Error al obtener el historial de pagos: ' . $e->getMessage(),
+        'pagos' => [],
+        'total' => 0
     ]);
 } finally {
     if (isset($conexion)) {

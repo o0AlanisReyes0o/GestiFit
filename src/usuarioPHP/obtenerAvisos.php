@@ -60,7 +60,7 @@ function getDefaultAnnouncements() {
         [
             'title' => 'Bienvenido a GestiFit',
             'description' => 'Descubre todo lo que tenemos para ofrecerte',
-            'image' => 'default-banner.jpg',
+            'image' => 'bannerNegro.jpg',
             'button' => ['text' => 'Conoce más', 'link' => 'nosotros.html']
         ]
     ];

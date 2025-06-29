@@ -20,17 +20,36 @@ document.addEventListener('DOMContentLoaded', () => {
 async function cargarDatosMembresia() {
     try {
         const response = await fetch('/GestiFit/src/usuarioPHP/membresia/obtenerMemb.php');
+        
+        if (!response.ok) {
+            throw new Error('Error en la respuesta del servidor');
+        }
+        
         const data = await response.json();
         
         if (!data.exito) {
-            throw new Error(data.mensaje || 'Error al cargar membresía');
+            // Mostrar mensaje amigable cuando no hay membresía
+            mostrarMensajeSinMembresia();
+            return;
         }
         
         actualizarUIMembresia(data.membresia);
     } catch (error) {
-        console.error("Error:", error);
-        mostrarError("membership-info", "Error al cargar datos de membresía");
+        console.error("Error al cargar membresía:", error);
+        mostrarMensajeSinMembresia();
     }
+}
+
+function mostrarMensajeSinMembresia() {
+    const container = document.getElementById('membership-info');
+    if (!container) return;
+    
+    container.innerHTML = `
+        <div class="alert alert-info">
+            <h4>No tienes una membresía activa</h4>
+            <p>Actualmente no estás disfrutando de los beneficios de una membresía.</p>
+        </div>
+    `;
 }
 
 async function cargarHistorialPagos() {
@@ -349,77 +368,68 @@ async function procesarPago(event) {
     const originalBtnText = submitBtn.innerHTML;
     
     try {
+        // Show loading state
         submitBtn.innerHTML = `
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             Procesando...
         `;
         submitBtn.disabled = true;
         
-        // 1. Recopilar todos los datos necesarios
+        // Validate form
         const idMembresia = document.getElementById('membresia-pago').value;
         const monto = document.getElementById('monto-pago').value;
         const metodoPago = document.getElementById('metodo-pago').value;
         
-        // Validar datos básicos
         if (!idMembresia || !monto || !metodoPago) {
-            throw new Error('Por favor complete todos los campos del formulario');
+            throw new Error('Complete todos los campos requeridos');
         }
         
-        // 2. Preparar datos para enviar
+        // Prepare form data
         const formData = new FormData();
         formData.append('id_membresia', idMembresia);
         formData.append('monto', monto);
         
         if (metodoPago === 'nuevo') {
+            const tipo = document.getElementById('nuevo-metodo-tipo').value;
+            if (!tipo) throw new Error('Seleccione un tipo de método de pago');
+            
             formData.append('nuevo_metodo', '1');
-            formData.append('tipo_metodo', document.getElementById('nuevo-metodo-tipo').value);
+            formData.append('tipo_metodo', tipo);
             formData.append('alias_metodo', document.getElementById('nuevo-metodo-alias').value || 'Nuevo método');
         } else {
             formData.append('id_metodo_pago', metodoPago);
         }
 
-        console.log("Datos a enviar:", {
-            idMembresia,
-            monto,
-            metodoPago,
-            esNuevo: metodoPago === 'nuevo'
-        });
-        
-        // 3. Enviar datos al servidor
+        // Send request
         const response = await fetch('/GestiFit/src/usuarioPHP/pagos/procesarPago.php', {
             method: 'POST',
             body: formData
         });
         
-        // 4. Procesar respuesta
-        const rawResponse = await response.text();
-        console.log("Respuesta del servidor:", rawResponse); // Para depuración
-        let data;
-        
-        try {
-            data = JSON.parse(rawResponse);
-        } catch (e) {
-            console.error("Respuesta no JSON:", rawResponse);
-            throw new Error('Error inesperado del servidor');
+        // Handle response
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Error del servidor (${response.status}): ${errorText.substring(0, 100)}`);
         }
+
+        const data = await response.json();
         
         if (!data.exito) {
-            throw new Error(data.mensaje || 'Error al procesar pago');
+            throw new Error(data.mensaje || 'Error al procesar el pago');
         }
         
-        // 5. Éxito - actualizar interfaz
+        // Success
         $('#paymentModal').modal('hide');
-        mostrarAlerta('success', 'Pago procesado correctamente');
+        mostrarAlerta('success', 'Pago completado. Referencia: ' + data.referencia);
         
-        // Recargar datos
-        await Promise.all([
-            cargarDatosMembresia(),
-            cargarHistorialPagos()
-        ]);
+        // Refresh data
+        await cargarDatosMembresia();
+        await cargarHistorialPagos();
         
     } catch (error) {
         console.error("Error en procesarPago:", error);
-        mostrarAlerta('danger', error.message);
+        mostrarAlerta('danger', error.message.includes('<!DOCTYPE') ? 
+            'Error interno del servidor' : error.message);
     } finally {
         submitBtn.innerHTML = originalBtnText;
         submitBtn.disabled = false;

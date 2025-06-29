@@ -13,7 +13,7 @@ try {
     // Consulta para obtener las clases
     $sqlClases = "SELECT c.*, u.nombre AS instructor_nombre, u.apellidoPaterno AS instructor_apellido 
                  FROM clases_grupales c
-                 JOIN Usuario u ON c.id_instructor = u.idUsuario
+                 JOIN usuario u ON c.id_instructor = u.idUsuario
                  WHERE c.estado = 'disponible'";
     $resultClases = mysqli_query($conn, $sqlClases);
     
@@ -24,7 +24,7 @@ try {
     $clases = [];
     while ($row = mysqli_fetch_assoc($resultClases)) {
         // Procesar días de la clase
-        $sqlDias = "SELECT dia FROM clase_dias WHERE id_clase = ?";
+        $sqlDias = "SELECT dia FROM clasedias WHERE idClase = ?";
         $stmtDias = mysqli_prepare($conn, $sqlDias);
         mysqli_stmt_bind_param($stmtDias, 'i', $row['id_clase']);
         mysqli_stmt_execute($stmtDias);
@@ -34,12 +34,13 @@ try {
         while ($dia = mysqli_fetch_assoc($resultDias)) {
             $dias[] = $dia['dia'];
         }
+        mysqli_stmt_close($stmtDias);
         $row['dias'] = $dias;
         
         // Calcular duración
         $horaInicio = new DateTime($row['hora_inicio']);
         $horaFin = new DateTime($row['hora_fin']);
-        $row['duracion'] = $horaFin->diff($horaInicio)->i;
+        $row['duracion'] = $horaFin->diff($horaInicio)->format('%H:%I');
         
         // Calcular cupos disponibles
         $sqlReservas = "SELECT COUNT(*) FROM reservas_clases WHERE id_clase = ?";
@@ -48,11 +49,11 @@ try {
         mysqli_stmt_execute($stmtReservas);
         $resultReservas = mysqli_stmt_get_result($stmtReservas);
         $reservas = mysqli_fetch_row($resultReservas);
+        mysqli_stmt_close($stmtReservas);
         $row['cupos_disponibles'] = $row['cupo_maximo'] - $reservas[0];
         
-        // Procesar requisitos y beneficios
+        // Procesar requisitos
         $row['requisitos'] = !empty($row['requisitos']) ? array_map('trim', explode(',', $row['requisitos'])) : [];
-        $row['beneficios'] = !empty($row['beneficios']) ? array_map('trim', explode(',', $row['beneficios'])) : [];
         
         $clases[] = $row;
     }
@@ -61,13 +62,18 @@ try {
     $sqlHorario = "SELECT c.id_clase, c.nombre AS clase_nombre, cd.dia, c.hora_inicio, c.hora_fin, 
                   u.nombre AS instructor_nombre, u.apellidoPaterno AS instructor_apellido
                   FROM clases_grupales c
-                  JOIN clase_dias cd ON c.id_clase = cd.id_clase
-                  JOIN Usuario u ON c.id_instructor = u.idUsuario
+                  JOIN clasedias cd ON c.id_clase = cd.idClase
+                  JOIN usuario u ON c.id_instructor = u.idUsuario
                   WHERE c.estado = 'disponible'
-                  ORDER BY FIELD(cd.dia, 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo'), 
+                  ORDER BY FIELD(cd.dia, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'), 
                   c.hora_inicio";
     
     $resultHorario = mysqli_query($conn, $sqlHorario);
+    
+    if (!$resultHorario) {
+        throw new Exception("Error en consulta de horario: " . mysqli_error($conn));
+    }
+    
     $horarioData = mysqli_fetch_all($resultHorario, MYSQLI_ASSOC);
     
     // Organizar horario
@@ -84,20 +90,24 @@ try {
         
         $horario[$hora][$dia] = [
             'nombre' => $clase['clase_nombre'],
-            'instructor' => $clase['instructor_nombre'] . ' ' . $clase['instructor_apellido']
+            'instructor' => $clase['instructor_nombre'] . ' ' . $clase['instructor_apellido'],
+            'id_clase' => $clase['id_clase']
         ];
     }
 
     $response = [
         'success' => true,
         'clases' => $clases,
-        'horario' => $horario
+        'horario' => array_values($horario) // Reindexar array
     ];
 
 } catch (Exception $e) {
     $response['error'] = $e->getMessage();
+    http_response_code(500);
 } finally {
-    if (isset($conn)) mysqli_close($conn);
+    if (isset($conn)) {
+        mysqli_close($conn);
+    }
 }
 
 echo json_encode($response, JSON_UNESCAPED_UNICODE);
