@@ -180,12 +180,21 @@ if (!$user) {
                         </button>
                         <div class="collapse navbar-collapse" id="navbarCollapse">
                             <div class="navbar-nav mx-0 mx-lg-auto">
-                                <a href="index_usuario.php" class="nav-item nav-link active">Inicio</a>
-                                <a href="membresia.php" class="nav-item nav-link">Mi Membresía</a>
-                                <a href="Clases.php" class="nav-item nav-link">Clases</a>
-                                <a href="rutinas.html" class="nav-item nav-link">Rutinas</a>
-                                <a href="Entrenadores.php" class="nav-item nav-link">Entrenadores</a>
-                                <a href="casillero.html" class="nav-item nav-link">Casilleros</a>    
+                                    <a href="index_usuario.php" class="nav-item nav-link active">
+                                        <i class="fas fa-home me-2"></i>Inicio
+                                    </a>
+                                    <a href="membresia.php" class="nav-item nav-link">
+                                        <i class="fas fa-id-card me-2"></i>Mi Membresía
+                                    </a>
+                                    <a href="Clases.php" class="nav-item nav-link">
+                                        <i class="fas fa-calendar-alt me-2"></i>Clases
+                                    </a>
+                                    <a href="rutinas.html" class="nav-item nav-link">
+                                        <i class="fas fa-running me-2"></i>Rutinas
+                                    </a>
+                                    <a href="Entrenadores.php" class="nav-item nav-link">
+                                        <i class="fas fa-dumbbell me-2"></i>Entrenadores
+                                    </a> 
                                 
                                 <div class="nav-btn ps-3">
                                     <button class="btn-search btn btn-primary btn-md-square mt-2 mt-lg-0 mb-4 mb-lg-0 flex-shrink-0" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search"></i></button>
@@ -321,7 +330,7 @@ if (!$user) {
             <h2 class="text-center mb-5"><i class="fas fa-bolt text-primary me-2"></i> Accesos Rápidos</h2>
             <div class="row g-4">
                 <div class="col-6 col-md-3">
-                    <a href="logout.html" class="quick-access-card text-center p-4 bg-white rounded shadow d-block">
+                    <a href="/GestiFit/public/public/logout.html" class="quick-access-card text-center p-4 bg-white rounded shadow d-block">
                         <div class="icon-circle bg-primary text-white mx-auto mb-3">
                             <i class="fas fa-sign-out-alt fa-2x"></i>
                         </div>
@@ -329,7 +338,7 @@ if (!$user) {
                     </a>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a href="reservas.html" class="quick-access-card text-center p-4 bg-white rounded shadow d-block">
+                    <a href="Clases.php" class="quick-access-card text-center p-4 bg-white rounded shadow d-block">
                         <div class="icon-circle bg-primary text-white mx-auto mb-3">
                             <i class="fas fa-calendar-check fa-2x"></i>
                         </div>
@@ -337,7 +346,7 @@ if (!$user) {
                     </a>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a href="entrenadores.html" class="quick-access-card text-center p-4 bg-white rounded shadow d-block">
+                    <a href="Entrenadores.php" class="quick-access-card text-center p-4 bg-white rounded shadow d-block">
                         <div class="icon-circle bg-primary text-white mx-auto mb-3">
                             <i class="fas fa-user-tie fa-2x"></i>
                         </div>
@@ -345,7 +354,7 @@ if (!$user) {
                     </a>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a href="membresia.html" class="quick-access-card text-center p-4 bg-white rounded shadow d-block">
+                    <a href="membresia.php" class="quick-access-card text-center p-4 bg-white rounded shadow d-block">
                         <div class="icon-circle bg-primary text-white mx-auto mb-3">
                             <i class="fas fa-credit-card fa-2x"></i>
                         </div>
@@ -353,11 +362,11 @@ if (!$user) {
                     </a>
                 </div>
                 <div class="col-6 col-md-3">
-                    <a href="casillero.html" class="quick-access-card text-center p-4 bg-white rounded shadow d-block">
+                    <a href="rutinas.html" class="quick-access-card text-center p-4 bg-white rounded shadow d-block">
                         <div class="icon-circle bg-primary text-white mx-auto mb-3">
                             <i class="fas fa-lock fa-2x"></i>
                         </div>
-                        <h5>Casilleros</h5>
+                        <h5>Rutinas</h5>
                     </a>
                 </div>
             </div>

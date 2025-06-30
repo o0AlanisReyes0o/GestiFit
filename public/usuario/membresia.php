@@ -291,12 +291,21 @@ if (!$user) {
                         </button>
                         <div class="collapse navbar-collapse" id="navbarCollapse">
                             <div class="navbar-nav mx-0 mx-lg-auto">
-                                <a href="index_usuario.php" class="nav-item nav-link">Inicio</a>
-                                <a href="membresia.php" class="nav-item nav-link active">Mi Membresía</a>
-                                <a href="Clases.php" class="nav-item nav-link">Clases</a>
-                                <a href="rutinas.html" class="nav-item nav-link">Rutinas</a>
-                                <a href="Entrenadores.php" class="nav-item nav-link">Entrenadores</a>
-                                <a href="casillero.html" class="nav-item nav-link">Casilleros</a>                                   
+                                    <a href="index_usuario.php" class="nav-item nav-link ">
+                                        <i class="fas fa-home me-2"></i>Inicio
+                                    </a>
+                                    <a href="membresia.php" class="nav-item nav-link active">
+                                        <i class="fas fa-id-card me-2"></i>Mi Membresía
+                                    </a>
+                                    <a href="Clases.php" class="nav-item nav-link">
+                                        <i class="fas fa-calendar-alt me-2"></i>Clases
+                                    </a>
+                                    <a href="rutinas.html" class="nav-item nav-link">
+                                        <i class="fas fa-running me-2"></i>Rutinas
+                                    </a>
+                                    <a href="Entrenadores.php" class="nav-item nav-link">
+                                        <i class="fas fa-dumbbell me-2"></i>Entrenadores
+                                    </a>                                   
                                 <div class="nav-btn ps-3">
                                     <button class="btn-search btn btn-primary btn-md-square mt-2 mt-lg-0 mb-4 mb-lg-0 flex-shrink-0" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search"></i></button>
                                     <a href="clases.html" class="btn btn-primary py-2 px-4 ms-0 ms-lg-3"> <span>Reservar Clase</span></a>
@@ -395,7 +404,7 @@ if (!$user) {
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <a href="#" class="quick-access-card">
+                                    <a href="Clases.php" class="quick-access-card">
                                         <div class="icon-wrapper">
                                             <i class="fas fa-calendar-check"></i>
                                         </div>
@@ -403,7 +412,7 @@ if (!$user) {
                                     </a>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <a href="#" class="quick-access-card">
+                                    <a href="Entrenadores.php" class="quick-access-card">
                                         <div class="icon-wrapper">
                                             <i class="fas fa-user-tie"></i>
                                         </div>
@@ -411,7 +420,7 @@ if (!$user) {
                                     </a>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <a href="logout.html" class="quick-access-card">
+                                    <a href="/GestiFit/public/public/logout.html" class="quick-access-card">
                                         <div class="icon-wrapper">
                                             <i class="fas fa-sign-out-alt"></i>
                                         </div>
@@ -419,11 +428,11 @@ if (!$user) {
                                     </a>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <a href="#" class="quick-access-card">
+                                    <a href="rutinas.html" class="quick-access-card">
                                         <div class="icon-wrapper">
                                             <i class="fas fa-lock"></i>
                                         </div>
-                                        <h5 class="text-center mb-0">Casilleros</h5>
+                                        <h5 class="text-center mb-0">Rutinas</h5>
                                     </a>
                                 </div>
                             </div>

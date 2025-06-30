@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const ctx = canvas.getContext('2d');
 
-        // 🔥 Destruye el gráfico anterior si existe
+        // Destruye el gráfico anterior si existe
         const existingChart = Chart.getChart(ctx);
         if (existingChart) {
           existingChart.destroy();
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
               data: {
                 labels: data[key].labels,
                 datasets: [{
-                  label: 'Evaluación mensual',
+                  label: 'Instructores activos',
                   data: data[key].data,
                   backgroundColor: 'rgba(255, 99, 132, 0.4)',
                   borderColor: 'rgba(255, 99, 132, 1)',

@@ -80,70 +80,88 @@ $instructores = mysqli_fetch_all($resultInstructores, MYSQLI_ASSOC);
 </head>
 
 <body>
-    <!-- Navbar & Hero Start -->
-    <nav class="container-fluid header-top">
-        <div class="nav-shaps-2"></div>
-        <div class="container d-flex align-items-center">
-            <div class="d-flex align-items-center h-100">
-                <a href="#" class="navbar-brand" style="height: 125px;">
-                    <h1 class="text-primary mb-0">
-                        <img src="/GestiFit/public/img/logo_gestifit_cuadrado-nofondo.png" class="img-fluid" width="70" height="70">
-                        GestiFit
-                    </h1>
+<div class="text-white bg-dark text-center py-2 fw-bold">
+  <i class="fas fa-user-shield me-2"></i>Modo Administrador
+</div>
+<!-- Navbar & Hero Start -->
+<nav class="container-fluid header-top">
+  <div class="nav-shaps-2"></div>
+  <div class="container d-flex align-items-center">
+    <div class="d-flex align-items-center h-100">
+      <a href="#" class="navbar-brand" style="height: 125px;">
+        <h1 class="text-primary mb-0">
+          <img src="/GestiFit/public/img/logo_gestifit_cuadrado-nofondo.png" class="img-fluid" width="70" height="70">
+          GestiFit
+        </h1>
+      </a>
+    </div>
+    <div class="w-100 h-100">
+      <div class="topbar px-0 py-2 d-none d-lg-block" style="height: 45px;">
+        <div class="row gx-0 align-items-center">
+          <div class="col-lg-8 text-center text-lg-center mb-lg-0">
+            <div class="d-flex flex-wrap">
+              <div class="pe-4"></div>
+            </div>
+          </div>
+          <div class="col-lg-4 text-center text-lg-end">
+            <div class="d-flex justify-content-end">
+              <div class="d-flex pe-3">
+                <a class="btn p-0 text-primary me-3"
+                  href="https://www.instagram.com/elmanicomiogym?igsh=MXB3eHBkdjFjYXJleQ==">
+                  <i class="fab fa-instagram"></i>
                 </a>
+              </div>
             </div>
-            <div class="w-100 h-100">
-                <div class="topbar px-0 py-2 d-none d-lg-block" style="height: 45px;">
-                    <div class="row gx-0 align-items-center">
-                        <div class="col-lg-8 text-center text-lg-center mb-lg-0">
-                            <div class="d-flex flex-wrap">
-                                <div class="pe-4">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 text-center text-lg-end">
-                            <div class="d-flex justify-content-end">
-                                <div class="d-flex pe-3">
-                                    <a class="btn p-0 text-primary me-3"
-                                        href="https://www.instagram.com/elmanicomiogym?igsh=MXB3eHBkdjFjYXJleQ=="><i
-                                            class="fab fa-instagram"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="nav-bar px-0 py-lg-0" style="height: 80px;">
-                    <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-lg-end">
-                        <a href="#" class="navbar-brand-2">
-                            <h1 class="text-primary mb-0"><i class="fas fa-hand-rock me-2"></i>GestiFit</h1>
-                        </a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                            <span class="fa fa-bars"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarCollapse">
-                            <div class="navbar-nav mx-0 mx-lg-auto">
-                                <a href="/GestiFit/public/admin/admin.php" class="nav-item nav-link active fa fa-home"> Principal</a>
-                                <a href="/GestiFit/public/admin/adminClientes.php" class="nav-item nav-link fa fa-users"> Clientes</a>
-                                <a href="/GestiFit/public/admin/adminMembresias.php" class="nav-item nav-link fa fa-user-tie"> Membresias</a>
-                                <a href="/GestiFit/public/admin/adminInstructores.php" class="nav-item nav-link fa fa-dumbbell"> Instructores</a>
-                                <a href="/GestiFit/public/admin/adminClases.php" class="nav-item nav-link fa fa-id-card"> Clases</a>
-
-                                <div class="nav-btn ps-3">
-                                    <a href="/GestiFit/src/cerrar_sesion.php" 
-                                        class="btn btn-primary py-2 px-4 ms-0 ms-lg-3"
-                                        onclick="return confirm('¿Seguro que deseas cerrar sesión?')">
-                                        <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
-                                    </a>
-                                </div>
-
-                                <div class="nav-shaps-1"></div>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-            </div>
+          </div>
         </div>
-    </nav>
+      </div>
+      <div class="nav-bar px-0 py-lg-0" style="height: 80px;">
+        <nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-lg-end">
+          <a href="#" class="navbar-brand-2">
+            <h1 class="text-primary mb-0">
+              <i class="fas fa-hand-rock me-2"></i>GestiFit
+            </h1>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="fa fa-bars"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav mx-0 mx-lg-auto">
+              <a href="/GestiFit/public/admin/admin.php" class="nav-item nav-link active">
+                <i class="fa fa-home me-2"></i>Principal
+              </a>
+              <a href="/GestiFit/public/admin/adminClientes.php" class="nav-item nav-link">
+                <i class="fa fa-users me-2"></i>Clientes
+              </a>
+              <a href="/GestiFit/public/admin/adminMembresias.php" class="nav-item nav-link">
+                <i class="fa fa-user-tie me-2"></i>Membresías
+              </a>
+              <a href="/GestiFit/public/admin/adminInstructores.php" class="nav-item nav-link">
+                <i class="fa fa-dumbbell me-2"></i>Instructores
+              </a>
+              <a href="/GestiFit/public/admin/adminClases.php" class="nav-item nav-link">
+                <i class="fa fa-id-card me-2"></i>Clases
+              </a>
+              <a href="/GestiFit/public/admin/adminRutinas.php" class="nav-item nav-link">
+                <i class="fas fa-running me-2"></i>Rutinas
+              </a>
+
+              <div class="nav-btn ps-3">
+                <a href="/GestiFit/src/cerrar_sesion.php"
+                   class="btn btn-primary py-2 px-4 ms-0 ms-lg-3"
+                   onclick="return confirm('¿Seguro que deseas cerrar sesión?')">
+                  <i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión
+                </a>
+              </div>
+
+              <div class="nav-shaps-1"></div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+</nav>
     <!-- Navbar & Hero End -->
 
     <div class="align-items-center" style="margin-top: 50px;">

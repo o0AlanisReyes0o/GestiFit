@@ -170,7 +170,7 @@ function actualizarUIMembresia(membresia) {
 }
 
 function actualizarUIHistorialPagos(pagos) {
-    console.log('pagos',pagos)
+    console.log('pagos', pagos);
     const tbody = document.getElementById('payments-body');
     tbody.innerHTML = '';
 
@@ -188,9 +188,8 @@ function actualizarUIHistorialPagos(pagos) {
 
     // Calcular total del mes actual
     let totalMes = 0;
-    const mesActual = new Date().getMonth();
+    const mesActual = new Date().getMonth() + 1; // Los meses son 0-indexados, sumamos 1
     const añoActual = new Date().getFullYear();
-
 
     pagos.forEach(pago => {
         try {
@@ -198,12 +197,25 @@ function actualizarUIHistorialPagos(pagos) {
             const monto = typeof pago.monto === 'number' ? pago.monto : parseFloat(pago.monto) || 0;
             const montoFormateado = monto.toFixed(2);
             
-            // Validar y formatear fecha
-            const fechaPago = pago.fecha_pago ? new Date(pago.fecha_pago) : null;
-            const fechaFormateada = fechaPago ? fechaPago.toLocaleDateString('es-ES') : 'N/A';
+            // Parsear fecha correctamente (formato "dd/mm/yyyy HH:mm")
+            const [datePart, timePart] = pago.fecha_pago.split(' ');
+            const [day, month, year] = datePart.split('/').map(Number);
+            const [hours, minutes] = timePart.split(':').map(Number);
             
+            // Crear objeto Date (los meses son 0-indexados en JavaScript)
+            const fechaPago = new Date(year, month - 1, day, hours, minutes);
+            
+            // Formatear fecha para mostrar
+            const fechaFormateada = fechaPago.toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
             // Sumar al total si es del mes actual
-            if (fechaPago && fechaPago.getMonth() === mesActual && fechaPago.getFullYear() === añoActual) {
+            if (fechaPago.getMonth() + 1 === mesActual && fechaPago.getFullYear() === añoActual) {
                 totalMes += monto;
             }
 
@@ -231,14 +243,18 @@ function actualizarUIHistorialPagos(pagos) {
             console.error('Error procesando pago:', pago, error);
         }
     });
+
     // Actualizar total del mes
-    const ultimoPago = pagos[pagos.length - 1];
-    const proximo_pago = parseFloat(ultimoPago?.monto || 0);
-    const metodoUltimoPago = ultimoPago?.metodo_pago || 'N/A';
-    document.getElementById('payment-method2').textContent = metodoUltimoPago;
-    document.getElementById('next-payment-amount2').textContent = `$${proximo_pago.toFixed(2)}`;
     document.getElementById('current-month-payment').textContent = `$${totalMes.toFixed(2)}`;
 
+    // Actualizar información del último pago (si existe)
+    if (pagos.length > 0) {
+        const ultimoPago = pagos[pagos.length - 1];
+        const proximo_pago = parseFloat(ultimoPago?.monto || 0);
+        const metodoUltimoPago = ultimoPago?.metodo_pago || 'N/A';
+        document.getElementById('payment-method2').textContent = metodoUltimoPago;
+        document.getElementById('next-payment-amount2').textContent = `$${proximo_pago.toFixed(2)}`;
+    }
 }
 // ================ FUNCIONALIDADES DE PAGO ================
 
