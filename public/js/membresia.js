@@ -399,6 +399,10 @@ async function procesarPago(event) {
         } else {
             formData.append('id_metodo_pago', metodoPago);
         }
+        // MOSTRAR TODO LO QUE SE VA A ENVIAR
+for (const [key, value] of formData.entries()) {
+    console.log(`${key}:`, value);
+}
 
         // Send request
         const response = await fetch('/GestiFit/src/usuarioPHP/pagos/procesarPago.php', {

@@ -54,10 +54,11 @@ try {
         throw new Exception('Error al actualizar la membresía');
     }
 
+    $referencia = 'GESTI-' . strtoupper(uniqid());
     // 5. Registrar el pago
     $sql_pago = "INSERT INTO pagos 
-                (id_usuario, id_membresia, monto, estado_pago, fecha_pago)
-                VALUES (?, ?, ?, 'completado', NOW())";
+                (id_usuario, id_membresia, monto, estado_pago, fecha_pago, referencia_pago)
+                VALUES (?, ?, ?, 'completado', NOW(), ?)";
     
     // Obtener precio actual de la membresía
     $sql_precio = "SELECT costo FROM membresia WHERE idMembresia = ?";
@@ -67,7 +68,8 @@ try {
     $stmt_pago = consultaDB($conexion, $sql_pago, [
         $idUsuario,
         $membresia_actual['idMembresia'],
-        $precio
+        $precio,
+        $referencia
     ]);
 
     if (!$stmt_pago) {

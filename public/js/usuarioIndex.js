@@ -471,7 +471,7 @@ async function loadMembershipPlans() {
                         <div class="card-footer bg-transparent border-0 text-center">
                             ${plan.current ? 
                                 `<button class="btn btn-outline-primary w-100" disabled>Tu plan actual</button>` :
-                                `<a href='membresia.html'><button class="btn btn-${plan.upgrade ? 'warning' : 'primary'} w-100 select-plan" 
+                                `<a href='membresia.php'><button class="btn btn-${plan.upgrade ? 'warning' : 'primary'} w-100 select-plan" 
                                  data-plan-id="${plan.id}">
                                     ${plan.upgrade ? 'Mejorar Plan' : 'Seleccionar'}
                                 </button></a>`

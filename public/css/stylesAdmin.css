@@ -1,0 +1,246 @@
+/* ===== VARIABLES GLOBALES ===== */
+:root {
+  --bs-primary: #ff214f; /* Color principal del template Fitness */
+  --bs-dark: #000000;
+  --bs-white: #ffffff;
+  --bs-gray-light: #f8f9fa;
+  --bs-gray-dark: #343a40;
+}
+
+/* ===== RESET BÁSICO ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ===== BODY Y LAYOUT ===== */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bs-gray-light);
+  color: var(--bs-dark);
+  text-align: center;
+}
+
+/* ===== HEADER ESTILO FITNESS ===== */
+header {
+  background: var(--bs-dark);
+  color: var(--bs-white);
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.adminText{
+  text-align: center;
+  
+}
+
+header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+header nav a {
+  color: var(--bs-white);
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+header nav a:hover {
+  color: var(--bs-primary);
+}
+
+/* ===== FOOTER ESTILO FITNESS ===== */
+footer {
+  background: var(--bs-dark);
+  color: var(--bs-white);
+  text-align: center;
+  padding: 20px 10px;
+  font-size: 0.9rem;
+  margin-top: auto;
+}
+
+/* ===== SIDEBAR ===== */
+#sidebar {
+  width: 220px;
+  background: var(--bs-dark);
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+  gap: 15px;
+  min-height: 100%;
+}
+
+#sidebar.collapsed {
+  width: 60px;
+}
+
+/* Botón toggle */
+#sidebar-toggle {
+  background: var(--bs-primary);
+  color: var(--bs-white);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transform: skew(18deg);
+  transition: background-color 0.3s ease;
+  margin-bottom: 15px;
+  align-self: flex-start;
+}
+
+#sidebar-toggle span {
+  transform: skew(-18deg);
+  font-size: 1.2rem;
+}
+
+#sidebar-toggle:hover {
+  background: var(--bs-white);
+  color: var(--bs-primary);
+}
+
+/* ===== CONTENIDO PRINCIPAL ===== */
+.main-content {
+  flex-grow: 1;
+  padding: 25px 30px;
+  display: flex;
+  flex-direction: column;
+  background: var(--bs-gray-light);
+}
+
+/* Menú superior */
+.menu-icons {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 25px;
+  background: var(--bs-dark);
+  padding: 10px 20px;
+  border-radius: 10px;
+  align-items: center;
+  user-select: none;
+}
+
+.menu-icons a {
+  color: var(--bs-white);
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transform: skew(18deg);
+  transition: background-color 0.3s ease;
+}
+
+.menu-icons a span,
+.menu-icons a i {
+  transform: skew(-18deg);
+}
+
+.menu-icons a.active,
+.menu-icons a:hover {
+  background: var(--bs-primary);
+  color: var(--bs-white);
+}
+
+/* ===== SECCIÓN GRÁFICAS ===== */
+.charts-section {
+  flex-grow: 1;
+  background: var(--bs-white);
+  padding: 20px 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(12, 24, 68, 0.08);
+}
+
+/* Contenedor individual de gráfica */
+.chart-container {
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 350px; /* o el alto que prefieras para contener el gráfico */
+  text-align: center;
+}
+
+
+.chart-container h3 {
+  margin-bottom: 15px;
+  color: var(--bs-primary);
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+/* Canvas */
+canvas {
+  width: 90% !important;
+  display: block;
+  margin: 0 auto;
+  border-radius: 10px;
+  background: #fefefe;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+
+.charts-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
+
+  #sidebar {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    height: auto;
+  }
+
+  #sidebar.collapsed {
+    width: 100%;
+  }
+
+  #menu-links {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0;
+  }
+
+  #sidebar a {
+    flex-grow: 1;
+    justify-content: center;
+  }
+
+  #sidebar-toggle {
+    display: none;
+  }
+
+  .main-content {
+    padding: 15px;
+  }
+
+  .menu-icons {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
