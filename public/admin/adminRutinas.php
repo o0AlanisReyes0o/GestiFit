@@ -136,6 +136,9 @@ $rutinas = $pdo->query($queryRutinas)->fetchAll(PDO::FETCH_ASSOC);
               <a href="/GestiFit/public/admin/adminRutinas.php" class="nav-item nav-link active">
                 <i class="fas fa-running me-2"></i>Rutinas
               </a>
+              <a href="/GestiFit/public/admin/adminAvisos.php" class="nav-item nav-link ">
+                <i class="fas fa-bullhorn me-2"></i>Avisos
+              </a>
 
               <div class="nav-btn ps-3">
                 <a href="/GestiFit/src/cerrar_sesion.php"
